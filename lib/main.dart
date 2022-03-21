@@ -1,84 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import 'src/login_page.dart';
+
+//Dentro de MyApp hay una cascada de returns:
+//MaterialApp > Scaffold > AppBar|body: Column > Progress|TaskList
 void main() => runApp(MyApp());
 
+//Los widgets sin estado no se modifican, los TaskList (checkboxes)
+//son los únicos con estado
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Exploration!',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Space Exploration Planner!'),
-      ),
-      body: Column(
-        children: [
-          Progress(),
-          TaskList(),
-        ],
-      ),
-    );
-  }
-}
-
-class Progress extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('You are this far away from exploring the whole universe:'),
-        LinearProgressIndicator(value: 0.0),
-      ],
-    );
-  }
-}
-
-class TaskList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TaskItem(label: 'Load rocket with supplies'),
-        TaskItem(label: 'Launch rocket'),
-        TaskItem(label: 'Circle the home planet'),
-        TaskItem(label: 'Head out to the first moon'),
-        TaskItem(label: 'Launch moon lander #1'),
-      ],
-    );
-  }
-}
-
-class TaskItem extends StatefulWidget {
-  final String label;
-
-  TaskItem({Key? key, required this.label}) : super(key: key);
-
-  @override
-  _TaskItemState createState() => _TaskItemState();
-}
-
-class _TaskItemState extends State<TaskItem> {
-  bool? _value = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          onChanged: (newValue) => setState(() => _value = newValue),
-          value: _value,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
         ),
-        Text(widget.label),
-      ],
+      ),
+      initialRoute: 'login',
+      routes: {'login': (context) => LoginPage()},
+      debugShowCheckedModeBanner: false,
+      title: 'Ticket Manager',
+      home: LoginPage(),
     );
   }
 }
