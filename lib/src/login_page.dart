@@ -1,3 +1,4 @@
+import 'package:exploration_planner/src/communications.dart';
 import 'package:exploration_planner/src/dashboard.dart';
 import 'package:exploration_planner/src/validators.dart' as validators;
 import 'package:exploration_planner/src/widgets.dart';
@@ -11,6 +12,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var robotWelcome = Image.asset('lib/assets/ticketRobot.png', scale: 11);
   var marginError = 0.03;
+  var email;
+  var password;
   final robotOK = Image.asset('lib/assets/okRobot.png', scale: 2);
   final _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
@@ -68,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ? 0.03
                                   : 0.015
                           }),
+                      onFieldSubmitted: (value) => {email = value},
                     ),
                     TextFormField(
                       validator: validators.validatePassword,
@@ -86,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                                   : Icon(Icons.visibility_off)),
                           icon: Icon(Icons.lock),
                           labelText: 'Contraseña'),
+                      onFieldSubmitted: (value) => {password = value},
                     ),
                   ],
                 ),
@@ -96,17 +101,35 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () => {
                         if (_formKey.currentState!.validate())
                           {
-                            setState(() => {robotWelcome = robotOK}),
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (c, a1, a2) => DashBoard(),
-                                transitionsBuilder: (c, anim, a2, child) =>
-                                    FadeTransition(opacity: anim, child: child),
-                                transitionDuration:
-                                    Duration(milliseconds: 2000),
-                              ),
-                            ),
+                            tryConnect(email, password).then((connection) => {
+                                  if (connection)
+                                    {
+                                      setState(() => {robotWelcome = robotOK}),
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (c, a1, a2) =>
+                                              DashBoard(),
+                                          transitionsBuilder:
+                                              (c, anim, a2, child) =>
+                                                  FadeTransition(
+                                                      opacity: anim,
+                                                      child: child),
+                                          transitionDuration:
+                                              Duration(milliseconds: 2000),
+                                        ),
+                                      ),
+                                    }
+                                  else
+                                    {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            'Usuario o contraseña incorrectos.'),
+                                        duration: Duration(seconds: 2),
+                                      )),
+                                    }
+                                }),
                           }
                         else
                           {
@@ -115,9 +138,12 @@ class _LoginPageState extends State<LoginPage> {
                                       _formKey.currentState!.validate()
                                           ? 0.03
                                           : 0.015,
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => CustomAlertDialog()),
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Hay campos sin rellenar o con formato erróneo'),
+                                    duration: Duration(seconds: 2),
+                                  )),
                                 }),
                           }
                       })
