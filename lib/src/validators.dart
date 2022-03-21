@@ -9,8 +9,4 @@ String? validateEmail(dynamic value) {
 
 String? validatePassword(dynamic value) {
   if (value.length == 0) return '';
-  if (value.length > 10) return 'Contraseña demasiado grande';
-  return RegExp(regexPassword).hasMatch(value)
-      ? null
-      : 'Contraseña débil. Incluya minúsculas, mayúsculas, números, longitud 6-10.';
 }

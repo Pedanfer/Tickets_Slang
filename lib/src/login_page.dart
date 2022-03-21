@@ -1,3 +1,4 @@
+import 'package:exploration_planner/src/dashboard.dart';
 import 'package:exploration_planner/src/validators.dart' as validators;
 import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                           }),
                     ),
                     TextFormField(
+                      validator: validators.validatePassword,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
                       obscureText: !_showPassword ? true : false,
@@ -94,7 +96,17 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () => {
                         if (_formKey.currentState!.validate())
                           {
-                            setState(() => {robotWelcome = robotOK})
+                            setState(() => {robotWelcome = robotOK}),
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (c, a1, a2) => DashBoard(),
+                                transitionsBuilder: (c, anim, a2, child) =>
+                                    FadeTransition(opacity: anim, child: child),
+                                transitionDuration:
+                                    Duration(milliseconds: 2000),
+                              ),
+                            ),
                           }
                         else
                           {
