@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-Future<bool> tryConnect(String email, String password) async {
+Future<bool> loginSlang(String email, String password) async {
   //Devuelve la información del usuario si existe en forma de string/json
   var headers = {'clientVersion': '0.1.16'};
   var body = {'email': email, 'password': password};
