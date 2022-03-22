@@ -12,8 +12,12 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  int paginaActual = 1;
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
+  var lista = ['casa', 'carro', 'vaca'];
+  var lista2 = ['perro', 'motoro', 'choza'];
+  String vista = 'Seleccione una opcion';
+  String vista2 = 'Seleccione una opcion';
+  
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
@@ -34,13 +38,36 @@ class _DashBoardState extends State<DashBoard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               img,
+              DropdownButton(
+                items: lista.map((String e){
+                return DropdownMenuItem(
+                  value: e,
+                  child: Text(e));
+                }).toList(),
+                onChanged: (value) =>{
+                  setState((){
+                  vista = value.toString();
+                  })
+                }, hint: Text(vista)),
+
+                  DropdownButton(
+                items: lista2.map((String e){
+                return DropdownMenuItem(
+                  value: e,
+                  child: Text(e));
+                }).toList(),
+                onChanged: (value) =>{
+                  setState((){
+                  vista2 = value.toString();
+                  })
+                }, hint: Text(vista2)),
               //Expanded(
                   //child: //Align(
                       //alignment: Alignment.bottomCenter,
                       /*child:*/ Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
                           height: dimension.height * 0.08,
-                          width: dimension.width * 0.30,
+                          width: dimension.width * 0.40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             gradient: LinearGradient(
@@ -76,6 +103,11 @@ class _DashBoardState extends State<DashBoard> {
                           ))//))
             ],
           )),
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+             BottomNavigationBarItem(icon: Icon(Icons.home), label: "HOME"),
+             BottomNavigationBarItem(icon: Icon(Icons.plus_one), label:  "AÑADIR")
+          ]),
     );
   }
 }
