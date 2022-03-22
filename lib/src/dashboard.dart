@@ -6,6 +6,9 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  
+  int paginaActual = 1;
+  
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
@@ -22,6 +25,20 @@ class _DashBoardState extends State<DashBoard> {
             Color.fromARGB(255, 112, 221, 145),
           ],
         )),
+        child: Image.asset('lib/assets/ticketRobot.png', scale: 11)
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index){
+          setState(() {
+            paginaActual = index;
+          });
+        },
+        currentIndex: paginaActual,
+        backgroundColor: Colors.grey,
+        items: [
+          BottomNavigationBarItem(icon:Icon(Icons.photo_camera_back), label: "Galería"),
+          BottomNavigationBarItem(icon:Icon(Icons.add_a_photo_sharp), label: "Tomar Foto")
+        ],
       ),
     );
   }
