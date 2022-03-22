@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final imgPicker = ImagePicker();
-var _imagePath;
-SharedPreferences? prefs;
+var prefs;
 
 class DashBoard extends StatefulWidget {
   @override
@@ -16,13 +14,11 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   int paginaActual = 0;
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
-  var lista = ['casa', 'carro', 'vaca', '--Nuevo--'];
-  var lista2 = ['perro', 'motoro', 'mastoideo', '--Nuevo--'];
   String vista = 'Seleccione una opcion';
-  String vista2 = 'Seleccione una opcion';
 
   @override
   Widget build(BuildContext context) {
+    getPrefs();
     final dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -42,10 +38,8 @@ class _DashBoardState extends State<DashBoard> {
             children: [
               img,
               Container(
-                margin:EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    
-                      children: [
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(children: [
                     Container(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,7 +54,9 @@ class _DashBoardState extends State<DashBoard> {
                                   iconSize: 40,
                                   icon: Icon(Icons.arrow_drop_down,
                                       color: Colors.black),
-                                  items: lista.map((String e) {
+                                  items: prefs
+                                      .getStringList('categList1')
+                                      .map((String e) {
                                     return DropdownMenuItem(
                                         value: e, child: Text(e));
                                   }).toList(),
@@ -99,16 +95,18 @@ class _DashBoardState extends State<DashBoard> {
                               border: Border.all(color: Colors.black),
                             ),
                             child: DropdownButton(
-                                items: lista2.map((String e) {
+                                items: prefs
+                                    .getStringList('categList2')
+                                    .map((String e) {
                                   return DropdownMenuItem(
                                       value: e, child: Text(e));
                                 }).toList(),
                                 onChanged: (value) => {
                                       setState(() {
-                                        vista2 = value.toString();
+                                        vista = value.toString();
                                       })
                                     },
-                                hint: Text(vista2)),
+                                hint: Text(vista)),
                           ),
                           Container(
                             child: IconButton(
@@ -170,9 +168,9 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "AÑADIR"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'AÑADIR'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.folder_open_outlined), label: "CATEGORIAS")
+              icon: Icon(Icons.folder_open_outlined), label: 'CATEGORIAS')
         ],
         showUnselectedLabels: false,
       ),
@@ -191,11 +189,21 @@ Future<Image> photoFromGallery() async {
 }
 
 void getPrefs() async {
-  await SharedPreferences.getInstance().then((value) => prefs = value);
+  await SharedPreferences.getInstance().then((value) => {
+        prefs = value,
+        print(prefs),
+        if (prefs.getBool('categsLoaded'))
+          {
+            prefs.setStringList('categList1', ['Añadir categoría']),
+            prefs.setStringList('categList2', ['Añadir categoría']),
+            prefs.setBool('categsLoaded', true)
+          }
+      });
 }
 
-void saveCategToPrefs({required String categ}) {
+void saveCategToPrefs({required String categ, required int num}) {
+  var nomLista = num == 1 ? 'listaCategs1' : 'listaCategs2';
   getPrefs();
-  var listCategs = prefs?.getStringList('listaCategs');
-  if (listCategs != null) listCategs.add(categ);
+  var listCategs = prefs?.getStringList(nomLista);
+  listCategs!.add(categ);
 }
