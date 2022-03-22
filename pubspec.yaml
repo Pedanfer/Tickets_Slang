@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   pedantic: 1.11.0
   image_picker: ^0.8.4+11
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
