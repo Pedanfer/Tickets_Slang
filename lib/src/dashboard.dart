@@ -169,6 +169,42 @@ class _DashBoardState extends State<DashBoard> {
                         )
                       ],
                     ),
+                  ),
+                  
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color.fromARGB(220, 16, 219, 169),
+                          Color.fromARGB(255, 255, 0, 179),
+                        ],
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          child: Text('BORRAR'),
+                          onPressed: () {
+                            photoFromCamera().then((value) => setState(() {
+                                  img = value;
+                                }));
+                          },
+                        ),
+                        TextButton(
+                          child: Text('ENVIAR'),
+                          onPressed: () {
+                            photoFromCamera().then((value) => setState(() {
+                                  img = value;
+                                }));
+                          },
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
