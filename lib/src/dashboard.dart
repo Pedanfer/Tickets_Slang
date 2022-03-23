@@ -16,8 +16,8 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   int paginaActual = 0;
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
-  var lista = ['casa', 'carro', 'vaca', '--Nuevo--'];
-  var lista2 = ['perro', 'motoro', 'mastoideo', '--Nuevo--'];
+  List<String> lista = ['casa', 'carro', 'vaca', '--Nuevo--'];
+  List<String> lista2 = ['perro', 'motoro', 'mastoideo', '--Nuevo--'];
   String vista = 'Seleccione una opcion';
   String vista2 = 'Seleccione una opcion';
 
@@ -25,142 +25,152 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color.fromARGB(255, 178, 204, 226),
-              Color.fromARGB(255, 112, 221, 145),
-            ],
-          )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              img,
-              Container(
-                margin:EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    
-                      children: [
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                          Container(
-                              margin: EdgeInsets.symmetric(vertical: 2.5),
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(color: Colors.black)),
-                              child: DropdownButton(
-                                  iconSize: 40,
-                                  icon: Icon(Icons.arrow_drop_down,
-                                      color: Colors.black),
-                                  items: lista.map((String e) {
-                                    return DropdownMenuItem(
-                                        value: e, child: Text(e));
-                                  }).toList(),
-                                  onChanged: (value) => {
-                                        setState(() {
-                                          vista = value.toString();
-                                        })
-                                      },
-                                  hint: Text(
-                                    vista,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color:
-                                            Color.fromARGB(255, 74, 168, 245)),
-                                  ))),
-                          Container(
-                            child: IconButton(
-                              icon: Icon(Icons.add_link_sharp),
-                              onPressed: () {
-                                photoFromCamera().then((value) => setState(() {
-                                      img = value;
-                                    }));
-                              },
-                            ),
-                          )
-                        ])),
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 2.5),
-                            padding: EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: DropdownButton(
-                                items: lista2.map((String e) {
-                                  return DropdownMenuItem(
-                                      value: e, child: Text(e));
-                                }).toList(),
-                                onChanged: (value) => {
-                                      setState(() {
-                                        vista2 = value.toString();
-                                      })
+      body: FutureBuilder(
+          future: getPrefs(),
+          builder: (context, snapshot) {
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromARGB(255, 178, 204, 226),
+                  Color.fromARGB(255, 112, 221, 145),
+                ],
+              )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  img,
+                  Container(
+                    color: Colors.red,
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(children: [
+                      Container(
+                          color: Colors.yellow,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.symmetric(vertical: 2.5),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                    child: DropdownButton(
+                                        icon: Icon(Icons.arrow_drop_down,
+                                            color: Colors.black),
+                                        items: lista.map((String e) {
+                                          return DropdownMenuItem(
+                                              value: e, child: Text(e));
+                                        }).toList(),
+                                        onChanged: (value) => {
+                                              setState(() {
+                                                vista = value.toString();
+                                              })
+                                            },
+                                        hint: Text(
+                                          vista,
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 74, 168, 245)),
+                                        ))),
+                                Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.add_box),
+                                    iconSize: 40,
+                                    onPressed: () {
+                                      InsertListElement(context, 1);
                                     },
-                                hint: Text(vista2)),
-                          ),
-                          Container(
-                            child: IconButton(
-                              icon: Icon(Icons.add_a_photo_sharp),
-                              onPressed: () {
-                                photoFromCamera().then((value) => setState(() {
-                                      img = value;
-                                    }));
-                              },
-                            ),
-                          )
-                        ]))
-                  ])),
-
-              Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  height: dimension.height * 0.08,
-                  width: dimension.width * 0.32,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(220, 161, 3, 64),
-                          Color.fromARGB(255, 238, 234, 7),
-                        ],
-                      )),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.add_a_photo_sharp),
-                        onPressed: () {
-                          photoFromCamera().then((value) => setState(() {
-                                img = value;
-                              }));
-                        },
-                      ),
-                      Text(' | '),
-                      IconButton(
-                        icon: Icon(Icons.image),
-                        onPressed: () {
-                          photoFromGallery().then((value) => setState(() {
-                                img = value;
-                              }));
-                        },
+                                  ),
+                                )
+                              ])),
+                      Container(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 2.5),
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(color: Colors.black),
+                                ),
+                                child: DropdownButton(
+                                    items: lista2.map((String e) {
+                                      return DropdownMenuItem(
+                                          value: e, child: Text(e));
+                                    }).toList(),
+                                    onChanged: (value) => {
+                                          setState(() {
+                                            vista2 = value.toString();
+                                          })
+                                        },
+                                    hint: Text(vista2)),
+                              ),
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(Icons.add_box),
+                                  iconSize: 40,
+                                  onPressed: () {
+                                    setState(() {
+                                    InsertListElement(context, 2);
+                                    });
+                                  },
+                                ),
+                              )
+                            ]),
                       )
-                    ],
-                  )) //))
-            ],
-          )),
+                    ]),
+                  ),
+
+                  Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      height: dimension.height * 0.08,
+                      width: dimension.width * 0.32,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+                              Color.fromARGB(220, 161, 3, 64),
+                              Color.fromARGB(255, 238, 234, 7),
+                            ],
+                          ),
+                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.add_a_photo_sharp),
+                            onPressed: () {
+                              photoFromCamera().then((value) => setState(() {
+                                    img = value;
+                                  }));
+                            },
+                          ),
+                          Text(' | '),
+                          IconButton(
+                            icon: Icon(Icons.image),
+                            onPressed: () {
+                              photoFromGallery().then((value) => setState(() {
+                                    img = value;
+                                  }));
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                ],
+              ),
+            );
+          }),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 179, 185, 178),
         onTap: (index) {
@@ -181,21 +191,56 @@ class _DashBoardState extends State<DashBoard> {
 }
 
 Future<Image> photoFromCamera() async {
-  XFile? _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
+  var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
   return Image.file(File(_pickedFile!.path), height: 500, width: 380);
 }
 
 Future<Image> photoFromGallery() async {
-  XFile? _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
+  var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
   return Image.file(File(_pickedFile!.path));
 }
 
-void getPrefs() async {
-  await SharedPreferences.getInstance().then((value) => prefs = value);
+void InsertListElement(BuildContext context, int lista) {
+  var nuevaCategoria;
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('¿Como se llamará el nuevo elemento?'),
+          content: TextFormField(onChanged: (value) => nuevaCategoria = value),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('Aceptar'),
+              onPressed: () {
+                saveCategToPrefs(categ: nuevaCategoria, num: lista);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        );
+      });
 }
 
-void saveCategToPrefs({required String categ}) {
-  getPrefs();
-  var listCategs = prefs?.getStringList('listaCategs');
-  if (listCategs != null) listCategs.add(categ);
+Future<SharedPreferences?> getPrefs() async {
+  prefs = await SharedPreferences.getInstance();
+  var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
+  if (!catsLoaded) {
+    await prefs!.setStringList('categList1', ['Añadir categoría']);
+    await prefs!.setStringList('categList2', ['Añadir categoría']);
+    await prefs!.setBool('categsLoaded', true);
+  }
+  return prefs;
+}
+
+void saveCategToPrefs({required String categ, required int num}) {
+  var nomLista = num == 1 ? 'listaCategs1' : 'listaCategs2';
+  prefs!.getStringList(nomLista)!.add(categ);
 }
