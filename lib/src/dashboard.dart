@@ -16,10 +16,8 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   int paginaActual = 0;
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
-  List<String> lista = ['casa', 'carro', 'vaca', '--Nuevo--'];
-  List<String> lista2 = ['perro', 'motoro', 'mastoideo', '--Nuevo--'];
-  String vista = 'Seleccione una opcion';
-  String vista2 = 'Seleccione una opcion';
+  String vista = 'Seleccione categoría';
+  String vista2 = 'Seleccione categoría';
 
   @override
   Widget build(BuildContext context) {
@@ -49,47 +47,51 @@ class _DashBoardState extends State<DashBoard> {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(children: [
                       Container(
-                          color: Colors.yellow,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.symmetric(vertical: 2.5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: Colors.black)),
-                                    child: DropdownButton(
-                                        icon: Icon(Icons.arrow_drop_down,
-                                            color: Colors.black),
-                                        items: lista.map((String e) {
-                                          return DropdownMenuItem(
-                                              value: e, child: Text(e));
-                                        }).toList(),
-                                        onChanged: (value) => {
-                                              setState(() {
-                                                vista = value.toString();
-                                              })
-                                            },
-                                        hint: Text(
-                                          vista,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 74, 168, 245)),
-                                        ))),
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.add_box),
-                                    iconSize: 40,
-                                    onPressed: () {
-                                      InsertListElement(context, 1);
-                                    },
+                        color: Colors.yellow,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 2.5),
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    border: Border.all(color: Colors.black)),
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_drop_down,
+                                      color: Colors.black),
+                                  items: prefs!
+                                      .getStringList('categList1')!
+                                      .map((String e) {
+                                    return DropdownMenuItem(
+                                        value: e, child: Text(e));
+                                  }).toList(),
+                                  onChanged: (value) => {
+                                    setState(() {
+                                      vista = value.toString();
+                                    })
+                                  },
+                                  hint: Text(
+                                    vista,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 74, 168, 245),
+                                    ),
                                   ),
-                                )
-                              ])),
+                                ),
+                              ),
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(Icons.add_box),
+                                  iconSize: 40,
+                                  onPressed: () {
+                                    setState(() {
+                                      InsertListElement(context, 1);
+                                    });
+                                  },
+                                ),
+                              )
+                            ]),
+                      ),
                       Container(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +104,9 @@ class _DashBoardState extends State<DashBoard> {
                                   border: Border.all(color: Colors.black),
                                 ),
                                 child: DropdownButton(
-                                    items: lista2.map((String e) {
+                                    items: prefs!
+                                        .getStringList('categList2')!
+                                        .map((String e) {
                                       return DropdownMenuItem(
                                           value: e, child: Text(e));
                                     }).toList(),
@@ -119,7 +123,7 @@ class _DashBoardState extends State<DashBoard> {
                                   iconSize: 40,
                                   onPressed: () {
                                     setState(() {
-                                    InsertListElement(context, 2);
+                                      InsertListElement(context, 2);
                                     });
                                   },
                                 ),
@@ -128,45 +132,44 @@ class _DashBoardState extends State<DashBoard> {
                       )
                     ]),
                   ),
-
                   Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      height: dimension.height * 0.08,
-                      width: dimension.width * 0.32,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Color.fromARGB(220, 161, 3, 64),
-                              Color.fromARGB(255, 238, 234, 7),
-                            ],
-                          ),
-                        ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.add_a_photo_sharp),
-                            onPressed: () {
-                              photoFromCamera().then((value) => setState(() {
-                                    img = value;
-                                  }));
-                            },
-                          ),
-                          Text(' | '),
-                          IconButton(
-                            icon: Icon(Icons.image),
-                            onPressed: () {
-                              photoFromGallery().then((value) => setState(() {
-                                    img = value;
-                                  }));
-                            },
-                          )
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    height: dimension.height * 0.08,
+                    width: dimension.width * 0.32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color.fromARGB(220, 161, 3, 64),
+                          Color.fromARGB(255, 238, 234, 7),
                         ],
                       ),
-                    )
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.add_a_photo_sharp),
+                          onPressed: () {
+                            photoFromCamera().then((value) => setState(() {
+                                  img = value;
+                                }));
+                          },
+                        ),
+                        Text(' | '),
+                        IconButton(
+                          icon: Icon(Icons.image),
+                          onPressed: () {
+                            photoFromGallery().then((value) => setState(() {
+                                  img = value;
+                                }));
+                          },
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             );
@@ -218,7 +221,10 @@ void InsertListElement(BuildContext context, int lista) {
             TextButton(
               child: Text('Aceptar'),
               onPressed: () {
-                saveCategToPrefs(categ: nuevaCategoria, num: lista);
+                if (nuevaCategoria != Null) {
+                  saveCategToPrefs(categ: nuevaCategoria, num: lista);
+                }
+
                 Navigator.pop(context);
               },
             ),
@@ -241,6 +247,6 @@ Future<SharedPreferences?> getPrefs() async {
 }
 
 void saveCategToPrefs({required String categ, required int num}) {
-  var nomLista = num == 1 ? 'listaCategs1' : 'listaCategs2';
+  var nomLista = num == 1 ? 'categList1' : 'categList2';
   prefs!.getStringList(nomLista)!.add(categ);
 }
