@@ -204,7 +204,7 @@ Future<Image> photoFromGallery() async {
 }
 
 void InsertListElement(BuildContext context, int lista) {
-  var nuevaCategoria;
+  var nuevaCategoria = '';
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -221,10 +221,10 @@ void InsertListElement(BuildContext context, int lista) {
             TextButton(
               child: Text('Aceptar'),
               onPressed: () {
-                if (nuevaCategoria != Null) {
+                if (nuevaCategoria != '') {
                   saveCategToPrefs(categ: nuevaCategoria, num: lista);
                 }
-
+                print("llega");
                 Navigator.pop(context);
               },
             ),
@@ -248,5 +248,8 @@ Future<SharedPreferences?> getPrefs() async {
 
 void saveCategToPrefs({required String categ, required int num}) {
   var nomLista = num == 1 ? 'categList1' : 'categList2';
-  prefs!.getStringList(nomLista)!.add(categ);
+  var listaCategs = prefs!.getStringList(nomLista);
+  listaCategs!.add(categ);
+  prefs!.setStringList(nomLista, listaCategs);
+  print(listaCategs);
 }
