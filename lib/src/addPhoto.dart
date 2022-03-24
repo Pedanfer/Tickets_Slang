@@ -135,8 +135,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     iconSize: 40,
                                     onPressed: () {
                                       setState(() {
-                                        isVisibleBorrarAceptar = false;
-                                        //InsertListElement(context, 2);
+                                        InsertListElement(context, 2);
                                       });
                                     },
                                   ),
