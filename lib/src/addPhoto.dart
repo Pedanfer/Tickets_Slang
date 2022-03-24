@@ -330,48 +330,15 @@ void saveCategToPrefs({required String categ, required int num}) {
 }
 
 void saveFile(XFile? image) async {
-  if (await _requestPermission(Permission.storage) &&
-      await _requestPermission(Permission.manageExternalStorage)) {
-    Directory? directory;
+  if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
             .substring(0, 16)
             .replaceAll(RegExp(r' |:'), '-') +
         '.jpg';
-    var fileName = date;
-    try {
-      if (Platform.isAndroid) {
-        directory = await getExternalStorageDirectory();
-        var newPath = '';
-        var paths = directory!.path.split('/');
-        for (var x = 1; x < paths.length; x++) {
-          var folder = paths[x];
-          if (folder != 'Android') {
-            newPath += '/' + folder;
-          } else {
-            break;
-          }
-        }
-        newPath = newPath + '/Slang Ticket Manager';
-        directory = Directory(newPath);
-      } else if (await _requestPermission(Permission.photos)) {
-        directory = await getTemporaryDirectory();
-      }
-
-      if (!await directory!.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      if (Platform.isAndroid) {
-        await File(image!.path).copy(directory.path + '/$fileName');
-        await File(image.path).delete();
-      } else {
-        await ImageGallerySaver.saveFile(directory.path + '/$fileName',
-            isReturnPathOfIOS: true);
-      }
-    } catch (e) {
-      print(e);
-    }
+    var directory = await getExternalStorageDirectory();
+    await File(image!.path).copy(directory!.path + '/$date');
+    await File(image.path).delete();
   }
 }
 
