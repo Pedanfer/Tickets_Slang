@@ -20,6 +20,7 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
     return Scaffold(
+      
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 31, 138, 13),

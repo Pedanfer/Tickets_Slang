@@ -10,8 +10,7 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   Widget build(BuildContext context) {
-    final dimension = MediaQuery.of(context).size;
-    var lista_de_nombres = <String>[
+    List<String> lista_de_nombres = <String>[
       'Hola',
       'adios',
       'otro hola',
@@ -31,44 +30,57 @@ class TicketlistState extends State<Ticketlist> {
       'nos vemos mañana',
       'pero solo si madrugas',
     ];
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color.fromARGB(255, 2, 137, 248),
-            Color.fromARGB(255, 0, 15, 5),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tus tickets'),
+        leading: Icon(Icons.logout),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+              icon: new Icon(Icons.settings),
+              onPressed: () {
+                setState(() {
+                  lista_de_nombres[1] = 'CONSEGUIDO';
+                });
+              }),
+        ],
       ),
-      child: ListView.builder(
-          itemCount: lista_de_nombres.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-              color: Colors.red,
-              child: ListTile(
-                title: Container(
-
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    img,
-                    Text(lista_de_nombres[index]),
-                  ],
-                )),
-              ),
-            );
-          }),
-
-/*ç
-
-      child: Scrollbar(
-        isAlwaysShown: true,
-        showTrackOnHover: true,
-        child: ListView.builder(itemBuilder: (c, i) => MyItem(i), itemCount: 20,),)*/
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromARGB(255, 2, 137, 248),
+              Color.fromARGB(255, 0, 15, 5),
+            ],
+          ),
+        ),
+        child: ListView.builder(
+            itemCount: lista_de_nombres.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                color: Colors.red,
+                child: ListTile(
+                  title: Container(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: img,
+                        width: 60,
+                        height: 60,
+                      ),
+                      Text(lista_de_nombres[index]),
+                    ],
+                  )),
+                ),
+              );
+            }),
+      ),
     );
   }
 }
