@@ -8,7 +8,7 @@ TextButton CustomButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
-      backgroundColor: Colors.amber,
+      backgroundColor: Color(0xffDC47A9),
       elevation: 1.0,
       minimumSize: Size(width, 40),
     ),

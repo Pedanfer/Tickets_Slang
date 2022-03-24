@@ -40,8 +40,8 @@ class AddPhotoState extends State<AddPhoto> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color.fromARGB(255, 178, 204, 226),
-                Color.fromARGB(255, 112, 221, 145),
+                Color(0xff011A58),
+                Color(0xffECEEF3),
               ],
             )),
             child: Container(
@@ -55,11 +55,9 @@ class AddPhotoState extends State<AddPhoto> {
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Container(
-                      color: Colors.red,
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(children: [
                         Container(
-                          color: Colors.yellow,
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -68,7 +66,8 @@ class AddPhotoState extends State<AddPhoto> {
                                   padding: EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(color: Colors.black)),
+                                      border: Border.all(color: Colors.black),
+                                      color: Colors.white),
                                   child: DropdownButton(
                                     icon: Icon(Icons.arrow_drop_down,
                                         color: Colors.black),
@@ -86,10 +85,6 @@ class AddPhotoState extends State<AddPhoto> {
                                     },
                                     hint: Text(
                                       vista,
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 74, 168, 245),
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -115,9 +110,9 @@ class AddPhotoState extends State<AddPhoto> {
                                   margin: EdgeInsets.symmetric(vertical: 2.5),
                                   padding: EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(color: Colors.black),
-                                  ),
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(color: Colors.black),
+                                      color: Colors.white),
                                   child: DropdownButton(
                                       items: prefs!
                                           .getStringList('categList2')!
@@ -153,24 +148,20 @@ class AddPhotoState extends State<AddPhoto> {
                     visible: isVisibleFotoGaleria,
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: 10),
-                      height: dimension.height * 0.08,
-                      width: dimension.width * 0.32,
+                      height: dimension.height * 0.09,
+                      width: dimension.width * 0.38,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color.fromARGB(220, 161, 3, 64),
-                            Color.fromARGB(255, 238, 234, 7),
-                          ],
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(30),
+                          color: Color(0xffD0098D)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.add_a_photo_sharp),
+                            icon: Icon(
+                              Icons.add_a_photo_sharp,
+                              color: Colors.white,
+                            ),
+                            iconSize: 42,
                             onPressed: () {
                               print(isVisibleBorrarAceptar);
                               photoFromCamera().then((value) => setState(() {
@@ -182,9 +173,15 @@ class AddPhotoState extends State<AddPhoto> {
                               print(isVisibleBorrarAceptar);
                             },
                           ),
-                          Text(' | '),
+                          SizedBox(
+                            width: 20,
+                          ),
                           IconButton(
-                            icon: Icon(Icons.image),
+                            icon: Icon(
+                              Icons.image,
+                              color: Colors.white,
+                            ),
+                            iconSize: 42,
                             onPressed: () {
                               photoFromGallery().then((value) => setState(() {
                                     img = value;
@@ -204,14 +201,7 @@ class AddPhotoState extends State<AddPhoto> {
                         margin: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Color.fromARGB(220, 16, 219, 169),
-                              Color.fromARGB(255, 255, 0, 179),
-                            ],
-                          ),
+                          color: Color(0xff415382),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -233,6 +223,8 @@ class AddPhotoState extends State<AddPhoto> {
                               onPressed: () {
                                 saveFile(imageFile, categs);
                                 setState(() {
+                                  img =
+                                      Image.asset('lib/assets/ticketRobot.png');
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {

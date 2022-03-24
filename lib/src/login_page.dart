@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color.fromARGB(255, 178, 204, 226),
-              Color.fromARGB(255, 112, 221, 145),
+              Color(0xff011A58),
+              Color(0xffECEEF3),
             ],
           )),
           child: Column(
@@ -44,16 +44,18 @@ class _LoginPageState extends State<LoginPage> {
             children: loginOK
                 ? [robotOK]
                 : [
-                    robotWelcome,
+                    MediaQuery.of(context).viewInsets.bottom == 0
+                        ? robotWelcome
+                        : Image.asset('lib/assets/ticketRobot.png', scale: 2),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
                       ),
                       height: dimension.height * 0.25,
-                      margin: EdgeInsets.only(
-                          left: dimension.width * 0.05,
-                          right: dimension.width * 0.05),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: dimension.width * 0.05,
+                          vertical: dimension.width * 0.05),
                       padding: EdgeInsets.symmetric(
                           horizontal: dimension.width * 0.05,
                           vertical: dimension.height * marginError),

@@ -14,12 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        ),
-      ),
+          textTheme:
+              GoogleFonts.titilliumWebTextTheme(Theme.of(context).textTheme),
+          visualDensity: VisualDensity.adaptivePlatformDensity),
       initialRoute: 'login',
       routes: {'login': (context) => LoginPage()},
       debugShowCheckedModeBanner: false,

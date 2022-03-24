@@ -6,7 +6,7 @@ class Ticketlist extends StatefulWidget {
 }
 
 class TicketlistState extends State<Ticketlist> {
-  var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
+  var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class TicketlistState extends State<Ticketlist> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-              icon: new Icon(Icons.settings),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 setState(() {
                   lista_de_nombres[1] = 'CONSEGUIDO';
@@ -54,8 +54,8 @@ class TicketlistState extends State<Ticketlist> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color.fromARGB(255, 2, 137, 248),
-              Color.fromARGB(255, 0, 15, 5),
+              Color(0xff011A58),
+              Color(0xffA0A9C0),
             ],
           ),
         ),
@@ -63,17 +63,13 @@ class TicketlistState extends State<Ticketlist> {
             itemCount: lista_de_nombres.length,
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                color: Colors.red,
+                color: Colors.grey,
                 child: ListTile(
                   title: Container(
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: img,
-                        width: 60,
-                        height: 60,
-                      ),
+                      Container(width: 60, height: 60, child: img),
                       Text(lista_de_nombres[index]),
                     ],
                   )),
