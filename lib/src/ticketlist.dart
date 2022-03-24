@@ -1,9 +1,4 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -23,31 +18,58 @@ class TicketlistState extends State<Ticketlist> {
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
+    List<String> lista_de_nombres = <String>[
+      'Hola',
+      'adios',
+      'otro hola',
+      'otro adios',
+      'nos vemos mañana',
+      'pero solo si madrugas',
+      'Hola',
+      'adios',
+      'otro hola',
+      'otro adios',
+      'nos vemos mañana',
+      'pero solo si madrugas',
+      'Hola',
+      'adios',
+      'otro hola',
+      'otro adios',
+      'nos vemos mañana',
+      'pero solo si madrugas',
+    ];
     return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Color.fromARGB(255, 2, 137, 248),
-            Color.fromARGB(255, 0, 15, 5),
-          ],
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromARGB(255, 2, 137, 248),
+              Color.fromARGB(255, 0, 15, 5),
+            ],
+          ),
         ),
-      ),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Lista')
-          ]),
+        child:ListView.builder(
+            itemCount: lista_de_nombres.length,
+            itemBuilder: (BuildContext context, int index){
+              return Card(
+                color: Colors.red,
+                child: ListTile(
+                  title: Text(lista_de_nombres[index]),
+                )
+              );
+            }
+          ),
 
-/*
+/*ç
+
       child: Scrollbar(
         isAlwaysShown: true,
         showTrackOnHover: true,
         child: ListView.builder(itemBuilder: (c, i) => MyItem(i), itemCount: 20,),)*/
 
-
-    );
+        );
   }
 }

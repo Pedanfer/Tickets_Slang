@@ -1,16 +1,7 @@
-import 'dart:ffi';
-import 'dart:io';
-
+import 'package:exploration_planner/src/addPhoto.dart';
 import 'package:exploration_planner/src/ticketlist.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'AddPage.dart';
-
-
-var _imagePath;
-SharedPreferences? prefs;
 
 class DashBoard extends StatefulWidget {
   @override
@@ -21,7 +12,7 @@ class _DashBoardState extends State<DashBoard> {
   int paginaActual = 0;
 
   List<Widget> paginas = [
-    AddPage(),
+    AddPhoto(),
     Ticketlist(),
   ];
 
@@ -31,7 +22,7 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 179, 185, 178),
+        backgroundColor: Color.fromARGB(255, 31, 138, 13),
         onTap: (index) {
           setState(() {
             paginaActual = index;

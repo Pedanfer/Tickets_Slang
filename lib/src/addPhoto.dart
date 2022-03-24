@@ -1,21 +1,22 @@
-import 'package:flutter/cupertino.dart';
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:exploration_planner/src/ticketlist.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 final imgPicker = ImagePicker();
+
+var _imagePath;
 SharedPreferences? prefs;
 
-class AddPage extends StatefulWidget {
+class AddPhoto extends StatefulWidget {
   @override
-  State<AddPage> createState() => AddPageState();
+  State<AddPhoto> createState() => AddPhotoState();
 }
 
-class AddPageState extends State<AddPage> {
+class AddPhotoState extends State<AddPhoto> {
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
@@ -167,13 +168,14 @@ class AddPageState extends State<AddPage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.add_a_photo_sharp),
-                            onPressed: () {
+                            onPressed: () {setState(() {
                               photoFromCamera().then((value) => setState(() {
                                     img = value;
                                     isVisibleBorrarAceptar = true;
                                     isVisibleFotoGaleria = false;
                                     isVisibleCategorias = true;
                                   }));
+                            });
                             },
                           ),
                           Text(' | '),
@@ -321,5 +323,61 @@ void saveCategToPrefs({required String categ, required int num}) {
   var listaCategs = prefs!.getStringList(nomLista);
   listaCategs!.add(categ);
   prefs!.setStringList(nomLista, listaCategs);
-  print(listaCategs);
+}
+
+void saveFile(XFile? image) async {
+  if (await _requestPermission(Permission.storage) &&
+      await _requestPermission(Permission.manageExternalStorage)) {
+    Directory? directory;
+    var date = DateTime.now()
+        .toString()
+        .substring(0, 16)
+        .replaceAll(RegExp(r' |:'), '-');
+    var fileName = date;
+    try {
+      if (Platform.isAndroid) {
+        directory = await getExternalStorageDirectory();
+        var newPath = '';
+        var paths = directory!.path.split('/');
+        for (var x = 1; x < paths.length; x++) {
+          var folder = paths[x];
+          if (folder != 'Android') {
+            newPath += '/' + folder;
+          } else {
+            break;
+          }
+        }
+        newPath = newPath + '/Slang Ticket Manager';
+        directory = Directory(newPath);
+      } else if (await _requestPermission(Permission.photos)) {
+        directory = await getTemporaryDirectory();
+      }
+
+      if (!await directory!.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      if (Platform.isAndroid) {
+        await File(image!.path).copy(directory.path + '/$fileName');
+        await File(image.path).delete();
+      } else {
+        await ImageGallerySaver.saveFile(directory.path + '/$fileName',
+            isReturnPathOfIOS: true);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+Future<bool> _requestPermission(Permission permission) async {
+  if (await permission.isGranted) {
+    return true;
+  } else {
+    var result = await permission.request();
+    if (result == PermissionStatus.granted) {
+      return true;
+    }
+  }
+  return false;
 }
