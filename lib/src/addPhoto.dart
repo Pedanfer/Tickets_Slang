@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,12 +16,15 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
+  var categs = '';
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
   String vista = 'Seleccione categoría';
   String vista2 = 'Seleccione categoría';
-  var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
+  var img = Image.asset(
+    'lib/assets/ticketRobot.png',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,7 @@ class AddPhotoState extends State<AddPhoto> {
                                           value: e, child: Text(e));
                                     }).toList(),
                                     onChanged: (value) => {
+                                      categs += value.toString() + '|',
                                       setState(() {
                                         vista = value.toString();
                                       })
@@ -123,6 +126,7 @@ class AddPhotoState extends State<AddPhoto> {
                                             value: e, child: Text(e));
                                       }).toList(),
                                       onChanged: (value) => {
+                                            categs += value.toString(),
                                             setState(() {
                                               vista2 = value.toString();
                                             })
@@ -135,8 +139,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     iconSize: 40,
                                     onPressed: () {
                                       setState(() {
-                                        isVisibleBorrarAceptar = false;
-                                        //InsertListElement(context, 2);
+                                        InsertListElement(context, 2);
                                       });
                                     },
                                   ),
@@ -217,9 +220,8 @@ class AddPhotoState extends State<AddPhoto> {
                               child: Text('BORRAR'),
                               onPressed: () {
                                 setState(() {
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 11);
+                                  img =
+                                      Image.asset('lib/assets/ticketRobot.png');
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;
                                   isVisibleCategorias = false;
@@ -229,7 +231,7 @@ class AddPhotoState extends State<AddPhoto> {
                             TextButton(
                               child: Text('ENVIAR'),
                               onPressed: () {
-                                saveFile(imageFile);
+                                saveFile(imageFile, categs);
                                 setState(() {
                                   showDialog(
                                       context: context,
@@ -285,7 +287,7 @@ void InsertListElement(BuildContext context, int lista) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('¿Como se llamará el nuevo elemento?'),
+          title: Text('¿Como se llamará la nueva categoría?'),
           content: TextFormField(onChanged: (value) => nuevaCategoria = value),
           actions: <Widget>[
             TextButton(
@@ -300,7 +302,6 @@ void InsertListElement(BuildContext context, int lista) {
                 if (nuevaCategoria != '') {
                   saveCategToPrefs(categ: nuevaCategoria, num: lista);
                 }
-                print("llega");
                 Navigator.pop(context);
               },
             ),
@@ -329,12 +330,13 @@ void saveCategToPrefs({required String categ, required int num}) {
   prefs!.setStringList(nomLista, listaCategs);
 }
 
-void saveFile(XFile? image) async {
+void saveFile(XFile? image, String categs) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
             .substring(0, 16)
             .replaceAll(RegExp(r' |:'), '-') +
+        categs +
         '.jpg';
     var directory = await getExternalStorageDirectory();
     await File(image!.path).copy(directory!.path + '/$date');

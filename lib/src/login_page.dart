@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var robotWelcome = Image.asset('lib/assets/ticketRobot.png', scale: 11);
+  var robotWelcome = Image.asset('lib/assets/ticketRobot.png');
   var marginError = 0.03;
   bool loginOK = false;
   var email;

@@ -4,7 +4,7 @@
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:windowFullscreen">true</item> 
     </style>
-    <color name="red">#FF0000</color>
+    <color name="blue">#011A58</color>
          
          This Theme is only used starting with V2 of Flutter's Android embedding. -->
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
