@@ -332,7 +332,7 @@ void saveFile(XFile? image) async {
     var date = DateTime.now()
         .toString()
         .substring(0, 16)
-        .replaceAll(RegExp(r' |:'), '-');
+        .replaceAll(RegExp(r' |:'), '-') + '.jpg';
     var fileName = date;
     try {
       if (Platform.isAndroid) {
