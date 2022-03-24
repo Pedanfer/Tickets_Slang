@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-final imgPicker = ImagePicker();
 
-var _imagePath;
+final imgPicker = ImagePicker();
+var imageFile;
 SharedPreferences? prefs;
 
 class AddPhoto extends StatefulWidget {
@@ -17,16 +17,16 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
+  bool isVisibleBorrarAceptar = false;
+  bool isVisibleFotoGaleria = true;
+  bool isVisibleCategorias = false;
+  String vista = 'Seleccione categoría';
+  String vista2 = 'Seleccione categoría';
+  var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
+
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
-    bool isVisibleBorrarAceptar = false;
-    bool isVisibleFotoGaleria = true;
-    bool isVisibleCategorias = false;
-
-    var img = Image.asset('lib/assets/ticketRobot.png', scale: 11);
-    String vista = 'Seleccione categoría';
-    String vista2 = 'Seleccione categoría';
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {
@@ -168,14 +168,15 @@ class AddPhotoState extends State<AddPhoto> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.add_a_photo_sharp),
-                            onPressed: () {setState(() {
+                            onPressed: () {
+                              print(isVisibleBorrarAceptar);
                               photoFromCamera().then((value) => setState(() {
                                     img = value;
                                     isVisibleBorrarAceptar = true;
                                     isVisibleFotoGaleria = false;
                                     isVisibleCategorias = true;
                                   }));
-                            });
+                              print(isVisibleBorrarAceptar);
                             },
                           ),
                           Text(' | '),
@@ -228,6 +229,7 @@ class AddPhotoState extends State<AddPhoto> {
                             TextButton(
                               child: Text('ENVIAR'),
                               onPressed: () {
+                                saveFile(imageFile);
                                 setState(() {
                                   showDialog(
                                       context: context,
@@ -267,12 +269,14 @@ class AddPhotoState extends State<AddPhoto> {
 
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  return Image.file(File(_pickedFile!.path), height: 500, width: 380);
+  imageFile = XFile(_pickedFile!.path);
+  return Image.file(File(_pickedFile.path), height: 500, width: 380);
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  return Image.file(File(_pickedFile!.path));
+  imageFile = XFile(_pickedFile!.path);
+  return Image.file(File(_pickedFile.path), height: 500, width: 380);
 }
 
 void InsertListElement(BuildContext context, int lista) {
@@ -330,9 +334,10 @@ void saveFile(XFile? image) async {
       await _requestPermission(Permission.manageExternalStorage)) {
     Directory? directory;
     var date = DateTime.now()
-        .toString()
-        .substring(0, 16)
-        .replaceAll(RegExp(r' |:'), '-') + '.jpg';
+            .toString()
+            .substring(0, 16)
+            .replaceAll(RegExp(r' |:'), '-') +
+        '.jpg';
     var fileName = date;
     try {
       if (Platform.isAndroid) {
