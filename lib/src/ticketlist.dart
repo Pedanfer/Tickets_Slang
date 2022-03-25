@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class Ticketlist extends StatefulWidget {
@@ -7,30 +10,14 @@ class Ticketlist extends StatefulWidget {
 
 class TicketlistState extends State<Ticketlist> {
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
-
+  List<File> filesList = setFile();
   @override
   Widget build(BuildContext context) {
-    List<String> lista_de_nombres = <String>[
-      'Hola',
-      'adios',
-      'otro hola',
-      'otro adios',
-      'nos vemos mañana',
-      'pero solo si madrugas',
-      'Hola',
-      'adios',
-      'otro hola',
-      'otro adios',
-      'nos vemos mañana',
-      'pero solo si madrugas',
-      'Hola',
-      'adios',
-      'otro hola',
-      'otro adios',
-      'nos vemos mañana',
-      'pero solo si madrugas',
-    ];
-    return Scaffold(
+    
+    return FutureBuilder(
+        future: getPrefs(),
+        builder: (context, snapshot) {
+          return Scaffold(
       appBar: AppBar(
         title: Text('Tus tickets'),
         leading: Icon(Icons.logout),
@@ -41,7 +28,6 @@ class TicketlistState extends State<Ticketlist> {
               icon: Icon(Icons.settings),
               onPressed: () {
                 setState(() {
-                  lista_de_nombres[1] = 'CONSEGUIDO';
                 });
               }),
         ],
@@ -60,7 +46,7 @@ class TicketlistState extends State<Ticketlist> {
           ),
         ),
         child: ListView.builder(
-            itemCount: lista_de_nombres.length,
+            itemCount: filesList.length,
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 color: Colors.grey,
@@ -69,8 +55,9 @@ class TicketlistState extends State<Ticketlist> {
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(width: 60, height: 60, child: img),
-                      Text(lista_de_nombres[index]),
+                      Container(width: 60, height: 60, child: Image.file(filesList[0])),
+                      Text(filesList[index].toString().substring(filesList[index].toString().length -21, filesList[index].toString().length-11)),
+                      Text(filesList[index].toString().substring(filesList[index].toString().length -10, filesList[index].toString().length-5)),
                     ],
                   )),
                 ),
@@ -78,5 +65,5 @@ class TicketlistState extends State<Ticketlist> {
             }),
       ),
     );
-  }
+  });}
 }
