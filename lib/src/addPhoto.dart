@@ -93,10 +93,8 @@ class AddPhotoState extends State<AddPhoto> {
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
-                                      setState(() {
-                                        InsertListElement(context, 1);
-                                        isVisibleBorrarAceptar = true;
-                                      });
+                                      InsertListElement(context, 2)
+                                          .then((value) => setState(() {}));
                                     },
                                   ),
                                 )
@@ -133,9 +131,8 @@ class AddPhotoState extends State<AddPhoto> {
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
-                                      setState(() {
-                                        InsertListElement(context, 2);
-                                      });
+                                      InsertListElement(context, 2)
+                                          .then((value) => setState(() {}));
                                     },
                                   ),
                                 )
@@ -273,9 +270,9 @@ Future<Image> photoFromGallery() async {
   return Image.file(File(_pickedFile.path), height: 500, width: 380);
 }
 
-void InsertListElement(BuildContext context, int lista) {
+Future<bool> InsertListElement(BuildContext context, int lista) async {
   var nuevaCategoria = '';
-  showDialog(
+  await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -302,6 +299,7 @@ void InsertListElement(BuildContext context, int lista) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         );
       });
+  return true;
 }
 
 Future<SharedPreferences?> getPrefs() async {
