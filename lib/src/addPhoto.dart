@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:exploration_planner/src/communications.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final imgPicker = ImagePicker();
@@ -221,7 +221,7 @@ class AddPhotoState extends State<AddPhoto> {
                             TextButton(
                               child: Text('ENVIAR'),
                               onPressed: () {
-                                saveFile(imageFile, categs);
+                                uploadImageToSlang(categs, imageFile);
                                 setState(() {
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
@@ -263,14 +263,14 @@ class AddPhotoState extends State<AddPhoto> {
 
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 500, width: 380);
+  imageFile = File(_pickedFile!.path);
+  return Image.file(imageFile, height: 500, width: 380);
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 500, width: 380);
+  imageFile = File(_pickedFile!.path);
+  return Image.file(imageFile, height: 500, width: 380);
 }
 
 void InsertListElement(BuildContext context, int lista) {
@@ -315,35 +315,21 @@ Future<SharedPreferences?> getPrefs() async {
   return prefs;
 }
 
-void saveCategToPrefs({required String categ, required int num}) {
+Future<bool> saveCategToPrefs({required String categ, required int num}) async {
   var nomLista = num == 1 ? 'categList1' : 'categList2';
   var listaCategs = prefs!.getStringList(nomLista);
   listaCategs!.add(categ);
-  prefs!.setStringList(nomLista, listaCategs);
+  return await prefs!.setStringList(nomLista, listaCategs);
 }
 
 void saveFile(XFile? image, String categs) async {
-  if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
-    var date = DateTime.now()
-            .toString()
-            .substring(0, 16)
-            .replaceAll(RegExp(r' |:'), '-') +
-        categs +
-        '.jpg';
-    var directory = await getExternalStorageDirectory();
-    await File(image!.path).copy(directory!.path + '/$date');
-    await File(image.path).delete();
-  }
-}
-
-Future<bool> _requestPermission(Permission permission) async {
-  if (await permission.isGranted) {
-    return true;
-  } else {
-    var result = await permission.request();
-    if (result == PermissionStatus.granted) {
-      return true;
-    }
-  }
-  return false;
+  var date = DateTime.now()
+          .toString()
+          .substring(0, 16)
+          .replaceAll(RegExp(r' |:'), '-') +
+      categs +
+      '.jpg';
+  var directory = await getExternalStorageDirectory();
+  await File(image!.path).copy(directory!.path + '/$date');
+  await File(image.path).delete();
 }
