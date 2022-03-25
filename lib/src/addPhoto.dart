@@ -93,7 +93,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
-                                      InsertListElement(context, 2)
+                                      InsertListElement(context, 1)
                                           .then((value) => setState(() {}));
                                     },
                                   ),
