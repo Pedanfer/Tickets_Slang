@@ -33,6 +33,7 @@ class AddPhotoState extends State<AddPhoto> {
         future: getPrefs(),
         builder: (context, snapshot) {
           return Container(
+            
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
@@ -51,7 +52,12 @@ class AddPhotoState extends State<AddPhoto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  img,
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 40),
+                    child
+                    :img
+                  ),
+                  
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Container(
@@ -261,13 +267,13 @@ class AddPhotoState extends State<AddPhoto> {
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
   imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 500, width: 380);
+  return Image.file(File(_pickedFile.path), height: 450, width: 380);
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
   imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 500, width: 380);
+  return Image.file(File(_pickedFile.path), height: 450, width: 380);
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
