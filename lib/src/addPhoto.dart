@@ -14,6 +14,7 @@ class AddPhotoState extends State<AddPhoto> {
   String vista = 'Seleccione categoría';
   String vista2 = 'Seleccione categoría';
   var img = Image.asset(
+
     
     'lib/assets/ticketRobot.png',
   );
