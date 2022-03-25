@@ -1,14 +1,5 @@
-import 'dart:io';
-
-import 'package:exploration_planner/src/communications.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-final imgPicker = ImagePicker();
-var imageFile;
-SharedPreferences? prefs;
+import 'utilidades.dart';
 
 class AddPhoto extends StatefulWidget {
   @override
@@ -51,7 +42,8 @@ class AddPhotoState extends State<AddPhoto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  img,
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 40), child: img),
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Container(
@@ -93,10 +85,8 @@ class AddPhotoState extends State<AddPhoto> {
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
-                                      setState(() {
-                                        InsertListElement(context, 1);
-                                        isVisibleBorrarAceptar = true;
-                                      });
+                                      InsertListElement(context, 1)
+                                          .then((value) => setState(() {}));
                                     },
                                   ),
                                 )
@@ -133,9 +123,8 @@ class AddPhotoState extends State<AddPhoto> {
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
-                                      setState(() {
-                                        InsertListElement(context, 2);
-                                      });
+                                      InsertListElement(context, 2)
+                                          .then((value) => setState(() {}));
                                     },
                                   ),
                                 )
@@ -259,77 +248,4 @@ class AddPhotoState extends State<AddPhoto> {
           );
         });
   }
-}
-
-Future<Image> photoFromCamera() async {
-  var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  imageFile = File(_pickedFile!.path);
-  return Image.file(imageFile, height: 500, width: 380);
-}
-
-Future<Image> photoFromGallery() async {
-  var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  imageFile = File(_pickedFile!.path);
-  return Image.file(imageFile, height: 500, width: 380);
-}
-
-void InsertListElement(BuildContext context, int lista) {
-  var nuevaCategoria = '';
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('¿Como se llamará la nueva categoría?'),
-          content: TextFormField(onChanged: (value) => nuevaCategoria = value),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text('Aceptar'),
-              onPressed: () {
-                if (nuevaCategoria != '') {
-                  saveCategToPrefs(categ: nuevaCategoria, num: lista);
-                }
-                Navigator.pop(context);
-              },
-            ),
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        );
-      });
-}
-
-Future<SharedPreferences?> getPrefs() async {
-  prefs = await SharedPreferences.getInstance();
-  var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
-  if (!catsLoaded) {
-    await prefs!.setStringList('categList1', []);
-    await prefs!.setStringList('categList2', []);
-    await prefs!.setBool('categsLoaded', true);
-  }
-  return prefs;
-}
-
-Future<bool> saveCategToPrefs({required String categ, required int num}) async {
-  var nomLista = num == 1 ? 'categList1' : 'categList2';
-  var listaCategs = prefs!.getStringList(nomLista);
-  listaCategs!.add(categ);
-  return await prefs!.setStringList(nomLista, listaCategs);
-}
-
-void saveFile(XFile? image, String categs) async {
-  var date = DateTime.now()
-          .toString()
-          .substring(0, 16)
-          .replaceAll(RegExp(r' |:'), '-') +
-      categs +
-      '.jpg';
-  var directory = await getExternalStorageDirectory();
-  await File(image!.path).copy(directory!.path + '/$date');
-  await File(image.path).delete();
 }
