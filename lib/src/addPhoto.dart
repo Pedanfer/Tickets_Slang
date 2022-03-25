@@ -14,8 +14,6 @@ class AddPhotoState extends State<AddPhoto> {
   String vista = 'Seleccione categoría';
   String vista2 = 'Seleccione categoría';
   var img = Image.asset(
-
-    
     'lib/assets/ticketRobot.png',
   );
 
@@ -26,7 +24,6 @@ class AddPhotoState extends State<AddPhoto> {
         future: getPrefs(),
         builder: (context, snapshot) {
           return Container(
-            
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
@@ -46,11 +43,7 @@ class AddPhotoState extends State<AddPhoto> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 40),
-                    child
-                    :img
-                  ),
-                  
+                      padding: EdgeInsets.symmetric(vertical: 40), child: img),
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Container(
@@ -217,7 +210,7 @@ class AddPhotoState extends State<AddPhoto> {
                             TextButton(
                               child: Text('ENVIAR'),
                               onPressed: () {
-                                saveFile(imageFile, categs);
+                                uploadImageToSlang(categs, imageFile);
                                 setState(() {
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');

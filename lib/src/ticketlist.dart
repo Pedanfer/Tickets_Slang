@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -7,10 +8,10 @@ class Ticketlist extends StatefulWidget {
 
 class TicketlistState extends State<Ticketlist> {
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
-
   @override
   Widget build(BuildContext context) {
-    List<String> lista_de_nombres = <String>[
+    var directory = () async => await getExternalStorageDirectory();
+    var lista_de_nombres = <String>[
       'Hola',
       'adios',
       'otro hola',
