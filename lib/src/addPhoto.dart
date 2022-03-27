@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'communications.dart';
 import 'utilidades.dart';
 
 class AddPhoto extends StatefulWidget {
@@ -42,8 +43,7 @@ class AddPhotoState extends State<AddPhoto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                      padding: EdgeInsets.symmetric(vertical: 40), child: img),
+                  img,
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Container(
@@ -70,7 +70,7 @@ class AddPhotoState extends State<AddPhoto> {
                                           value: e, child: Text(e));
                                     }).toList(),
                                     onChanged: (value) => {
-                                      categs += value.toString() + '|',
+                                      categs += '.' + value.toString() + '|',
                                       setState(() {
                                         vista = value.toString();
                                       })
@@ -152,14 +152,13 @@ class AddPhotoState extends State<AddPhoto> {
                             ),
                             iconSize: 42,
                             onPressed: () {
-                              print(isVisibleBorrarAceptar);
                               photoFromCamera().then((value) => setState(() {
+                                    saveFile(imageFile, categs);
                                     img = value;
                                     isVisibleBorrarAceptar = true;
                                     isVisibleFotoGaleria = false;
                                     isVisibleCategorias = true;
                                   }));
-                              print(isVisibleBorrarAceptar);
                             },
                           ),
                           SizedBox(
@@ -173,6 +172,7 @@ class AddPhotoState extends State<AddPhoto> {
                             iconSize: 42,
                             onPressed: () {
                               photoFromGallery().then((value) => setState(() {
+                                    saveFile(imageFile, categs);
                                     img = value;
                                     isVisibleBorrarAceptar = true;
                                     isVisibleFotoGaleria = false;
@@ -210,8 +210,8 @@ class AddPhotoState extends State<AddPhoto> {
                             TextButton(
                               child: Text('ENVIAR'),
                               onPressed: () {
-                                uploadImageToSlang(categs, imageFile);
                                 setState(() {
+                                  uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
                                   showDialog(
@@ -224,7 +224,7 @@ class AddPhotoState extends State<AddPhoto> {
                                             TextButton(
                                               child: Text('OK'),
                                               onPressed: () {
-                                                Navigator.pop(context);
+                                                Navigator.pop(context, true);
                                               },
                                             ),
                                           ],

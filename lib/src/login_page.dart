@@ -62,28 +62,25 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           TextFormField(
-                            validator: validators.validateEmail,
-                            keyboardType: TextInputType.emailAddress,
-                            autocorrect: false,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                                errorStyle: TextStyle(fontSize: 10, height: 1),
-                                icon: Icon(Icons.mail_outline_rounded),
-                                hintText: 'ejemplo@mail.com',
-                                labelText: 'Email'),
-                            onChanged: (value) => setState(() => {
-                                  if (value.isEmpty)
-                                    {
-                                      marginError =
-                                          _formKey.currentState!.validate()
-                                              ? 0.03
-                                              : 0.015
-                                    },
-                                  email = value
-                                }),
-                          ),
+                              validator: validators.validateEmail,
+                              keyboardType: TextInputType.emailAddress,
+                              autocorrect: false,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                  errorStyle:
+                                      TextStyle(fontSize: 10, height: 1),
+                                  icon: Icon(Icons.mail_outline_rounded),
+                                  hintText: 'ejemplo@mail.com',
+                                  labelText: 'Email'),
+                              onChanged: (value) => setState(() => {
+                                    marginError =
+                                        _formKey.currentState!.validate()
+                                            ? 0.03
+                                            : 0.015,
+                                    email = value
+                                  })),
                           TextFormField(
                             validator: validators.validatePassword,
                             autovalidateMode:
@@ -120,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 setState(
                                                     () => {loginOK = true}),
                                                 Timer(
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 700),
                                                     () {
                                                   Navigator.push(
                                                     context,
