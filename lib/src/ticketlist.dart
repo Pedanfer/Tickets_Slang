@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -55,6 +56,17 @@ class TicketlistState extends State<Ticketlist> {
                                   .substring(89, 94)),
                             ],
                           )),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (c, a1, a2) => TicketView(),
+                                transitionsBuilder: (c, anim, a2, child) =>
+                                    FadeTransition(opacity: anim, child: child),
+                                transitionDuration: Duration(milliseconds: 700),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }),
