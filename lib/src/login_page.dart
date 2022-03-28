@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 setState(
                                                     () => {loginOK = true}),
                                                 Timer(
-                                                    Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 700),
                                                     () {
                                                   Navigator.push(
                                                     context,

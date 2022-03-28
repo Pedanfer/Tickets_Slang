@@ -7,19 +7,19 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final imgPicker = ImagePicker();
-var imageFile;
+File? imageFile;
 SharedPreferences? prefs;
 
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 450, width: 380);
+  imageFile = File(_pickedFile!.path);
+  return Image.file(imageFile!, height: 450, width: 380);
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  imageFile = XFile(_pickedFile!.path);
-  return Image.file(File(_pickedFile.path), height: 450, width: 380);
+  imageFile = File(_pickedFile!.path);
+  return Image.file(imageFile!, height: 450, width: 380);
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
@@ -72,7 +72,7 @@ void saveCategToPrefs({required String categ, required int num}) {
   prefs!.setStringList(nomLista, listaCategs);
 }
 
-void saveFile(XFile? image, String categs) async {
+void saveFile(File? image, String categs) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
@@ -81,9 +81,8 @@ void saveFile(XFile? image, String categs) async {
         categs +
         '.jpg';
     var directory = await getExternalStorageDirectory();
-    await File(image!.path).copy(directory!.path + '/$date');
-    await File(image.path).delete();
-    setFile();
+    imageFile = await image!.copy(directory!.path + '/$date');
+    await image.delete();
   }
 }
 
@@ -96,7 +95,7 @@ void saveFile(XFile? image, String categs) async {
       for (var item in dir.listSync()) {
         files.add(item as File);
       }
-        return files;
+      return files;
     }
   }
   return <File>[];

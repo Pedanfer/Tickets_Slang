@@ -16,8 +16,7 @@ Future<bool> loginSlang(String email, String password) async {
   var url = Uri.parse(
       'http://serv.slang.digital/api/client/auth/login?customres=true');
 
-  response = await http.post(url, headers: headers, body: body);
-  response = response.body;
+  var response = await http.post(url, headers: headers, body: body);
 
   var jsonData = await json.decode(response.body);
   await getPrefs()
@@ -43,7 +42,7 @@ void uploadImageToSlang(String categs, File image) async {
                 jsonData['userData']['uid'])),
         request!.files
             .add(await http.MultipartFile.fromPath('file', image.path)),
-        request!.headers.addAll(headers),
+        request!.headers.addAll(headers)
       });
 
   http.StreamedResponse response = await request!.send();
