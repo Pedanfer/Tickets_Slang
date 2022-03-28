@@ -6,6 +6,8 @@ import 'package:exploration_planner/src/validators.dart' as validators;
 import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
 
+var dimension;
+
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -23,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dimension = MediaQuery.of(context).size;
+    dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Form(
         key: _formKey,
