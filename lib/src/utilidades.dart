@@ -12,14 +12,27 @@ SharedPreferences? prefs;
 
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  imageFile = File(_pickedFile!.path);
-  return Image.file(imageFile!, height: 450, width: 380);
+  if (_pickedFile?.path != null){
+    imageFile = File(_pickedFile!.path);
+      return Image.file(imageFile!, height: 450, width: 380);
+  }
+  else{
+    return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
+  }
+
+
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  imageFile = File(_pickedFile!.path);
-  return Image.file(imageFile!, height: 450, width: 380);
+   if (_pickedFile?.path != null){
+    imageFile = File(_pickedFile!.path);
+      return Image.file(imageFile!, height: 450, width: 380);
+  }
+  else{
+    return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
+  }
+
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {

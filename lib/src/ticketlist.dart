@@ -33,7 +33,7 @@ class TicketlistState extends State<Ticketlist> {
                   ],
                 ),
               ),
-              child: Column(children: [
+              child:
                 ListView.builder(
                     itemCount: filesList.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -70,7 +70,7 @@ class TicketlistState extends State<Ticketlist> {
                         ),
                       );
                     }),
-              ]),
+            
             ),
           );
         });

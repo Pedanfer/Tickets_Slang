@@ -154,11 +154,17 @@ class AddPhotoState extends State<AddPhoto> {
                             iconSize: 42,
                             onPressed: () {
                               photoFromCamera().then((value) => setState(() {
-                                    saveFile(imageFile, categs);
-                                    img = value;
-                                    isVisibleBorrarAceptar = true;
-                                    isVisibleFotoGaleria = false;
-                                    isVisibleCategorias = true;
+                                    if (value.toString() !=
+                                        Image.asset(
+                                                'lib/assets/ticketRobot.png',
+                                                height: 450,
+                                                width: 380)
+                                            .toString()) {
+                                      img = value;
+                                      isVisibleBorrarAceptar = true;
+                                      isVisibleFotoGaleria = false;
+                                      isVisibleCategorias = true;
+                                    }
                                   }));
                             },
                           ),
@@ -173,11 +179,17 @@ class AddPhotoState extends State<AddPhoto> {
                             iconSize: 42,
                             onPressed: () {
                               photoFromGallery().then((value) => setState(() {
-                                    saveFile(imageFile, categs);
-                                    img = value;
-                                    isVisibleBorrarAceptar = true;
-                                    isVisibleFotoGaleria = false;
-                                    isVisibleCategorias = true;
+                                    if (value.toString() !=
+                                        Image.asset(
+                                                'lib/assets/ticketRobot.png',
+                                                height: 450,
+                                                width: 380)
+                                            .toString()) {
+                                      img = value;
+                                      isVisibleBorrarAceptar = true;
+                                      isVisibleFotoGaleria = false;
+                                      isVisibleCategorias = true;
+                                    }
                                   }));
                             },
                           )
@@ -212,6 +224,7 @@ class AddPhotoState extends State<AddPhoto> {
                               child: Text('ENVIAR'),
                               onPressed: () {
                                 setState(() {
+                                  saveFile(imageFile, categs);
                                   uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
