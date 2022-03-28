@@ -10,8 +10,6 @@ final imgPicker = ImagePicker();
 var imageFile;
 SharedPreferences? prefs;
 
-
-
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
   imageFile = XFile(_pickedFile!.path);
@@ -85,7 +83,23 @@ void saveFile(XFile? image, String categs) async {
     var directory = await getExternalStorageDirectory();
     await File(image!.path).copy(directory!.path + '/$date');
     await File(image.path).delete();
+    setFile();
   }
+}
+
+/*Future <*/ List<File> /*>*/ setFile() /*async*/ {
+  if (Platform.isAndroid /*&& await _requestPermission(Permission.storage)*/) {
+    var dir = Directory(
+        '/storage/emulated/0/Android/data/com.example.exploration_planner/files');
+    if (dir.existsSync()) {
+      var files = <File>[];
+      for (var item in dir.listSync()) {
+        files.add(item as File);
+      }
+        return files;
+    }
+  }
+  return <File>[];
 }
 
 Future<bool> _requestPermission(Permission permission) async {

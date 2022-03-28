@@ -17,7 +17,6 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
@@ -29,10 +28,10 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "AÑADIR"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'AÑADIR'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
-            label: "CATEGORIAS",
+            label: 'CATEGORIAS',
           )
         ],
         showUnselectedLabels: false,

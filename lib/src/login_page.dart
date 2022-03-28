@@ -74,13 +74,10 @@ class _LoginPageState extends State<LoginPage> {
                                 hintText: 'ejemplo@mail.com',
                                 labelText: 'Email'),
                             onChanged: (value) => setState(() => {
-                                  if (value.isEmpty)
-                                    {
-                                      marginError =
-                                          _formKey.currentState!.validate()
-                                              ? 0.03
-                                              : 0.015
-                                    },
+                                  marginError =
+                                      _formKey.currentState!.validate()
+                                          ? 0.03
+                                          : 0.015,
                                   email = value
                                 }),
                           ),
