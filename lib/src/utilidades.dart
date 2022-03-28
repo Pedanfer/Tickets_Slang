@@ -99,7 +99,7 @@ void saveFile(File? image, String categs) async {
   }
 }
 
-/*Future <*/ List<File> /*>*/ setFile() /*async*/ {
+/*Future <*/ List<File> /*>*/ getFiles() /*async*/ {
   if (Platform.isAndroid /*&& await _requestPermission(Permission.storage)*/) {
     var dir = Directory(
         '/storage/emulated/0/Android/data/com.example.exploration_planner/files');
