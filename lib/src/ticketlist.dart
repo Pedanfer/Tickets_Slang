@@ -18,20 +18,6 @@ class TicketlistState extends State<Ticketlist> {
         future: getPrefs(),
         builder: (context, snapshot) {
           return Scaffold(
-      appBar: AppBar(
-        title: Text('Tus tickets'),
-        leading: Icon(Icons.logout),
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                setState(() {
-                });
-              }),
-        ],
-      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -55,9 +41,9 @@ class TicketlistState extends State<Ticketlist> {
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(width: 60, height: 60, child: Image.file(filesList[0])),
-                      Text(filesList[index].toString().substring(filesList[index].toString().length -21, filesList[index].toString().length-11)),
-                      Text(filesList[index].toString().substring(filesList[index].toString().length -10, filesList[index].toString().length-5)),
+                      Container(width: 60, height: 60, child: Image.file(filesList[index])),
+                      Text(filesList[index].toString().substring(78, 88)),
+                      Text(filesList[index].toString().substring(89,94)),
                     ],
                   )),
                 ),
