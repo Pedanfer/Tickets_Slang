@@ -33,44 +33,38 @@ class TicketlistState extends State<Ticketlist> {
                   ],
                 ),
               ),
-              child: Column(children: [
-                ListView.builder(
-                    itemCount: filesList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        color: Colors.grey,
-                        child: ListTile(
-                          title: Container(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  width: 60,
-                                  height: 60,
-                                  child: Image.file(filesList[index])),
-                              Text(filesList[index]
-                                  .toString()
-                                  .substring(78, 88)),
-                              Text(filesList[index]
-                                  .toString()
-                                  .substring(89, 94)),
-                            ],
-                          )),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (c, a1, a2) => TicketView(),
-                                transitionsBuilder: (c, anim, a2, child) =>
-                                    FadeTransition(opacity: anim, child: child),
-                                transitionDuration: Duration(milliseconds: 700),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }),
-              ]),
+              child: ListView.builder(
+                  itemCount: filesList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      color: Colors.grey,
+                      child: ListTile(
+                        title: Container(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: 60,
+                                height: 60,
+                                child: Image.file(filesList[index])),
+                            Text(filesList[index].toString().substring(78, 88)),
+                            Text(filesList[index].toString().substring(89, 94)),
+                          ],
+                        )),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (c, a1, a2) => TicketView(),
+                              transitionsBuilder: (c, anim, a2, child) =>
+                                  FadeTransition(opacity: anim, child: child),
+                              transitionDuration: Duration(milliseconds: 700),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
             ),
           );
         });
