@@ -224,7 +224,6 @@ class AddPhotoState extends State<AddPhoto> {
                               child: Text('ENVIAR'),
                               onPressed: () {
                                 setState(() {
-                                  saveFile(imageFile, categs);
                                   uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
@@ -238,6 +237,7 @@ class AddPhotoState extends State<AddPhoto> {
                                             TextButton(
                                               child: Text('OK'),
                                               onPressed: () {
+                                                saveFile(imageFile, categs);
                                                 Navigator.pop(context, true);
                                               },
                                             ),

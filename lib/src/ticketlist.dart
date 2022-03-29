@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable, omit_local_variable_types
 
-import 'dart:io';
 import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
@@ -17,7 +16,8 @@ var newDateRange;
 var end;
 
 class TicketlistState extends State<Ticketlist> {
-  final controller = TextEditingController();
+  final dateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
   var unfilteredFiles;
   var filteredFiles = getFiles();
@@ -64,10 +64,11 @@ class TicketlistState extends State<Ticketlist> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                          controller: scrollController,
                           itemCount: filteredFiles.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
-                              color: Colors.grey,
+                              color: Color.fromARGB(255, 158, 158, 158),
                               child: ListTile(
                                 title: Container(
                                     child: Row(
@@ -84,23 +85,51 @@ class TicketlistState extends State<Ticketlist> {
                                         .substring(78, 88)),
                                     Text(filteredFiles[index]
                                         .toString()
-                                        .substring(89, 94)),
+                                        .substring(89, 94)
+                                        .replaceAll('-', ':')),
+                                    IconButton(
+                                      icon: Icon(Icons.info_outlined),
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      iconSize: 30,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (c, a1, a2) =>
+                                                TicketView(),
+                                            transitionsBuilder:
+                                                (c, anim, a2, child) =>
+                                                    FadeTransition(
+                                                        opacity: anim,
+                                                        child: child),
+                                            transitionDuration:
+                                                Duration(milliseconds: 700),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete_forever),
+                                      iconSize: 30,
+                                      color: Color.fromARGB(255, 114, 14, 7),
+                                      onPressed: () {
+                                        dialogRemoveReceipt(
+                                                context,
+                                                filteredFiles[index]
+                                                    .path
+                                                    .split('/')
+                                                    .last)
+                                            .then((value) {
+                                          if (value) {
+                                            setState(() {
+                                              filteredFiles = getFiles();
+                                            });
+                                          }
+                                        });
+                                      },
+                                    ),
                                   ],
                                 )),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (c, a1, a2) => TicketView(),
-                                      transitionsBuilder:
-                                          (c, anim, a2, child) =>
-                                              FadeTransition(
-                                                  opacity: anim, child: child),
-                                      transitionDuration:
-                                          Duration(milliseconds: 700),
-                                    ),
-                                  );
-                                },
                               ),
                             );
                           }),
@@ -120,6 +149,7 @@ class TicketlistState extends State<Ticketlist> {
     if (newDateRange == null) return;
 
     setState(() {
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
       var digitMonth1 = newDateRange.start.month < 10 ? 0 : '';
       var digitMonth2 = newDateRange.end.month < 10 ? 0 : '';
       var digitDay1 = newDateRange.start.day < 10 ? 0 : '';
@@ -140,5 +170,35 @@ class TicketlistState extends State<Ticketlist> {
                       .isAtSameMomentAs(DateTime.parse(textoFin))))
           .toList();
     });
+  }
+
+  Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
+    bool accept = false;
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('¿Seguro que quiere eliminar esta factura?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  accept = false;
+                },
+              ),
+              TextButton(
+                  child: Text('Aceptar'),
+                  onPressed: () {
+                    removeReceipt(date);
+                    Navigator.pop(context);
+                    accept = true;
+                  }),
+            ],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          );
+        });
+    return accept;
   }
 }

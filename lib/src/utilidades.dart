@@ -12,27 +12,22 @@ SharedPreferences? prefs;
 
 Future<Image> photoFromCamera() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
-  if (_pickedFile?.path != null){
+  if (_pickedFile?.path != null) {
     imageFile = File(_pickedFile!.path);
-      return Image.file(imageFile!, height: 450, width: 380);
-  }
-  else{
+    return Image.file(imageFile!, height: 450, width: 380);
+  } else {
     return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
   }
-
-
 }
 
 Future<Image> photoFromGallery() async {
   var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-   if (_pickedFile?.path != null){
+  if (_pickedFile?.path != null) {
     imageFile = File(_pickedFile!.path);
-      return Image.file(imageFile!, height: 450, width: 380);
-  }
-  else{
+    return Image.file(imageFile!, height: 450, width: 380);
+  } else {
     return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
   }
-
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
@@ -101,17 +96,29 @@ void saveFile(File? image, String categs) async {
 
 /*Future <*/ List<File> /*>*/ getFiles() /*async*/ {
   if (Platform.isAndroid /*&& await _requestPermission(Permission.storage)*/) {
-    var dir = Directory(
-        '/storage/emulated/0/Android/data/com.example.exploration_planner/files');
-    if (dir.existsSync()) {
-      var files = <File>[];
+    var dir;
+    var files = <File>[];
+    getExternalStorageDirectory().then((value) {
+      dir = value;
       for (var item in dir.listSync()) {
         files.add(item as File);
       }
-      return files;
-    }
+    });
+    return files;
   }
   return <File>[];
+}
+
+void removeReceipt(String date) {
+  getExternalStorageDirectory().then((value) {
+    var dir = value;
+    for (var item in dir!.listSync()) {
+      item = item as File;
+      if (item.path.split('/').last.contains(date)) {
+        item.delete();
+      }
+    }
+  });
 }
 
 Future<bool> _requestPermission(Permission permission) async {
