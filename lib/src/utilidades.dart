@@ -62,6 +62,36 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
   return true;
 }
 
+Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
+  bool accept = false;
+  await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('¿Seguro que quiere eliminar esta factura?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.pop(context);
+                accept = false;
+              },
+            ),
+            TextButton(
+                child: Text('Aceptar'),
+                onPressed: () {
+                  removeReceipt(date);
+                  Navigator.pop(context);
+                  accept = true;
+                }),
+          ],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        );
+      });
+  return accept;
+}
+
 Future<SharedPreferences?> getPrefs() async {
   prefs = await SharedPreferences.getInstance();
   var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
