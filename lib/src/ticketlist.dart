@@ -85,12 +85,29 @@ class TicketlistState extends State<Ticketlist> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        
                           controller: scrollController,
                           itemCount: filteredFiles.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
                               color: Color.fromARGB(255, 158, 158, 158),
                               child: ListTile(
+                                onTap:() {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (c, a1, a2) =>
+                                                TicketView(filteredFiles[index].path.toString()),
+                                            transitionsBuilder:
+                                                (c, anim, a2, child) =>
+                                                    FadeTransition(
+                                                        opacity: anim,
+                                                        child: child),
+                                            transitionDuration:
+                                                Duration(milliseconds: 700),
+                                          ),
+                                        );
+                                      },
                                 title: Container(
                                     child: Row(
                                   mainAxisAlignment:
@@ -108,27 +125,7 @@ class TicketlistState extends State<Ticketlist> {
                                         .toString()
                                         .substring(89, 94)
                                         .replaceAll('-', ':')),
-                                    IconButton(
-                                      icon: Icon(Icons.info_outlined),
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      iconSize: 30,
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (c, a1, a2) =>
-                                                TicketView(filteredFiles[index].path.toString()),
-                                            transitionsBuilder:
-                                                (c, anim, a2, child) =>
-                                                    FadeTransition(
-                                                        opacity: anim,
-                                                        child: child),
-                                            transitionDuration:
-                                                Duration(milliseconds: 700),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                  
                                     IconButton(
                                       icon: Icon(Icons.delete_forever),
                                       iconSize: 30,

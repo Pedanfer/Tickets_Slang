@@ -48,6 +48,7 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
             TextButton(
               child: Text('Aceptar'),
               onPressed: () {
+                nuevaCategoria.trim();
                 if (nuevaCategoria != '') {
                   saveCategToPrefs(categ: nuevaCategoria, num: lista);
                 }
@@ -114,7 +115,7 @@ void saveFile(File? image, String categs) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
-            .substring(0, 16)
+            .substring(0, 19)
             .replaceAll(RegExp(r' |:'), '-') +
         categs +
         '.jpg';
