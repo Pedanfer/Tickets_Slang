@@ -15,6 +15,8 @@ class TicketView extends StatefulWidget {
 }
 
 class TicketViewState extends State<TicketView> {
+  TransformationController controllerTransform = TransformationController();
+  var initialControllerValue;
   TextEditingController controller = TextEditingController();
   var img;
 
@@ -182,7 +184,25 @@ class TicketViewState extends State<TicketView> {
                   width: 350,
                   height: 450,
                   color: Colors.red,
-                  child: img,
+                  child: InteractiveViewer(
+                clipBehavior: Clip.hardEdge,
+                panEnabled: false,
+                minScale: 1,
+                maxScale: 6,
+                transformationController: controllerTransform,
+                onInteractionStart: (details) {
+                  initialControllerValue = controllerTransform.value;
+                },
+                onInteractionEnd: (details) {
+                  controllerTransform.value = initialControllerValue;
+                },
+                child: ClipRRect(
+                  child: Image.file(
+                    imageFile!,
+                    fit: BoxFit.scaleDown, 
+                  ),
+                ),
+              ),
                 )
               ])),
     );

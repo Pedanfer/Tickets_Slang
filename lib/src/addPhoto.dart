@@ -10,6 +10,7 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
+  
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
@@ -185,7 +186,7 @@ class AddPhotoState extends State<AddPhoto> {
                               child: Text('ENVIAR'),
                               onPressed: () {
                                 setState(() {
-                                  //uploadImageToSlang(categs, imageFile!);
+                                  uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
                                   showDialog(
