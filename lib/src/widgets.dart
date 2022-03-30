@@ -1,3 +1,4 @@
+import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,29 +20,45 @@ TextButton CustomButton(
   );
 }
 
-class CustomAlertDialog extends StatefulWidget {
+class DropDownCategs extends StatefulWidget {
+  final Function func;
+  final String hint;
+  final String categList;
+
+  DropDownCategs(this.func, this.hint, this.categList);
   @override
-  State<StatefulWidget> createState() => CustomAlertDialogState();
+  State<StatefulWidget> createState() => DropDownCategsState();
 }
 
-class CustomAlertDialogState extends State<CustomAlertDialog> {
+class DropDownCategsState extends State<DropDownCategs> {
+  String hint = '';
+
+  @override
+  void initState() {
+    hint = widget.hint;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Row(children: [
-        Image.asset('lib/assets/error.png',
-            width: 50, height: 50, fit: BoxFit.contain),
-        Text('\t\t\t\t\t\t\t\tError')
-      ]),
-      content: Text('Oops! Parece que has olvidado rellenar un campo.'),
-      actions: <Widget>[
-        TextButton(
-          child: Text('OK'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 2.5),
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(color: Colors.black),
+          color: Colors.white),
+      child: DropdownButton(
+          items: prefs!.getStringList(widget.categList)!.map((String e) {
+            return DropdownMenuItem(value: e, child: Text(e));
+          }).toList(),
+          onChanged: (value) => {
+                setState(() {
+                  hint = value.toString();
+                }),
+                widget.func(value)
+              },
+          hint: Text(hint)),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:exploration_planner/src/communications.dart';
+import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
 import 'communications.dart';
 import 'utilidades.dart';
@@ -9,7 +10,6 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
-  var categs = '';
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
@@ -18,6 +18,7 @@ class AddPhotoState extends State<AddPhoto> {
   var img = Image.asset(
     'lib/assets/ticketRobot.png',
   );
+  var categs = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,33 +55,11 @@ class AddPhotoState extends State<AddPhoto> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 2.5),
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(color: Colors.black),
-                                      color: Colors.white),
-                                  child: DropdownButton(
-                                    icon: Icon(Icons.arrow_drop_down,
-                                        color: Colors.black),
-                                    items: prefs!
-                                        .getStringList('categList1')!
-                                        .map((String e) {
-                                      return DropdownMenuItem(
-                                          value: e, child: Text(e));
-                                    }).toList(),
-                                    onChanged: (value) => {
-                                      categs += '.' + value.toString() + '|',
-                                      setState(() {
-                                        vista = value.toString();
-                                      })
-                                    },
-                                    hint: Text(
-                                      vista,
-                                    ),
-                                  ),
-                                ),
+                                DropDownCategs(
+                                    (value) =>
+                                        categs += '.' + value.toString() + '|',
+                                    vista,
+                                    'categList1'),
                                 Container(
                                   child: IconButton(
                                     icon: Icon(Icons.add_box),
@@ -97,28 +76,10 @@ class AddPhotoState extends State<AddPhoto> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 2.5),
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(color: Colors.black),
-                                      color: Colors.white),
-                                  child: DropdownButton(
-                                      items: prefs!
-                                          .getStringList('categList2')!
-                                          .map((String e) {
-                                        return DropdownMenuItem(
-                                            value: e, child: Text(e));
-                                      }).toList(),
-                                      onChanged: (value) => {
-                                            categs += value.toString(),
-                                            setState(() {
-                                              vista2 = value.toString();
-                                            })
-                                          },
-                                      hint: Text(vista2)),
-                                ),
+                                DropDownCategs(
+                                    (value) => categs += value.toString(),
+                                    vista2,
+                                    'categList2'),
                                 Container(
                                   child: IconButton(
                                     icon: Icon(Icons.add_box),
@@ -224,7 +185,7 @@ class AddPhotoState extends State<AddPhoto> {
                               child: Text('ENVIAR'),
                               onPressed: () {
                                 setState(() {
-                                  uploadImageToSlang(categs, imageFile!);
+                                  //uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
                                   showDialog(
@@ -238,6 +199,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               child: Text('OK'),
                                               onPressed: () {
                                                 saveFile(imageFile, categs);
+                                                categs = '';
                                                 Navigator.pop(context, true);
                                               },
                                             ),
