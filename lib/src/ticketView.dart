@@ -1,8 +1,5 @@
 import 'dart:io';
-
-import 'package:exploration_planner/src/dashboard.dart';
 import 'package:exploration_planner/src/editTicket.dart';
-import 'package:exploration_planner/src/ticketlist.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +26,7 @@ class TicketViewState extends State<TicketView> {
   @override
   Widget build(BuildContext context) {
     imageFile = File(controller.text);
+    img = Image.file(imageFile!);
 
     var filtrado1 = controller.text.split('.');
     var filtradocategs = filtrado1[3].split('|');
@@ -58,23 +56,20 @@ class TicketViewState extends State<TicketView> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color.fromARGB(255, 255, 0, 128),
-              Color.fromARGB(255, 72, 221, 2),
-            ],
+          padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color.fromARGB(255, 255, 0, 128),
+                Color.fromARGB(255, 72, 221, 2),
+              ],
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
@@ -187,24 +182,24 @@ class TicketViewState extends State<TicketView> {
                   height: 450,
                   color: Colors.red,
                   child: InteractiveViewer(
-                clipBehavior: Clip.hardEdge,
-                panEnabled: false,
-                minScale: 1,
-                maxScale: 6,
-                transformationController: controllerTransform,
-                onInteractionStart: (details) {
-                  initialControllerValue = controllerTransform.value;
-                },
-                onInteractionEnd: (details) {
-                  controllerTransform.value = initialControllerValue;
-                },
-                child: ClipRRect(
-                  child: Image.file(
-                    imageFile!,
-                    fit: BoxFit.scaleDown, 
+                    clipBehavior: Clip.hardEdge,
+                    panEnabled: false,
+                    minScale: 1,
+                    maxScale: 6,
+                    transformationController: controllerTransform,
+                    onInteractionStart: (details) {
+                      initialControllerValue = controllerTransform.value;
+                    },
+                    onInteractionEnd: (details) {
+                      controllerTransform.value = initialControllerValue;
+                    },
+                    child: ClipRRect(
+                      child: Image.file(
+                        imageFile!,
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ),
                   ),
-                ),
-              ),
                 )
               ])),
     );
