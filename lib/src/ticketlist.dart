@@ -1,8 +1,11 @@
 // ignore_for_file: unused_local_variable, omit_local_variable_types
 
+import 'dart:io';
+
 import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
+import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
 
 class Ticketlist extends StatefulWidget {
@@ -10,8 +13,10 @@ class Ticketlist extends StatefulWidget {
   State<Ticketlist> createState() => TicketlistState();
 }
 
-var textoInicio = 'Fecha inicio';
-var textoFin = 'Fecha fin';
+var textoFechaInicio = 'Fecha inicio';
+var textoFechaFin = 'Fecha fin';
+var textoCateg1 = 'Seleccione categoría';
+var textoCateg2 = 'Seleccione categoría';
 var newDateRange;
 var end;
 
@@ -53,13 +58,29 @@ class TicketlistState extends State<Ticketlist> {
                         Expanded(
                             child: ElevatedButton(
                           onPressed: pickDateRange,
-                          child: Text(textoInicio),
+                          child: Text(textoFechaInicio),
                         )),
                         Expanded(
                             child: ElevatedButton(
                           onPressed: pickDateRange,
-                          child: Text(textoFin),
+                          child: Text(textoFechaFin),
                         ))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: DropDownCategs(
+                                (value) =>
+                                    filterByCategory(value.toString(), 1),
+                                'Elija categoría',
+                                'categList1')),
+                        Expanded(
+                            child: DropDownCategs(
+                                (value) =>
+                                    filterByCategory(value.toString(), 2),
+                                'Elija categoría',
+                                'categList2')),
                       ],
                     ),
                     Expanded(
@@ -154,21 +175,34 @@ class TicketlistState extends State<Ticketlist> {
       var digitMonth2 = newDateRange.end.month < 10 ? 0 : '';
       var digitDay1 = newDateRange.start.day < 10 ? 0 : '';
       var digitDay2 = newDateRange.end.day < 10 ? 0 : '';
-      textoInicio =
+      textoFechaInicio =
           '${newDateRange.start.year}-$digitMonth1${newDateRange.start.month}-$digitDay1${newDateRange.start.day}';
-      textoFin =
+      textoFechaFin =
           '${newDateRange.end.year}-$digitMonth2${newDateRange.end.month}-$digitDay2${newDateRange.end.day}';
       filteredFiles = unfilteredFiles
           .where((file) =>
               (DateTime.parse(file.toString().substring(78, 88))
-                      .isAfter(DateTime.parse(textoInicio)) ||
+                      .isAfter(DateTime.parse(textoFechaInicio)) ||
                   DateTime.parse(file.toString().substring(78, 88))
-                      .isAtSameMomentAs(DateTime.parse(textoInicio))) &&
+                      .isAtSameMomentAs(DateTime.parse(textoFechaInicio))) &&
               (DateTime.parse(file.toString().substring(78, 88))
-                      .isBefore(DateTime.parse(textoFin)) ||
+                      .isBefore(DateTime.parse(textoFechaFin)) ||
                   DateTime.parse(file.toString().substring(78, 88))
-                      .isAtSameMomentAs(DateTime.parse(textoFin))))
+                      .isAtSameMomentAs(DateTime.parse(textoFechaFin))))
           .toList();
     });
+  }
+
+  void filterByCategory(String value, int num) {
+    if (value != 'Elija categoría') {
+      setState(() {
+        var index = num == 1 ? 0 : 1;
+        filteredFiles = unfilteredFiles
+            .where((file) =>
+                file.path.split('/').last.split('.')[1].split('|')[index] ==
+                value)
+            .toList();
+      });
+    }
   }
 }
