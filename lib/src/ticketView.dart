@@ -1,21 +1,36 @@
 import 'dart:io';
 
 import 'package:exploration_planner/src/dashboard.dart';
+import 'package:exploration_planner/src/editTicket.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TicketView extends StatefulWidget {
+  final String ruta;
+  TicketView(this.ruta);
   @override
   State<TicketView> createState() => TicketViewState();
 }
 
 class TicketViewState extends State<TicketView> {
-  var imgprueba = Image.asset('lib/assets/ticketRobot.png', scale: 5);
+  TextEditingController controller = TextEditingController();
+  var img;
+
+  @override
+  void initState() {
+    controller = TextEditingController(text: widget.ruta);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    imageFile = File(controller.text);
+    img = Image.file(imageFile!);
+
     return Scaffold(
       body: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
@@ -32,37 +47,108 @@ class TicketViewState extends State<TicketView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(imgprueba.toString().substring(0, 40)),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 20, 255, 90))),
+                          child: Text(
+                            '22/22/2222',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: Color.fromARGB(255, 255, 74, 2)),
+                            textScaleFactor: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 20, 255, 90))),
+                          child: Text(
+                            '22:22:22',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 255, 74, 2)),
+                            textScaleFactor: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
                       child: IconButton(
                         icon: Icon(Icons.edit_note),
-                        iconSize: 60,
+                        iconSize: 50,
                         onPressed: () {
-                          setState(() {
-                            imgprueba = Image.asset('lib/assets/okRobot.png');
+                          print(img.toString());
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                            builder: (context) =>
+                                EditTicket(controller.text),
+                          ))
+                              .then((result) {
+                            if (result != null) {
+                              setState(() { 
+                                /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
+                              });
+                            }
                           });
                         },
                       ),
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('CATEGORIA 1: ' +
-                        imgprueba.toString().substring(40, 80)),
-                  ],
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  width: 350,
+                  decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Color.fromARGB(255, 21, 21, 22))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'WWWWWWWWWWw',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.shadowsIntoLight(
+                          fontSize: 20,
+                        ),
+                        textScaleFactor: 1.3,
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('CATEGORIA 2: ' +
-                        imgprueba.toString().substring(80, 120)),
-                  ],
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  width: 350,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'WWWWWWWWWWw',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.shadowsIntoLight(
+                          fontSize: 20,
+                        ),
+                        textScaleFactor: 1.3,
+                      ),
+                    ],
+                  ),
                 ),
-                imgprueba,
+                Container(
+                  color: Colors.red,
+                  child: img,
+                )
               ])),
     );
   }

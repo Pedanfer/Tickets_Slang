@@ -96,7 +96,7 @@ class TicketlistState extends State<Ticketlist> {
                                           context,
                                           PageRouteBuilder(
                                             pageBuilder: (c, a1, a2) =>
-                                                TicketView(),
+                                                TicketView(filteredFiles[index].path.toString()),
                                             transitionsBuilder:
                                                 (c, anim, a2, child) =>
                                                     FadeTransition(
