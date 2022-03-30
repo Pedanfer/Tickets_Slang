@@ -10,6 +10,7 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
+  
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
@@ -198,6 +199,11 @@ class AddPhotoState extends State<AddPhoto> {
                                             TextButton(
                                               child: Text('OK'),
                                               onPressed: () {
+                                                if (categs.contains('|') ==
+                                                    false) {
+                                                  categs = '.|' + categs;
+                                                }
+
                                                 saveFile(imageFile, categs);
                                                 categs = '';
                                                 Navigator.pop(context, true);

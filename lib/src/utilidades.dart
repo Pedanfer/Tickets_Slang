@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:exploration_planner/src/validators.dart' as validators;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -48,10 +49,19 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
             TextButton(
               child: Text('Aceptar'),
               onPressed: () {
-                if (nuevaCategoria != '') {
-                  saveCategToPrefs(categ: nuevaCategoria, num: lista);
+                nuevaCategoria = nuevaCategoria.trim();
+                
+                if (nuevaCategoria.length <= 10) {
+                  if (nuevaCategoria != '') {
+                    saveCategToPrefs(categ: nuevaCategoria, num: lista);
+
+                    Navigator.pop(context);
+                  } else {
+                    print('No puede estar vacío o contener solo espacios');
+                  }
+                } else {
+                  print('La longitud tiene que ser de 1 a 10');
                 }
-                Navigator.pop(context);
               },
             ),
           ],
@@ -63,7 +73,7 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
 }
 
 Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
-  bool accept = false;
+  var accept = false;
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -74,7 +84,6 @@ Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
               child: Text('Cancelar'),
               onPressed: () {
                 Navigator.pop(context);
-                accept = false;
               },
             ),
             TextButton(
@@ -114,7 +123,7 @@ void saveFile(File? image, String categs) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
-            .substring(0, 16)
+            .substring(0, 19)
             .replaceAll(RegExp(r' |:'), '-') +
         categs +
         '.jpg';
