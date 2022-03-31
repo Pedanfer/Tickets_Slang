@@ -50,7 +50,7 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
               child: Text('Aceptar'),
               onPressed: () {
                 nuevaCategoria = nuevaCategoria.trim();
-                
+
                 if (nuevaCategoria.length <= 10) {
                   if (nuevaCategoria != '') {
                     saveCategToPrefs(categ: nuevaCategoria, num: lista);
@@ -106,7 +106,7 @@ Future<SharedPreferences?> getPrefs() async {
   var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
   if (!catsLoaded) {
     await prefs!.setStringList('categList1', []);
-    await prefs!.setStringList('categList2', []);
+    //await prefs!.setStringList('categList2', []);
     await prefs!.setBool('categsLoaded', true);
   }
   return prefs;

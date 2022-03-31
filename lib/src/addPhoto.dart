@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:exploration_planner/src/communications.dart';
 import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +12,12 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
-  
+  GlobalKey<DropDownCategsState> categsKey = GlobalKey();
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
   String vista = 'Seleccione categoría';
-  String vista2 = 'Seleccione categoría';
+  //String vista2 = 'Seleccione categoría';
   var img = Image.asset(
     'lib/assets/ticketRobot.png',
   );
@@ -60,20 +62,36 @@ class AddPhotoState extends State<AddPhoto> {
                                     (value) =>
                                         categs += '.' + value.toString() + '|',
                                     vista,
-                                    'categList1'),
+                                    'categList1',
+                                    key: categsKey),
                                 Container(
                                   child: IconButton(
                                     icon: Icon(Icons.add_box),
                                     iconSize: 40,
                                     onPressed: () {
+                                      setState(() {
+                                        isVisibleBorrarAceptar = false;
+                                        isVisibleCategorias = false;
+                                      });
                                       InsertListElement(context, 1)
-                                          .then((value) => setState(() {}));
+                                          .then((value) => {
+                                                setState(() {}),
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 100), () {
+                                                  setState(() {
+                                                    isVisibleBorrarAceptar =
+                                                        true;
+                                                    isVisibleCategorias = true;
+                                                  });
+                                                })
+                                              });
                                     },
                                   ),
                                 )
                               ]),
                         ),
-                        Container(
+                        /*Container(
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -92,7 +110,7 @@ class AddPhotoState extends State<AddPhoto> {
                                   ),
                                 )
                               ]),
-                        )
+                        )*/
                       ]),
                     ),
                   ),
@@ -203,7 +221,6 @@ class AddPhotoState extends State<AddPhoto> {
                                                     false) {
                                                   categs = '.|' + categs;
                                                 }
-
                                                 saveFile(imageFile, categs);
                                                 categs = '';
                                                 Navigator.pop(context, true);
@@ -229,5 +246,15 @@ class AddPhotoState extends State<AddPhoto> {
             ),
           );
         });
+  }
+
+  Future<void> checkKeyboard() async {
+    final completer = Completer();
+    if (MediaQuery.of(context).viewInsets.bottom != 0) {
+      return checkKeyboard();
+    } else {
+      completer.complete();
+    }
+    return completer.future;
   }
 }

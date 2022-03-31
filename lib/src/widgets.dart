@@ -25,7 +25,8 @@ class DropDownCategs extends StatefulWidget {
   final String hint;
   final String categList;
 
-  DropDownCategs(this.func, this.hint, this.categList);
+  DropDownCategs(this.func, this.hint, this.categList, {Key? key})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() => DropDownCategsState();
 }
@@ -37,6 +38,12 @@ class DropDownCategsState extends State<DropDownCategs> {
   void initState() {
     hint = widget.hint;
     super.initState();
+  }
+
+  void changeHint(String hint) {
+    setState(() {
+      this.hint = hint;
+    });
   }
 
   @override

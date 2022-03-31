@@ -52,3 +52,8 @@ void uploadImageToSlang(String categs, File image) async {
     print(response.reasonPhrase);
   }
 }
+
+Map<String, String> fieldsFromTextract() {
+  Map<String, String> receiptData = {};
+  return receiptData;
+}

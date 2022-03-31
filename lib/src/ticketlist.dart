@@ -15,23 +15,30 @@ class Ticketlist extends StatefulWidget {
 
 var textoFechaInicio = 'Fecha inicio';
 var textoFechaFin = 'Fecha fin';
-var textoCateg1 = 'Seleccione categoría';
-var textoCateg2 = 'Seleccione categoría';
 var newDateRange;
 var end;
+var categs;
+GlobalKey<DropDownCategsState> categsKey = GlobalKey();
 
 class TicketlistState extends State<Ticketlist> {
   final dateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
-  var unfilteredFiles;
+  var unfilteredFiles = getFiles();
   var filteredFiles = getFiles();
+  var categFilteredFiles = getFiles();
+  var dateFilteredFiles = getFiles();
+  bool filtradoCateg = false;
+  bool filtradoDate = false;
+  bool lastIsCateg = false;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
 
   @override
   Widget build(BuildContext context) {
-    unfilteredFiles = getFiles();
+    categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
+        'Elija categoría', 'categList1',
+        key: categsKey);
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {
@@ -70,44 +77,39 @@ class TicketlistState extends State<Ticketlist> {
                     Row(
                       children: [
                         Expanded(
-                            child: DropDownCategs(
-                                (value) =>
-                                    filterByCategory(value.toString(), 1),
-                                'Elija categoría',
-                                'categList1')),
-                        Expanded(
+                          child: categs,
+                          /*Expanded(
                             child: DropDownCategs(
                                 (value) =>
                                     filterByCategory(value.toString(), 2),
                                 'Elija categoría',
-                                'categList2')),
+                                'categList2')),*/
+                        )
                       ],
                     ),
                     Expanded(
                       child: ListView.builder(
-                        
                           controller: scrollController,
                           itemCount: filteredFiles.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
                               color: Color.fromARGB(255, 158, 158, 158),
                               child: ListTile(
-                                onTap:() {
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (c, a1, a2) =>
-                                                TicketView(filteredFiles[index].path.toString()),
-                                            transitionsBuilder:
-                                                (c, anim, a2, child) =>
-                                                    FadeTransition(
-                                                        opacity: anim,
-                                                        child: child),
-                                            transitionDuration:
-                                                Duration(milliseconds: 700),
-                                          ),
-                                        );
-                                      },
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (c, a1, a2) => TicketView(
+                                          filteredFiles[index].path.toString()),
+                                      transitionsBuilder:
+                                          (c, anim, a2, child) =>
+                                              FadeTransition(
+                                                  opacity: anim, child: child),
+                                      transitionDuration:
+                                          Duration(milliseconds: 700),
+                                    ),
+                                  );
+                                },
                                 title: Container(
                                     child: Row(
                                   mainAxisAlignment:
@@ -125,7 +127,6 @@ class TicketlistState extends State<Ticketlist> {
                                         .toString()
                                         .substring(89, 94)
                                         .replaceAll('-', ':')),
-                                  
                                     IconButton(
                                       icon: Icon(Icons.delete_forever),
                                       iconSize: 30,
@@ -159,6 +160,7 @@ class TicketlistState extends State<Ticketlist> {
   }
 
   Future pickDateRange() async {
+    categsKey.currentState!.changeHint('Elija categoría');
     DateTimeRange? newDateRange = await showDateRangePicker(
         context: context,
         initialDateRange: dateRange,
@@ -176,7 +178,12 @@ class TicketlistState extends State<Ticketlist> {
           '${newDateRange.start.year}-$digitMonth1${newDateRange.start.month}-$digitDay1${newDateRange.start.day}';
       textoFechaFin =
           '${newDateRange.end.year}-$digitMonth2${newDateRange.end.month}-$digitDay2${newDateRange.end.day}';
-      filteredFiles = unfilteredFiles
+      var listToFilter =
+          filtradoCateg && !lastIsCateg ? categFilteredFiles : unfilteredFiles;
+      print(categFilteredFiles);
+      print(filtradoCateg);
+
+      filteredFiles = listToFilter
           .where((file) =>
               (DateTime.parse(file.toString().substring(78, 88))
                       .isAfter(DateTime.parse(textoFechaInicio)) ||
@@ -188,18 +195,23 @@ class TicketlistState extends State<Ticketlist> {
                       .isAtSameMomentAs(DateTime.parse(textoFechaFin))))
           .toList();
     });
+    dateFilteredFiles = List<File>.from(filteredFiles);
+    filtradoDate = true;
+    lastIsCateg = false;
   }
 
   void filterByCategory(String value, int num) {
-    if (value != 'Elija categoría') {
-      setState(() {
-        var index = num == 1 ? 0 : 1;
-        filteredFiles = unfilteredFiles
-            .where((file) =>
-                file.path.split('/').last.split('.')[1].split('|')[index] ==
-                value)
-            .toList();
-      });
-    }
+    lastIsCateg = true;
+    var listToFilter = filtradoDate ? dateFilteredFiles : unfilteredFiles;
+    setState(() {
+      var index = num == 1 ? 0 : 1;
+      filteredFiles = listToFilter
+          .where((file) =>
+              file.path.split('/').last.split('.')[1].split('|')[index] ==
+              value)
+          .toList();
+    });
+    categFilteredFiles = List<File>.from(filteredFiles);
+    filtradoCateg = true;
   }
 }
