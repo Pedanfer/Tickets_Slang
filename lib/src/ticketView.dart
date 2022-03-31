@@ -80,10 +80,16 @@ class TicketViewState extends State<TicketView> {
                       children: [
                         Container(
                           child: IconButton(
-                            icon: Icon(Icons.arrow_back_ios),
+                            icon: Icon(Icons.share),
                             iconSize: 40,
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              print('1');
+                              createExcelFicha(controller.text).then((result) {
+                                setState(() {
+                                  /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
+                                });
+                              });
+                              print('2');
                             },
                           ),
                         ),
@@ -105,7 +111,6 @@ class TicketViewState extends State<TicketView> {
                             icon: Icon(Icons.edit_note),
                             iconSize: 50,
                             onPressed: () {
-                              print(img.toString());
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
                                 builder: (context) =>

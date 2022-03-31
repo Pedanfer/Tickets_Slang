@@ -1,7 +1,3 @@
-// ignore_for_file: unused_local_variable, omit_local_variable_types
-
-import 'dart:io';
-
 import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
@@ -36,6 +32,7 @@ class TicketlistState extends State<Ticketlist> {
         future: getPrefs(),
         builder: (context, snapshot) {
           return Scaffold(
+            
             body: Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -92,7 +89,12 @@ class TicketlistState extends State<Ticketlist> {
                             return Card(
                               color: Color.fromARGB(255, 158, 158, 158),
                               child: ListTile(
-                                onTap:() {
+                                onTap:()
+                                {
+createExcelLista(filteredFiles);
+                                },
+                                
+                                 /*{
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -107,7 +109,7 @@ class TicketlistState extends State<Ticketlist> {
                                                 Duration(milliseconds: 700),
                                           ),
                                         );
-                                      },
+                                      },*/
                                 title: Container(
                                     child: Row(
                                   mainAxisAlignment:
@@ -159,7 +161,7 @@ class TicketlistState extends State<Ticketlist> {
   }
 
   Future pickDateRange() async {
-    DateTimeRange? newDateRange = await showDateRangePicker(
+    var newDateRange = await showDateRangePicker(
         context: context,
         initialDateRange: dateRange,
         firstDate: DateTime(1900),
