@@ -29,6 +29,7 @@ class TicketlistState extends State<Ticketlist> {
   bool filtradoCateg = false;
   bool filtradoDate = false;
   bool lastIsCateg = false;
+  bool isVisibleFiltring = false;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -43,6 +44,25 @@ class TicketlistState extends State<Ticketlist> {
         future: getPrefs(),
         builder: (context, snapshot) {
           return Scaffold(
+            appBar: AppBar(
+              
+        title: Text('Slang Ticket Manager'),
+        actions:<Widget> [
+          Icon(Icons.share),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: 
+            IconButton(icon: Icon(Icons.more_vert), onPressed:
+            (){//(){ setState(){
+            if(isVisibleFiltring == true ){
+              isVisibleFiltring = false;//}}
+            }
+            }
+            )
+
+          ),
+        ],
+      ),
             body: Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -59,8 +79,9 @@ class TicketlistState extends State<Ticketlist> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(height: dimension.height * 0.05),
-                    Row(
+                    Visibility(
+                      visible: isVisibleFiltring,
+                      child: Row(
                       children: [
                         Expanded(
                             child: ElevatedButton(
@@ -73,8 +94,10 @@ class TicketlistState extends State<Ticketlist> {
                           child: Text(textoFechaFin),
                         ))
                       ],
-                    ),
-                    Row(
+                    ),),
+                    Visibility(
+                      visible: isVisibleFiltring,
+                      child: Row(
                       children: [
                         Expanded(
                           child: categs,
@@ -86,7 +109,7 @@ class TicketlistState extends State<Ticketlist> {
                                 'categList2')),*/
                         )
                       ],
-                    ),
+                    ),),
                     Expanded(
                       child: ListView.builder(
                           controller: scrollController,
