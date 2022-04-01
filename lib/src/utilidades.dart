@@ -109,7 +109,6 @@ Future<File> createExcelFicha(String rutaImagen) async {
   final List<int> imageBytes = foto.readAsBytesSync();
   sheet.pictures.addStream(3, 1, imageBytes);
 
-
 // Save and dispose the document.
   final bytes = workbook.saveAsStream();
   workbook.dispose();
@@ -135,7 +134,6 @@ Future<Image> photoFromGallery() async {
 }
 
 Future<File> createExcelLista(List<File> rutaImagen) async {
-
 // Create a new Excel document.
   final workbook = xlsx.Workbook();
 
@@ -149,46 +147,44 @@ Future<File> createExcelLista(List<File> rutaImagen) async {
   sheet.getRangeByName('C1').setText('CATEGORIA 1');
   sheet.getRangeByName('D1').setText('CATEGORIA 2');
 
-  for (var i = 0; i< rutaImagen.length;i++){
-var filtrado1 = rutaImagen[i].path.split('.');
-  var filtradocategs = filtrado1[3].split('|');
-  var filtrado2 = filtrado1[2].split('/');
-  var filtradotiempo = filtrado2[2].split('-');
-  var categ1;
-  var categ2;
-  var fecha =
-      filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
-  var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
+  for (var i = 0; i < rutaImagen.length; i++) {
+    var filtrado1 = rutaImagen[i].path.split('.');
+    var filtradocategs = filtrado1[3].split('|');
+    var filtrado2 = filtrado1[2].split('/');
+    var filtradotiempo = filtrado2[2].split('-');
+    var categ1;
+    var categ2;
+    var fecha =
+        filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
+    var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
 
-  if (filtrado1[3].contains('|')) {
-    categ1 = filtradocategs[0];
-    categ2 = filtradocategs[1];
-  } else {
-    categ1 = '';
-    categ2 = '';
-  }
+    if (filtrado1[3].contains('|')) {
+      categ1 = filtradocategs[0];
+      categ2 = filtradocategs[1];
+    } else {
+      categ1 = '';
+      categ2 = '';
+    }
 
-  if (categ1 == '') {
-    categ1 = 'Vacio';
-  }
+    if (categ1 == '') {
+      categ1 = 'Vacio';
+    }
 
-  if (categ2 == '') {
-    categ2 = 'Vacio';
-  }
+    if (categ2 == '') {
+      categ2 = 'Vacio';
+    }
 
-  print('entra');
-
+    print('entra');
 
 // Set value to cell.
 
-  // CONTENIDO
-  sheet.getRangeByName('A' + (i+2).toString()).setText(fecha);
-  sheet.getRangeByName('B' + (i+2 ).toString()).setText(hora);
-  sheet.getRangeByName('C' + (i+2).toString()).setText(categ1);
-  sheet.getRangeByName('D' + (i+2).toString()).setText(categ2);
-
+    // CONTENIDO
+    sheet.getRangeByName('A' + (i + 2).toString()).setText(fecha);
+    sheet.getRangeByName('B' + (i + 2).toString()).setText(hora);
+    sheet.getRangeByName('C' + (i + 2).toString()).setText(categ1);
+    sheet.getRangeByName('D' + (i + 2).toString()).setText(categ2);
   }
-  
+
 //Defining a global style with properties.
   final globalStyle = workbook.styles.add('globalStyle');
   globalStyle.backColor = '#37D8E9';
@@ -217,7 +213,8 @@ var filtrado1 = rutaImagen[i].path.split('.');
   sheet.getRangeByName('A1:D1').cellStyle = globalStyle;
 
 //Apply GlobalStyle1
-  sheet.getRangeByName('A2:D' + (rutaImagen.length+1).toString()).cellStyle = globalStyle1;
+  sheet.getRangeByName('A2:D' + (rutaImagen.length + 1).toString()).cellStyle =
+      globalStyle1;
 
 // Auto-Fit
   for (var i = 1; i <= 4; i++) {
@@ -238,7 +235,6 @@ var filtrado1 = rutaImagen[i].path.split('.');
   saveExcel(file);
   return file;
 }
-
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
   var nuevaCategoria = '';
@@ -366,14 +362,16 @@ void saveExcel(File? image) async {
   }
 }
 
-/*Future <*/ List<File> /*>*/ getFiles() /*async*/ {
-  if (Platform.isAndroid /*&& await _requestPermission(Permission.storage)*/) {
+List<File> getFiles() {
+  if (Platform.isAndroid) {
     var dir;
     var files = <File>[];
     getExternalStorageDirectory().then((value) {
       dir = value;
       for (var item in dir.listSync()) {
-        files.add(item as File);
+        if (item.toString().contains('.jpg')) {
+          files.add(item as File);
+        }
       }
     });
     return files;
