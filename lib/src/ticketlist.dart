@@ -33,6 +33,8 @@ class TicketlistState extends State<Ticketlist> {
   bool lastIsCateg = false;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
+  var isSelected = false;
+  Color cardColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -93,63 +95,73 @@ class TicketlistState extends State<Ticketlist> {
                           itemCount: filteredFiles.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
-                              color: Color.fromARGB(255, 158, 158, 158),
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (c, a1, a2) => TicketView(
-                                          filteredFiles[index].path.toString()),
-                                      transitionsBuilder:
-                                          (c, anim, a2, child) =>
-                                              FadeTransition(
-                                                  opacity: anim, child: child),
-                                      transitionDuration:
-                                          Duration(milliseconds: 700),
-                                    ),
-                                  );
-                                },
-                                title: Container(
-                                    child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                        width: 60,
-                                        height: 60,
-                                        child:
-                                            Image.file(filteredFiles[index])),
-                                    Text(filteredFiles[index]
-                                        .toString()
-                                        .substring(78, 88)),
-                                    Text(filteredFiles[index]
-                                        .toString()
-                                        .substring(89, 94)
-                                        .replaceAll('-', ':')),
-                                    IconButton(
-                                      icon: Icon(Icons.delete_forever),
-                                      iconSize: 30,
-                                      color: Color.fromARGB(255, 114, 14, 7),
-                                      onPressed: () {
-                                        dialogRemoveReceipt(
-                                                context,
-                                                filteredFiles[index]
+                              color: cardColor,
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ListTile(
+                                      selected: isSelected,
+                                      onLongPress: toggleSelection,
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (c, a1, a2) =>
+                                                TicketView(filteredFiles[index]
                                                     .path
-                                                    .split('/')
-                                                    .last)
-                                            .then((value) {
-                                          if (value) {
-                                            setState(() {
-                                              filteredFiles = getFiles();
-                                            });
-                                          }
-                                        });
+                                                    .toString()),
+                                            transitionsBuilder:
+                                                (c, anim, a2, child) =>
+                                                    FadeTransition(
+                                                        opacity: anim,
+                                                        child: child),
+                                            transitionDuration:
+                                                Duration(milliseconds: 700),
+                                          ),
+                                        );
                                       },
+                                      title: Container(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              width: 60,
+                                              height: 60,
+                                              child: Image.file(
+                                                  filteredFiles[index])),
+                                          Text(filteredFiles[index]
+                                              .toString()
+                                              .substring(78, 88)),
+                                          Text(filteredFiles[index]
+                                              .toString()
+                                              .substring(89, 94)
+                                              .replaceAll('-', ':')),
+                                          IconButton(
+                                            icon: Icon(Icons.delete_forever),
+                                            iconSize: 30,
+                                            color:
+                                                Color.fromARGB(255, 114, 14, 7),
+                                            onPressed: () {
+                                              dialogRemoveReceipt(
+                                                      context,
+                                                      filteredFiles[index]
+                                                          .path
+                                                          .split('/')
+                                                          .last)
+                                                  .then((value) {
+                                                if (value) {
+                                                  setState(() {
+                                                    filteredFiles = getFiles();
+                                                  });
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      )),
                                     ),
-                                  ],
-                                )),
-                              ),
+                                  ]),
                             );
                           }),
                     ),
@@ -180,8 +192,6 @@ class TicketlistState extends State<Ticketlist> {
           '${newDateRange.end.year}-$digitMonth2${newDateRange.end.month}-$digitDay2${newDateRange.end.day}';
       var listToFilter =
           filtradoCateg && !lastIsCateg ? categFilteredFiles : unfilteredFiles;
-      print(categFilteredFiles);
-      print(filtradoCateg);
 
       filteredFiles = listToFilter
           .where((file) =>
@@ -213,5 +223,17 @@ class TicketlistState extends State<Ticketlist> {
     });
     categFilteredFiles = List<File>.from(filteredFiles);
     filtradoCateg = true;
+  }
+
+  void toggleSelection() {
+    setState(() {
+      if (isSelected) {
+        cardColor = Colors.white;
+        isSelected = false;
+      } else {
+        cardColor = Color.fromARGB(255, 194, 185, 185);
+        isSelected = true;
+      }
+    });
   }
 }

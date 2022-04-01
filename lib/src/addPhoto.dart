@@ -78,7 +78,7 @@ class AddPhotoState extends State<AddPhoto> {
                                                 setState(() {}),
                                                 Future.delayed(
                                                     const Duration(
-                                                        milliseconds: 100), () {
+                                                        milliseconds: 150), () {
                                                   setState(() {
                                                     isVisibleBorrarAceptar =
                                                         true;
@@ -246,15 +246,5 @@ class AddPhotoState extends State<AddPhoto> {
             ),
           );
         });
-  }
-
-  Future<void> checkKeyboard() async {
-    final completer = Completer();
-    if (MediaQuery.of(context).viewInsets.bottom != 0) {
-      return checkKeyboard();
-    } else {
-      completer.complete();
-    }
-    return completer.future;
   }
 }

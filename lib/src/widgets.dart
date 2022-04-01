@@ -65,7 +65,8 @@ class DropDownCategsState extends State<DropDownCategs> {
                 }),
                 widget.func(value)
               },
-          hint: Text(hint)),
+          hint: Text(hint),
+          underline: SizedBox()),
     );
   }
 }

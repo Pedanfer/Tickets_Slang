@@ -180,7 +180,6 @@ class TicketViewState extends State<TicketView> {
                 Container(
                   width: 350,
                   height: 450,
-                  color: Colors.red,
                   child: InteractiveViewer(
                     clipBehavior: Clip.hardEdge,
                     panEnabled: false,

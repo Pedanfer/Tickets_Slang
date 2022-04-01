@@ -179,7 +179,6 @@ class EditTicketState extends State<EditTicket> {
                 Container(
                   width: 350,
                   height: 450,
-                  color: Colors.red,
                   child: img,
                 )
               ])),
