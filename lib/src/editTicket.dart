@@ -61,8 +61,8 @@ class EditTicketState extends State<EditTicket> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color.fromARGB(255, 235, 235, 235),
-                Color.fromARGB(255, 199, 230, 185),
+                Color(0xff011A58),
+                Color(0xffECEEF3),
               ],
             ),
           ),

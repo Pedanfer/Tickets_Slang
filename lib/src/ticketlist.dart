@@ -99,7 +99,6 @@ class TicketlistState extends State<Ticketlist> {
                                   children: <Widget>[
                                     ListTile(
                                       selected: isSelected,
-                                      onLongPress: toggleSelection,
                                       onTap: () {
                                         Navigator.push(
                                           context,
@@ -171,7 +170,7 @@ class TicketlistState extends State<Ticketlist> {
 
   Future pickDateRange() async {
     categsKey.currentState!.changeHint('Elija categoría');
-    DateTimeRange? newDateRange = await showDateRangePicker(
+    var newDateRange = await showDateRangePicker(
         context: context,
         initialDateRange: dateRange,
         firstDate: DateTime(1900),
@@ -221,17 +220,5 @@ class TicketlistState extends State<Ticketlist> {
     });
     categFilteredFiles = List<File>.from(filteredFiles);
     filtradoCateg = true;
-  }
-
-  void toggleSelection() {
-    setState(() {
-      if (isSelected) {
-        cardColor = Colors.white;
-        isSelected = false;
-      } else {
-        cardColor = Color.fromARGB(255, 194, 185, 185);
-        isSelected = true;
-      }
-    });
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:exploration_planner/src/editTicket.dart';
+import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TicketView extends StatefulWidget {
   final String ruta;
@@ -10,6 +10,8 @@ class TicketView extends StatefulWidget {
   @override
   State<TicketView> createState() => TicketViewState();
 }
+
+Border border = Border.all();
 
 class TicketViewState extends State<TicketView> {
   TransformationController controllerTransform = TransformationController();
@@ -64,8 +66,8 @@ class TicketViewState extends State<TicketView> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color.fromARGB(255, 255, 0, 128),
-                Color.fromARGB(255, 72, 221, 2),
+                Color(0xff011A58),
+                Color(0xffECEEF3),
               ],
             ),
           ),
@@ -75,40 +77,26 @@ class TicketViewState extends State<TicketView> {
                 Container(
                     child: Column(
                   children: [
+                    SizedBox(height: dimension.height * 0.01),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           child: IconButton(
-                            icon: Icon(Icons.share),
+                            icon: Icon(Icons.share, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
-                              print('1');
                               createExcelFicha(controller.text).then((result) {
                                 setState(() {
                                   /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
                                 });
                               });
-                              print('2');
                             },
                           ),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(255, 20, 255, 90))),
-                          child: Text(
-                            fecha,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Color.fromARGB(255, 255, 74, 2)),
-                            textScaleFactor: 1.3,
-                          ),
-                        ),
-                        Container(
                           child: IconButton(
-                            icon: Icon(Icons.edit_note),
+                            icon: Icon(Icons.edit_note, color: Colors.white),
                             iconSize: 50,
                             onPressed: () {
                               Navigator.of(context)
@@ -128,16 +116,14 @@ class TicketViewState extends State<TicketView> {
                         ),
                       ],
                     ),
+                    SizedBox(height: dimension.height * 0.02),
                     Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromARGB(255, 20, 255, 90))),
+                      width: dimension.width * 0.9,
+                      decoration: BoxDecoration(border: border),
                       child: Text(
-                        hora,
+                        fecha + '    ' + hora,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 255, 74, 2)),
+                        style: TextStyle(fontSize: 15, color: Colors.white),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -145,17 +131,16 @@ class TicketViewState extends State<TicketView> {
                 )),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 350,
-                  decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromARGB(255, 21, 21, 22))),
+                  width: dimension.width * 0.9,
+                  decoration: BoxDecoration(border: border),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         categ1,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.shadowsIntoLight(
+                        style: TextStyle(
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                         textScaleFactor: 1.3,
@@ -165,16 +150,16 @@ class TicketViewState extends State<TicketView> {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 350,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent)),
+                  width: dimension.width * 0.9,
+                  decoration: BoxDecoration(border: border),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         categ2,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.shadowsIntoLight(
+                        style: TextStyle(
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                         textScaleFactor: 1.3,
@@ -183,8 +168,8 @@ class TicketViewState extends State<TicketView> {
                   ),
                 ),
                 Container(
-                  width: 350,
-                  height: 450,
+                  width: dimension.width * 0.9,
+                  height: dimension.height * 0.55,
                   child: InteractiveViewer(
                     clipBehavior: Clip.hardEdge,
                     panEnabled: false,
@@ -204,7 +189,8 @@ class TicketViewState extends State<TicketView> {
                       ),
                     ),
                   ),
-                )
+                ),
+                Icon(Icons.pinch_rounded, size: 60)
               ])),
     );
   }
