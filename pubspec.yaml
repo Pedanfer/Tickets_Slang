@@ -12,12 +12,14 @@ dependencies:
   google_fonts: ^2.1.0
   flutter:
     sdk: flutter
+  syncfusion_flutter_xlsio: ^19.1.64-beta
   pedantic: 1.11.0
   image_picker: ^0.8.4+11
   shared_preferences: ^2.0.13
   permission_handler: ^9.2.0
   image_gallery_saver: ^1.7.1
   aws_textract_api: ^1.2.0
+  image_cropper: ^1.5.0
 
 dev_dependencies:
   flutter_test:
