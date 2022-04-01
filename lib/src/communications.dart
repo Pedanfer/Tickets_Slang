@@ -10,15 +10,14 @@ nombre usuario: textractUser
 contraseña: Slangaws22 */
 
 Future<bool> loginSlang(String email, String password) async {
-  //Devuelve la información del usuario si existe en forma de string/json
   var headers = {'clientVersion': '0.1.16'};
   var body = {'email': email, 'password': password};
   var url = Uri.parse(
       'http://serv.slang.digital/api/client/auth/login?customres=true');
 
   var response = await http.post(url, headers: headers, body: body);
-
   var jsonData = await json.decode(response.body);
+
   await getPrefs()
       .then((value) => value!.setString('jsonData', json.encode(jsonData)));
 
@@ -46,30 +45,23 @@ void uploadImageToSlang(String categs, File image) async {
       });
 
   http.StreamedResponse response = await request!.send();
-  if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
-  } else {
-    print(response.reasonPhrase);
-  }
+}
+
+Future<bool> registerSlang(
+    String name, String phone, String email, String password) async {
+  var headers = {'clientVersion': '0.1.16'};
+  var body = {
+    'email': email,
+    'name': name,
+    'password': password,
+    'phone': phone
+  };
+  var url = Uri.parse('http://serv.slang.digital/api/client/users');
+  var response = await http.post(url, headers: headers, body: body);
+  return true;
 }
 
 Map<String, String> fieldsFromTextract() {
   Map<String, String> receiptData = {};
   return receiptData;
 }
-
-/*var headers = {
-  'clientVersion': '0.1.16'
-};
-var request = http.Request('POST', Uri.parse('http://localhost:8081/api/client/users'));
-request.body = '''{\r\n     "email" : "pedro.alcarazg@gmail.com",\r\n     "name" : "Pedro",\r\n     "password" : "123456",\r\n     "phone": "123456789"\r\n}''';
-request.headers.addAll(headers);
-
-http.StreamedResponse response = await request.send();
-
-if (response.statusCode == 200) {
-  print(await response.stream.bytesToString());
-}
-else {
-  print(response.reasonPhrase);
-} */

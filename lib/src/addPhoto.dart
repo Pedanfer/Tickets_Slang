@@ -84,7 +84,7 @@ class AddPhotoState extends State<AddPhoto> {
                                                         true;
                                                     isVisibleCategorias = true;
                                                   });
-                                                })
+                                                }),
                                               });
                                     },
                                   ),
@@ -146,9 +146,6 @@ class AddPhotoState extends State<AddPhoto> {
                                       isVisibleCategorias = true;
                                     }
                                   }));
-
-     
-
                             },
                           ),
                           SizedBox(
@@ -219,7 +216,7 @@ class AddPhotoState extends State<AddPhoto> {
                                           actions: <Widget>[
                                             TextButton(
                                               child: Text('OK'),
-                                              onPressed: () {                                                
+                                              onPressed: () {
                                                 if (categs.contains('|') ==
                                                     false) {
                                                   categs = '.|' + categs;
