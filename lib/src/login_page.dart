@@ -7,6 +7,7 @@ import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
 
 var dimension;
+bool isVisibleRegister = false;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -106,6 +107,30 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
+                    Column(
+                      children: [
+                        Visibility(
+                          visible: isVisibleRegister,
+                          child: CustomButton(
+                            text: 'REGISTRARME',
+                            width: dimension.width * 0.90,
+                            onPressed: () => {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (c, a1, a2) => DashBoard(),
+                                  transitionsBuilder: (c, anim, a2, child) =>
+                                      FadeTransition(
+                                          opacity: anim, child: child),
+                                  transitionDuration:
+                                      Duration(milliseconds: 700),
+                                ),
+                              )
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                     CustomButton(
                         text: 'ENTRAR',
                         width: dimension.width * 0.90,
@@ -144,12 +169,14 @@ class _LoginPageState extends State<LoginPage> {
                                               }
                                             else
                                               {
+                                                setState(() =>
+                                                    isVisibleRegister = true),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(
-                                                      'Usuario o contraseña incorrectos.'),
+                                                      'Usuario o contraseña incorrectos. Compruebe los datos o regístrese'),
                                                   duration:
-                                                      Duration(seconds: 2),
+                                                      Duration(seconds: 4),
                                                 )),
                                               }
                                           }),
@@ -169,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                                         )),
                                       }),
                                 }
-                            })
+                            }),
                   ],
           ),
         ),

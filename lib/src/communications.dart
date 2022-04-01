@@ -57,3 +57,19 @@ Map<String, String> fieldsFromTextract() {
   Map<String, String> receiptData = {};
   return receiptData;
 }
+
+/*var headers = {
+  'clientVersion': '0.1.16'
+};
+var request = http.Request('POST', Uri.parse('http://localhost:8081/api/client/users'));
+request.body = '''{\r\n     "email" : "pedro.alcarazg@gmail.com",\r\n     "name" : "Pedro",\r\n     "password" : "123456",\r\n     "phone": "123456789"\r\n}''';
+request.headers.addAll(headers);
+
+http.StreamedResponse response = await request.send();
+
+if (response.statusCode == 200) {
+  print(await response.stream.bytesToString());
+}
+else {
+  print(response.reasonPhrase);
+} */
