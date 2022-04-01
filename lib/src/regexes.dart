@@ -5,3 +5,5 @@ const regexPassword =
 const regexDNI = r'^(\d{8})([A-z])$';
 const regexCIF = r'^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$';
 const regexNIE = r'^[XYZ]\d{7,8}[A-Z]$';
+const regexName = r'^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]{3,}$';
+const regexPhone = r'^[0-9]{9}$';

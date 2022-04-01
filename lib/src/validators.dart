@@ -1,7 +1,7 @@
-import 'package:exploration_planner/src/constants.dart';
+import 'package:exploration_planner/src/regexes.dart';
 
 String? validateEmail(dynamic value) {
-  if (value.length == 0) return '';
+  if (value.length == 0) return 'Campo vacío';
   return RegExp(regexEmail).hasMatch(value)
       ? null
       : 'Formato incorrecto en el mail';
@@ -9,5 +9,26 @@ String? validateEmail(dynamic value) {
 
 // ignore: body_might_complete_normally_nullable
 String? validatePassword(dynamic value) {
-  if (value.length == 0) return 'Contraseña vacía';
+  if (value.length == 0) return 'Campo vacío';
+}
+
+String? validateCreatedPassword(dynamic value) {
+  if (value.length == 0) return 'Campo vacío';
+  return RegExp(regexPassword).hasMatch(value)
+      ? null
+      : 'Contraseña débil, incluya al menos 6 caracteres: mayúsculas, minúsculas y números';
+}
+
+String? validateName(dynamic value) {
+  if (value.length == 0) return 'Campo vacío';
+  return RegExp(regexName).hasMatch(value)
+      ? null
+      : 'El nombre ha de contener sólo letras, al menos tres.';
+}
+
+String? validatePhone(dynamic value) {
+  if (value.length == 0) return 'Campo vacío';
+  return RegExp(regexPhone).hasMatch(value)
+      ? null
+      : 'Introduzca un número de teléfono válido.';
 }
