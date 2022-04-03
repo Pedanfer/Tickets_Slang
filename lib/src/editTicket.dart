@@ -127,9 +127,7 @@ class EditTicketState extends State<EditTicket> {
                       Text(
                         'CATEGORÍA 1: ' + categ1,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 85, 113, 136)),
+                        style: TextStyle(fontSize: 15, color: Colors.white),
                         textScaleFactor: 1.3,
                       ),
                       IconButton(

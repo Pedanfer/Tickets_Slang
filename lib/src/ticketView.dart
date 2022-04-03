@@ -125,14 +125,14 @@ class TicketViewState extends State<TicketView> {
                         ),
                       ],
                     ),
+                    SizedBox(height: dimension.height * 0.03),
                     Container(
                       width: dimension.width * 0.9,
                       decoration: BoxDecoration(color: Colors.white),
                       child: Text(
                         hora,
                         textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -200,7 +200,7 @@ class TicketViewState extends State<TicketView> {
                     ),
                   ),
                 ),
-                Icon(Icons.pinch_rounded, size: 30)
+                Icon(Icons.pinch_rounded, size: 45)
               ])),
     );
   }

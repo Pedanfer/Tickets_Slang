@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:exploration_planner/src/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -237,53 +238,65 @@ Future<File> createExcelLista(List<File> rutaImagen) async {
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
+  var text = Text('');
   var nuevaCategoria = '';
   await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('¿Como se llamará la nueva categoría?'),
-          content: TextFormField(onChanged: (value) => nuevaCategoria = value),
-          actions: <Widget>[
-            Column(
-              children: [
-                Text('(Max. 10 caracteres)'),
-                Text('(" . " no permitido)'),
-              ],
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.all(dimension.width * 0.07),
+            title: Text(
+              '¿Como se llamará la nueva categoría?',
+              style: TextStyle(fontSize: 16),
             ),
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text('Aceptar'),
-              onPressed: () {
-                nuevaCategoria = nuevaCategoria.trim();
-
-                if (nuevaCategoria.length <= 10) {
-                  if (nuevaCategoria != '') {
-                    if (nuevaCategoria.contains('.') == false) {
-                      nuevaCategoria = nuevaCategoria.replaceAll('.', '+');
-                      saveCategToPrefs(categ: nuevaCategoria, num: lista);
-
+            content:
+                TextFormField(onChanged: (value) => nuevaCategoria = value),
+            actions: <Widget>[
+              Center(child: text),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    child: Text('Cancelar'),
+                    onPressed: () {
                       Navigator.pop(context);
-                    } else {
-                      print('No puede contener puntos');
-                    }
-                  } else {
-                    print('No puede estar vacío o contener solo espacios');
-                  }
-                } else {
-                  print('La longitud tiene que ser de 1 a 10');
-                }
-              },
-            ),
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        );
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Aceptar'),
+                    onPressed: () {
+                      nuevaCategoria = nuevaCategoria.trim();
+
+                      if (nuevaCategoria.length <= 10) {
+                        if (nuevaCategoria != '') {
+                          if (nuevaCategoria.contains('.') == false) {
+                            nuevaCategoria =
+                                nuevaCategoria.replaceAll('.', '+');
+                            saveCategToPrefs(categ: nuevaCategoria, num: lista);
+
+                            Navigator.pop(context);
+                          } else {
+                            text = Text('No puede contener puntos');
+                          }
+                        } else {
+                          text = Text(
+                              'No puede estar vacío o contener solo espacios');
+                        }
+                      } else {
+                        text = Text(
+                            'La longitud tiene que ser de 1 a 10 caracteres');
+                      }
+                      setState(() => {});
+                    },
+                  ),
+                ],
+              )
+            ],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          );
+        });
       });
   return true;
 }
@@ -402,4 +415,3 @@ Future<bool> _requestPermission(Permission permission) async {
   }
   return false;
 }
-
