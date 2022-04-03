@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:exploration_planner/src/widgets.dart';
@@ -16,7 +14,10 @@ var textoFechaFin = 'Fecha fin';
 var newDateRange;
 var end;
 var categs;
-GlobalKey<DropDownCategsState> categsKey = GlobalKey();
+bool filtradoDate = false;
+bool lastIsCateg = false;
+bool isVisibleFiltring = false;
+bool isVisibleDelete = false;
 
 class TicketlistState extends State<Ticketlist> {
   final dateController = TextEditingController();
@@ -29,6 +30,7 @@ class TicketlistState extends State<Ticketlist> {
   bool filtradoCateg = false;
   bool filtradoDate = false;
   bool lastIsCateg = false;
+  var categsKey;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -43,6 +45,7 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   Widget build(BuildContext context) {
+    categsKey = GlobalKey();
     categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
         'Elija categoría', 'categList1',
         key: categsKey);
@@ -66,118 +69,189 @@ class TicketlistState extends State<Ticketlist> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(height: dimension.height * 0.05),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
+                    Container(
+                        padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
+                        color: Color.fromARGB(255, 14, 117, 185),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Text(
+                                'Slang Ticket Manager',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                                textScaleFactor: 1.3,
+                              ),
+                            ),
+                            IconButton(
+                              icon: isVisibleDelete
+                                  ? Icon(Icons.delete_forever)
+                                  : Icon(Icons.delete),
+                              onPressed: () {
+                                setState(() {
+                                  isVisibleDelete = !isVisibleDelete;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.share),
+                              onPressed: () {
+                                setState(() {
+                                  // COMPARTIR
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: isVisibleFiltring
+                                  ? Icon(Icons.filter_alt_off)
+                                  : Icon(Icons.filter_alt),
+                              onPressed: () {
+                                setState(() {
+                                  isVisibleFiltring = !isVisibleFiltring;
+                                });
+                              },
+                            ),
+                          ],
+                        )),
+                    Visibility(
+                      visible: isVisibleFiltring,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Expanded(
-                              child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 0, 118, 197)),
-                            onPressed: pickDateRange,
-                            child: Text(textoFechaInicio,
-                                style: TextStyle(color: Colors.white)),
-                          )),
-                          SizedBox(
-                            width: 10,
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary:
+                                          Color.fromARGB(255, 0, 118, 197)),
+                                  onPressed: pickDateRange,
+                                  child: Text(textoFechaInicio,
+                                      style: TextStyle(color: Colors.white)),
+                                )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                    child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary:
+                                          Color.fromARGB(255, 18, 86, 189)),
+                                  onPressed: pickDateRange,
+                                  child: Text(textoFechaFin),
+                                ))
+                              ],
+                            ),
                           ),
-                          Expanded(
-                              child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 18, 86, 189)),
-                            onPressed: pickDateRange,
-                            child: Text(textoFechaFin),
-                          ))
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        categs,
-                        /*Expanded(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              categs,
+                              /*Expanded(
                             child: DropDownCategs(
                                 (value) =>
                                     filterByCategory(value.toString(), 2),
                                 'Elija categoría',
                                 'categList2')),*/
-                      ],
+                            ],
+                          ),
+                          /*Expanded(
+                            child: DropDownCategs(
+                                (value) =>
+                                    filterByCategory(value.toString(), 2),
+                                'Elija categoría',
+                                'categList2')),*/
+                        ],
+                      ),
                     ),
+                    SizedBox(height: 5),
                     Expanded(
-                      child: ListView.builder(
-                          controller: scrollController,
-                          itemCount: filteredFiles.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Card(
-                              color: cardColor,
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ListTile(
-                                      selected: isSelected,
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (c, a1, a2) =>
-                                                TicketView(filteredFiles[index]
-                                                    .path
-                                                    .toString()),
-                                            transitionsBuilder:
-                                                (c, anim, a2, child) =>
-                                                    FadeTransition(
-                                                        opacity: anim,
-                                                        child: child),
-                                            transitionDuration:
-                                                Duration(milliseconds: 700),
-                                          ),
-                                        );
-                                      },
-                                      title: Container(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              width: 60,
-                                              height: 60,
-                                              child: Image.file(
-                                                  filteredFiles[index])),
-                                          Text(filteredFiles[index]
-                                              .toString()
-                                              .substring(78, 88)),
-                                          Text(filteredFiles[index]
-                                              .toString()
-                                              .substring(89, 94)
-                                              .replaceAll('-', ':')),
-                                          IconButton(
-                                            icon: Icon(Icons.delete_forever),
-                                            iconSize: 30,
-                                            color:
-                                                Color.fromARGB(255, 114, 14, 7),
-                                            onPressed: () {
-                                              dialogRemoveReceipt(
-                                                      context,
+                      child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                            controller: scrollController,
+                            itemCount: filteredFiles.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                color: cardColor,
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      ListTile(
+                                        selected: isSelected,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (c, a1, a2) =>
+                                                  TicketView(
                                                       filteredFiles[index]
                                                           .path
-                                                          .split('/')
-                                                          .last)
-                                                  .then((value) {
-                                                if (value) {
-                                                  setState(() {
-                                                    filteredFiles = getFiles();
+                                                          .toString()),
+                                              transitionsBuilder:
+                                                  (c, anim, a2, child) =>
+                                                      FadeTransition(
+                                                          opacity: anim,
+                                                          child: child),
+                                              transitionDuration:
+                                                  Duration(milliseconds: 700),
+                                            ),
+                                          );
+                                        },
+                                        title: Container(
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                                width: 60,
+                                                height: 60,
+                                                child: Image.file(
+                                                    filteredFiles[index])),
+                                            Text(filteredFiles[index]
+                                                .toString()
+                                                .substring(78, 88)),
+                                            Text(filteredFiles[index]
+                                                .toString()
+                                                .substring(89, 94)
+                                                .replaceAll('-', ':')),
+                                            Visibility(
+                                              visible: isVisibleDelete,
+                                              child: IconButton(
+                                                icon: Icon(Icons.delete),
+                                                iconSize: 30,
+                                                color: Color.fromARGB(
+                                                    255, 114, 14, 7),
+                                                onPressed: () {
+                                                  dialogRemoveReceipt(
+                                                          context,
+                                                          filteredFiles[index]
+                                                              .path
+                                                              .split('/')
+                                                              .last)
+                                                      .then((value) {
+                                                    if (value) {
+                                                      setState(() {
+                                                        filteredFiles =
+                                                            getFiles();
+                                                      });
+                                                    }
                                                   });
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      )),
-                                    ),
-                                  ]),
-                            );
-                          }),
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ]),
+                              );
+                            }),
+                      ),
                     ),
                   ],
                 )),
