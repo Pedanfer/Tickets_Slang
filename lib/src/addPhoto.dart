@@ -48,50 +48,48 @@ class AddPhotoState extends State<AddPhoto> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  SizedBox(height: dimension.height * 0.05),
                   img,
+                  SizedBox(height: dimension.height * 0.015),
                   Visibility(
                     visible: isVisibleCategorias,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(children: [
-                        Container(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DropDownCategs(
-                                    (value) =>
-                                        categs += '.' + value.toString() + '|',
-                                    vista,
-                                    'categList1',
-                                    key: categsKey),
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.add_box),
-                                    iconSize: 40,
-                                    onPressed: () {
-                                      setState(() {
-                                        isVisibleBorrarAceptar = false;
-                                        isVisibleCategorias = false;
+                    child: Column(children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DropDownCategs(
+                                (value) =>
+                                    categs += '.' + value.toString() + '|',
+                                vista,
+                                'categList1',
+                                key: categsKey),
+                            Container(
+                              child: IconButton(
+                                icon: Icon(Icons.add_box,
+                                    color: Color(0xff011A58)),
+                                iconSize: 40,
+                                onPressed: () {
+                                  setState(() {
+                                    isVisibleBorrarAceptar = false;
+                                    isVisibleCategorias = false;
+                                  });
+                                  InsertListElement(context, 1).then((value) =>
+                                      {
+                                        setState(() {}),
+                                        Future.delayed(
+                                            const Duration(milliseconds: 150),
+                                            () {
+                                          setState(() {
+                                            isVisibleBorrarAceptar = true;
+                                            isVisibleCategorias = true;
+                                          });
+                                        }),
                                       });
-                                      InsertListElement(context, 1)
-                                          .then((value) => {
-                                                setState(() {}),
-                                                Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 150), () {
-                                                  setState(() {
-                                                    isVisibleBorrarAceptar =
-                                                        true;
-                                                    isVisibleCategorias = true;
-                                                  });
-                                                }),
-                                              });
-                                    },
-                                  ),
-                                )
-                              ]),
-                        ),
-                        /*Container(
+                                },
+                              ),
+                            )
+                          ]),
+                      /*Container(
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -111,8 +109,7 @@ class AddPhotoState extends State<AddPhoto> {
                                 )
                               ]),
                         )*/
-                      ]),
-                    ),
+                    ]),
                   ),
                   Visibility(
                     visible: isVisibleFotoGaleria,
@@ -189,7 +186,10 @@ class AddPhotoState extends State<AddPhoto> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             TextButton(
-                              child: Text('BORRAR'),
+                              child: Text(
+                                'BORRAR',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               onPressed: () {
                                 setState(() {
                                   img =
@@ -201,7 +201,10 @@ class AddPhotoState extends State<AddPhoto> {
                               },
                             ),
                             TextButton(
-                              child: Text('ENVIAR'),
+                              child: Text(
+                                'ENVIAR',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               onPressed: () {
                                 setState(() {
                                   uploadImageToSlang(categs, imageFile!);

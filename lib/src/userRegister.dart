@@ -1,5 +1,4 @@
 import 'package:exploration_planner/src/communications.dart';
-import 'package:exploration_planner/src/dashboard.dart';
 import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/validators.dart' as validators;
 import 'package:exploration_planner/src/widgets.dart';

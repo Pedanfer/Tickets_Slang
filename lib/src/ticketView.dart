@@ -11,7 +11,7 @@ class TicketView extends StatefulWidget {
   State<TicketView> createState() => TicketViewState();
 }
 
-Border border = Border.all();
+Border border = Border.all(width: 4);
 
 class TicketViewState extends State<TicketView> {
   TransformationController controllerTransform = TransformationController();
@@ -119,11 +119,11 @@ class TicketViewState extends State<TicketView> {
                     SizedBox(height: dimension.height * 0.02),
                     Container(
                       width: dimension.width * 0.9,
-                      decoration: BoxDecoration(border: border),
+                      decoration: BoxDecoration(color: Colors.white),
                       child: Text(
                         fecha + '    ' + hora,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        style: TextStyle(fontSize: 15),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -132,7 +132,7 @@ class TicketViewState extends State<TicketView> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: dimension.width * 0.9,
-                  decoration: BoxDecoration(border: border),
+                  decoration: BoxDecoration(color: Colors.white),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -140,7 +140,6 @@ class TicketViewState extends State<TicketView> {
                         categ1,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
                           fontSize: 20,
                         ),
                         textScaleFactor: 1.3,
@@ -148,7 +147,7 @@ class TicketViewState extends State<TicketView> {
                     ],
                   ),
                 ),
-                Container(
+                /*Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: dimension.width * 0.9,
                   decoration: BoxDecoration(border: border),
@@ -166,8 +165,9 @@ class TicketViewState extends State<TicketView> {
                       ),
                     ],
                   ),
-                ),
+                ),*/
                 Container(
+                  decoration: BoxDecoration(border: border),
                   width: dimension.width * 0.9,
                   height: dimension.height * 0.55,
                   child: InteractiveViewer(

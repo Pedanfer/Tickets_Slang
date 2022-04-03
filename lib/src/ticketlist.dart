@@ -35,6 +35,13 @@ class TicketlistState extends State<Ticketlist> {
   Color cardColor = Colors.grey;
 
   @override
+  void dispose() {
+    textoFechaInicio = 'Fecha inicio';
+    textoFechaFin = 'Fecha fin';
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
         'Elija categoría', 'categList1',
@@ -60,31 +67,41 @@ class TicketlistState extends State<Ticketlist> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(height: dimension.height * 0.05),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: ElevatedButton(
-                          onPressed: pickDateRange,
-                          child: Text(textoFechaInicio),
-                        )),
-                        Expanded(
-                            child: ElevatedButton(
-                          onPressed: pickDateRange,
-                          child: Text(textoFechaFin),
-                        ))
-                      ],
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 0, 118, 197)),
+                            onPressed: pickDateRange,
+                            child: Text(textoFechaInicio,
+                                style: TextStyle(color: Colors.white)),
+                          )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 18, 86, 189)),
+                            onPressed: pickDateRange,
+                            child: Text(textoFechaFin),
+                          ))
+                        ],
+                      ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: categs,
-                          /*Expanded(
+                        categs,
+                        /*Expanded(
                             child: DropDownCategs(
                                 (value) =>
                                     filterByCategory(value.toString(), 2),
                                 'Elija categoría',
                                 'categList2')),*/
-                        )
                       ],
                     ),
                     Expanded(
