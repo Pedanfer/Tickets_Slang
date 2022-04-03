@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:exploration_planner/src/widgets.dart';
@@ -29,6 +28,9 @@ class TicketlistState extends State<Ticketlist> {
   bool filtradoCateg = false;
   bool filtradoDate = false;
   bool lastIsCateg = false;
+  bool isVisibleFiltring = false;
+  bool isVisibleDelete = false;
+
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -59,33 +61,81 @@ class TicketlistState extends State<Ticketlist> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(height: dimension.height * 0.05),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: ElevatedButton(
-                          onPressed: pickDateRange,
-                          child: Text(textoFechaInicio),
+                    Container(
+                        padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
+                        color: Color.fromARGB(255, 14, 117, 185),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Text(
+                                'Slang Ticket Manager',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                                textScaleFactor: 1.3,
+                              ),
+                            ),
+                            IconButton(
+                              icon: isVisibleDelete?   Icon(Icons.delete_forever):Icon(Icons.delete),
+                              onPressed: () {
+                                setState(() {
+                                  isVisibleDelete = !isVisibleDelete;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.share),
+                              onPressed: () {
+                                setState(() {
+                                  // COMPARTIR
+                                });
+                              },
+                            ),
+                            
+                            IconButton(
+                              icon:  isVisibleFiltring?   Icon(Icons.filter_alt_off):Icon(Icons.filter_alt),
+                              onPressed: () {
+                                setState(() {
+                                  isVisibleFiltring = !isVisibleFiltring;
+                                });
+                              },
+                            ),
+                          ],
                         )),
-                        Expanded(
-                            child: ElevatedButton(
-                          onPressed: pickDateRange,
-                          child: Text(textoFechaFin),
-                        ))
-                      ],
+                    Visibility(
+                      visible: isVisibleFiltring,
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: ElevatedButton(
+                            onPressed: pickDateRange,
+                            child: Text(textoFechaInicio),
+                          )),
+                          Expanded(
+                              child: ElevatedButton(
+                            onPressed: pickDateRange,
+                            child: Text(textoFechaFin),
+                          ))
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: categs,
-                          /*Expanded(
+                    Visibility(
+                      visible: isVisibleFiltring,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: categs,
+                            /*Expanded(
                             child: DropDownCategs(
                                 (value) =>
                                     filterByCategory(value.toString(), 2),
                                 'Elija categoría',
                                 'categList2')),*/
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -95,7 +145,7 @@ class TicketlistState extends State<Ticketlist> {
                             return Card(
                               color: cardColor,
                               child: Column(
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     ListTile(
                                       selected: isSelected,
@@ -134,26 +184,30 @@ class TicketlistState extends State<Ticketlist> {
                                               .toString()
                                               .substring(89, 94)
                                               .replaceAll('-', ':')),
-                                          IconButton(
-                                            icon: Icon(Icons.delete_forever),
-                                            iconSize: 30,
-                                            color:
-                                                Color.fromARGB(255, 114, 14, 7),
-                                            onPressed: () {
-                                              dialogRemoveReceipt(
-                                                      context,
-                                                      filteredFiles[index]
-                                                          .path
-                                                          .split('/')
-                                                          .last)
-                                                  .then((value) {
-                                                if (value) {
-                                                  setState(() {
-                                                    filteredFiles = getFiles();
-                                                  });
-                                                }
-                                              });
-                                            },
+                                          Visibility(
+                                            visible: isVisibleDelete,
+                                            child: IconButton(
+                                              icon: Icon(Icons.delete),
+                                              iconSize: 30,
+                                              color: Color.fromARGB(
+                                                  255, 114, 14, 7),
+                                              onPressed: () {
+                                                dialogRemoveReceipt(
+                                                        context,
+                                                        filteredFiles[index]
+                                                            .path
+                                                            .split('/')
+                                                            .last)
+                                                    .then((value) {
+                                                  if (value) {
+                                                    setState(() {
+                                                      filteredFiles =
+                                                          getFiles();
+                                                    });
+                                                  }
+                                                });
+                                              },
+                                            ),
                                           ),
                                         ],
                                       )),
