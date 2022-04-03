@@ -77,7 +77,7 @@ class EditTicketState extends State<EditTicket> {
                       children: [
                         Container(
                           child: IconButton(
-                            icon: Icon(Icons.cancel),
+                            icon: Icon(Icons.cancel, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -85,21 +85,17 @@ class EditTicketState extends State<EditTicket> {
                           ),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(255, 20, 255, 90))),
                           child: Text(
                             fecha,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 30,
-                                color: Color.fromARGB(255, 255, 74, 2)),
+                                fontSize: 30, color: Color(0xffECEEF3)),
                             textScaleFactor: 1.3,
                           ),
                         ),
                         Container(
                           child: IconButton(
-                            icon: Icon(Icons.check),
+                            icon: Icon(Icons.check, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
                               print('CONTROLLER: ' + controller.text);
@@ -110,15 +106,11 @@ class EditTicketState extends State<EditTicket> {
                       ],
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromARGB(255, 20, 255, 90))),
                       child: Text(
                         hora,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 255, 74, 2)),
+                        style:
+                            TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -152,6 +144,7 @@ class EditTicketState extends State<EditTicket> {
                     ],
                   ),
                 ),
+                /*
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: 350,
@@ -175,7 +168,7 @@ class EditTicketState extends State<EditTicket> {
                       ),
                     ],
                   ),
-                ),
+                ),*/
                 Container(
                   width: 350,
                   height: 450,

@@ -402,3 +402,4 @@ Future<bool> _requestPermission(Permission permission) async {
   }
   return false;
 }
+
