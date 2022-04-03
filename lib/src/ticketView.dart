@@ -131,7 +131,8 @@ class TicketViewState extends State<TicketView> {
                       child: Text(
                         hora,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15),
+                        style:
+                            TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -155,7 +156,8 @@ class TicketViewState extends State<TicketView> {
                     ],
                   ),
                 ),
-                /*Container(
+                /*
+                Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: dimension.width * 0.9,
                   decoration: BoxDecoration(border: border),
