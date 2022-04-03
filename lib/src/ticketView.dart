@@ -95,9 +95,18 @@ class TicketViewState extends State<TicketView> {
                           ),
                         ),
                         Container(
+                          child: Text(
+                            fecha,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 30, color: Color(0xffECEEF3)),
+                            textScaleFactor: 1.3,
+                          ),
+                        ),
+                        Container(
                           child: IconButton(
                             icon: Icon(Icons.edit_note, color: Colors.white),
-                            iconSize: 50,
+                            iconSize: 40,
                             onPressed: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
@@ -116,14 +125,12 @@ class TicketViewState extends State<TicketView> {
                         ),
                       ],
                     ),
-                    SizedBox(height: dimension.height * 0.02),
                     Container(
-                      width: dimension.width * 0.9,
-                      decoration: BoxDecoration(border: border),
                       child: Text(
-                        fecha + '    ' + hora,
+                        hora,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        style:
+                            TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
                         textScaleFactor: 1.3,
                       ),
                     ),
@@ -148,6 +155,7 @@ class TicketViewState extends State<TicketView> {
                     ],
                   ),
                 ),
+                /*
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: dimension.width * 0.9,
@@ -166,7 +174,7 @@ class TicketViewState extends State<TicketView> {
                       ),
                     ],
                   ),
-                ),
+                ),*/
                 Container(
                   width: dimension.width * 0.9,
                   height: dimension.height * 0.55,
@@ -190,7 +198,7 @@ class TicketViewState extends State<TicketView> {
                     ),
                   ),
                 ),
-                Icon(Icons.pinch_rounded, size: 60)
+                Icon(Icons.pinch_rounded, size: 30)
               ])),
     );
   }
