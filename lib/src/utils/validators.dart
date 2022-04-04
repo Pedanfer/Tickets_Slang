@@ -1,4 +1,4 @@
-import 'package:exploration_planner/src/regexes.dart';
+import 'package:exploration_planner/src/utils/regexes.dart';
 
 String? validateEmail(dynamic value) {
   if (value.length == 0) return 'Campo vacío';

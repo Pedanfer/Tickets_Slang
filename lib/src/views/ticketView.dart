@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:exploration_planner/src/editTicket.dart';
-import 'package:exploration_planner/src/login_page.dart';
-import 'package:exploration_planner/src/utilidades.dart';
+import 'package:exploration_planner/src/views/editTicket.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class TicketView extends StatefulWidget {

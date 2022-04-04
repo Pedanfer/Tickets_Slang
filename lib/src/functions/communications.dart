@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'dart:convert';
-import 'package:exploration_planner/src/utilidades.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:http/http.dart' as http;
 
 /* ID cuenta: 787300768889
@@ -19,7 +19,7 @@ Future<bool> loginSlang(String email, String password) async {
   var jsonData = await json.decode(response.body);
 
   await getPrefs()
-      .then((value) => value!.setString('jsonData', json.encode(jsonData)));
+      .then((value) => prefs!.setString('jsonData', json.encode(jsonData)));
 
   if (response.body.contains('Invalid user or password')) return false;
   return true;
@@ -30,7 +30,7 @@ void uploadImageToSlang(String categs, File image) async {
   var headers;
   http.MultipartRequest? request;
   await getPrefs().then((value) async => {
-        jsonData = json.decode(value!.getString('jsonData')!),
+        jsonData = json.decode(prefs!.getString('jsonData')!),
         headers = {
           'utoken': jsonData['token'] as String,
           'clientVersion': '0.1.16'

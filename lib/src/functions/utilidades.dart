@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:exploration_planner/src/login_page.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';

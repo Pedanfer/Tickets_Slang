@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'src/login_page.dart';
+import 'src/views/login_page.dart';
 
 //Dentro de MyApp hay una cascada de returns:
 //MaterialApp > Scaffold > AppBar|body: Column > Progress|TaskList

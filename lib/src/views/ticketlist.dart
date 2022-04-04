@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:exploration_planner/src/ticketView.dart';
-import 'package:exploration_planner/src/utilidades.dart';
-import 'package:exploration_planner/src/widgets.dart';
+import 'package:exploration_planner/src/functions/sqlite.dart';
+import 'package:exploration_planner/src/views/ticketView.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
+import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 class Ticketlist extends StatefulWidget {
@@ -45,13 +46,18 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
     categsKey = GlobalKey();
     categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
         'Elija categoría', 'categList1',
         key: categsKey);
     return FutureBuilder(
-        future: getPrefs(),
-        builder: (context, snapshot) {
+        future: Future.wait([getPrefs(), DB.getAll()]),
+        builder: (context, AsyncSnapshot<List<Object?>> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
           return Scaffold(
             body: Container(
                 width: double.infinity,

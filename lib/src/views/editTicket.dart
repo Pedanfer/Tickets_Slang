@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:exploration_planner/src/utilidades.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class EditTicket extends StatefulWidget {

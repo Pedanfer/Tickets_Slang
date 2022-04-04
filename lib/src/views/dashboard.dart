@@ -1,5 +1,5 @@
-import 'package:exploration_planner/src/addPhoto.dart';
-import 'package:exploration_planner/src/ticketlist.dart';
+import 'package:exploration_planner/src/views/addPhoto.dart';
+import 'package:exploration_planner/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {

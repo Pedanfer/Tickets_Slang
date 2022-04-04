@@ -1,10 +1,12 @@
 import 'dart:async';
 
-import 'package:exploration_planner/src/communications.dart';
-import 'package:exploration_planner/src/widgets.dart';
+import 'package:exploration_planner/src/functions/communications.dart';
+import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
-import 'communications.dart';
-import 'utilidades.dart';
+import '../functions/communications.dart';
+import '../functions/sqlite.dart';
+import '../functions/utilidades.dart';
+import '../utils/ticket.dart';
 
 class AddPhoto extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class AddPhotoState extends State<AddPhoto> {
     'lib/assets/ticketRobot.png',
   );
   var categs = '';
+  var ticket;
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +210,15 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                               onPressed: () {
                                 setState(() {
+                                  ticket = Ticket(
+                                      issuer: 'Prueba',
+                                      date: imageFile!
+                                          .toString()
+                                          .substring(78, 88),
+                                      total: 9999,
+                                      photo: imageFile!.readAsBytesSync(),
+                                      categ: categs);
+                                  DB.insert(ticket);
                                   uploadImageToSlang(categs, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
