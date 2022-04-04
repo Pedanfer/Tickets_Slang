@@ -20,6 +20,7 @@ dependencies:
   image_gallery_saver: ^1.7.1
   aws_textract_api: ^1.2.0
   image_cropper: ^1.5.0
+  sqflite: ^2.0.2
 
 dev_dependencies:
   flutter_test:
