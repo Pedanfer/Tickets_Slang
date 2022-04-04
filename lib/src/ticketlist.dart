@@ -3,6 +3,7 @@ import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -98,9 +99,9 @@ class TicketlistState extends State<Ticketlist> {
                             IconButton(
                               icon: Icon(Icons.share),
                               onPressed: () {
-                                setState(() {
-                                  // COMPARTIR
-                                });
+                                createExcelLista(filteredFiles).then((result) async {
+                                  await FlutterShare.shareFile(title: 'Lista de facturas', filePath: '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx', text: 'Comparto contigo este excel con la lista de tickets');
+                              });
                               },
                             ),
                             IconButton(

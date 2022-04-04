@@ -3,6 +3,7 @@ import 'package:exploration_planner/src/editTicket.dart';
 import 'package:exploration_planner/src/login_page.dart';
 import 'package:exploration_planner/src/utilidades.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class TicketView extends StatefulWidget {
   final String ruta;
@@ -86,10 +87,8 @@ class TicketViewState extends State<TicketView> {
                             icon: Icon(Icons.share, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
-                              createExcelFicha(controller.text).then((result) {
-                                setState(() {
-                                  /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
-                                });
+                              createExcelFicha(controller.text).then((result) async {
+                                  await FlutterShare.shareFile(title: 'Factura detallada', filePath: '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx', text: 'Comparto contigo este documento con la informacion del ticket');
                               });
                             },
                           ),

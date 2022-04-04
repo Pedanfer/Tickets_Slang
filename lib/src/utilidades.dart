@@ -364,13 +364,8 @@ void saveFile(File? image, String categs) async {
 
 void saveExcel(File? image) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
-    var date = DateTime.now()
-            .toString()
-            .substring(0, 19)
-            .replaceAll(RegExp(r' |:'), '-') +
-        '.xlsx';
     var directory = await getExternalStorageDirectory();
-    imageFile = await image!.copy(directory!.path + '/$date');
+    imageFile = await image!.copy(directory!.path + '/Output.xlsx');
     await image.delete();
   }
 }
