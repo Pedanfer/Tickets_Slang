@@ -46,6 +46,7 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   Widget build(BuildContext context) {
+    final dimension = MediaQuery.of(context).size;
     categsKey = GlobalKey();
     categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
         'Elija categoría', 'categList1',
@@ -71,7 +72,7 @@ class TicketlistState extends State<Ticketlist> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
+                        padding: EdgeInsets.fromLTRB(10, 35, 0, 5),
                         color: Color.fromARGB(255, 14, 117, 185),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,9 +82,10 @@ class TicketlistState extends State<Ticketlist> {
                                 'Slang Ticket Manager',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                                textScaleFactor: 1.3,
+                                  fontSize: 17,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             IconButton(
@@ -99,9 +101,15 @@ class TicketlistState extends State<Ticketlist> {
                             IconButton(
                               icon: Icon(Icons.share),
                               onPressed: () {
-                                createExcelLista(filteredFiles).then((result) async {
-                                  await FlutterShare.shareFile(title: 'Lista de facturas', filePath: '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx', text: 'Comparto contigo este excel con la lista de tickets');
-                              });
+                                createExcelLista(filteredFiles)
+                                    .then((result) async {
+                                  await FlutterShare.shareFile(
+                                      title: 'Lista de facturas',
+                                      filePath:
+                                          '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx',
+                                      text:
+                                          'Comparto contigo este excel con la lista de tickets');
+                                });
                               },
                             ),
                             IconButton(
@@ -112,6 +120,51 @@ class TicketlistState extends State<Ticketlist> {
                                 setState(() {
                                   isVisibleFiltring = !isVisibleFiltring;
                                 });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.add_to_drive),
+                              onPressed: () async {
+                                // AÑADE AL DRIVE EL FICHERO
+
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return AlertDialog(
+                                          insetPadding: EdgeInsets.all(
+                                              dimension.width * 0.07),
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Añadido a Drive\n exitosamente',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
+                                          actions: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  child: Text('Aceptar'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
+                                        );
+                                      });
+                                    });
                               },
                             ),
                           ],
