@@ -61,8 +61,7 @@ class AddPhotoState extends State<AddPhoto> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             DropDownCategs(
-                                (value) =>
-                                    categs += '.' + value.toString() + '|',
+                                (value) => categs += value.toString(),
                                 vista,
                                 'categList1',
                                 key: categsKey),
@@ -133,7 +132,7 @@ class AddPhotoState extends State<AddPhoto> {
                             ),
                             iconSize: 42,
                             onPressed: () {
-                              photoFromCamera().then((value) => setState(() {
+                              photoFrom('camera').then((value) => setState(() {
                                     if (value.toString() !=
                                         Image.asset(
                                                 'lib/assets/ticketRobot.png',
@@ -158,7 +157,7 @@ class AddPhotoState extends State<AddPhoto> {
                             ),
                             iconSize: 42,
                             onPressed: () {
-                              photoFromGallery().then((value) => setState(() {
+                              photoFrom('gallery').then((value) => setState(() {
                                     if (value.toString() !=
                                         Image.asset(
                                                 'lib/assets/ticketRobot.png',
@@ -212,9 +211,12 @@ class AddPhotoState extends State<AddPhoto> {
                                 setState(() {
                                   ticket = Ticket(
                                       issuer: 'Prueba',
-                                      date: imageFile!
+                                      date: DateTime.now()
                                           .toString()
-                                          .substring(78, 88),
+                                          .substring(0, 9),
+                                      hour: DateTime.now()
+                                          .toString()
+                                          .substring(10, 16),
                                       total: 9999,
                                       photo: imageFile!.readAsBytesSync(),
                                       categ: categs);
@@ -236,7 +238,6 @@ class AddPhotoState extends State<AddPhoto> {
                                                     false) {
                                                   categs = '.|' + categs;
                                                 }
-                                                saveFile(imageFile, categs);
                                                 categs = '';
                                                 Navigator.pop(context, true);
                                               },

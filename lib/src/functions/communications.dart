@@ -5,10 +5,6 @@ import 'dart:convert';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:http/http.dart' as http;
 
-/* ID cuenta: 787300768889
-nombre usuario: textractUser
-contraseña: Slangaws22 */
-
 Future<bool> loginSlang(String email, String password) async {
   var headers = {'clientVersion': '0.1.16'};
   var body = {'email': email, 'password': password};

@@ -8,48 +8,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsx;
 
 final imgPicker = ImagePicker();
+List<int>? imgBytes;
 File? imageFile;
 SharedPreferences? prefs;
 
-Future<Image> photoFromCamera() async {
-  var _pickedFile = await imgPicker.pickImage(source: ImageSource.camera);
+Future<Image> photoFrom(String source) async {
+  var _pickedFile = await imgPicker.pickImage(
+      source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
   if (_pickedFile?.path != null) {
     imageFile = File(_pickedFile!.path);
+    imgBytes = imageFile!.readAsBytesSync();
     return Image.file(imageFile!, height: 450, width: 380);
   } else {
     return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
   }
 }
 
-Future<File> createExcelFicha(String rutaImagen) async {
-  var filtrado1 = rutaImagen.split('.');
-  var filtradocategs = filtrado1[3].split('|');
-  var filtrado2 = filtrado1[2].split('/');
-  var filtradotiempo = filtrado2[2].split('-');
-  var categ1;
-  var categ2;
-  var fecha =
-      filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
-  var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
-
-  if (filtrado1[3].contains('|')) {
-    categ1 = filtradocategs[0];
-    categ2 = filtradocategs[1];
-  } else {
-    categ1 = '';
-    categ2 = '';
-  }
-
-  if (categ1 == '') {
-    categ1 = 'Vacio';
-  }
-
-  if (categ2 == '') {
-    categ2 = 'Vacio';
-  }
-
-  print('entra');
-
+Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 // Create a new Excel document.
   final workbook = xlsx.Workbook();
 
@@ -64,10 +39,10 @@ Future<File> createExcelFicha(String rutaImagen) async {
   sheet.getRangeByName('D1').setText('CATEGORIA 2');
 
   // CONTENIDO
-  sheet.getRangeByName('A2').setText(fecha);
-  sheet.getRangeByName('B2').setText(hora);
-  sheet.getRangeByName('C2').setText(categ1);
-  sheet.getRangeByName('D2').setText(categ2);
+  sheet.getRangeByName('A2').setText(ticketData['date']);
+  sheet.getRangeByName('B2').setText(ticketData['hour']);
+  sheet.getRangeByName('C2').setText(ticketData['categ']);
+  //sheet.getRangeByName('D2').setText(categ2);
 
 //Defining a global style with properties.
   final globalStyle = workbook.styles.add('globalStyle');
@@ -105,10 +80,10 @@ Future<File> createExcelFicha(String rutaImagen) async {
     sheet.autoFitRow(i);
   }
 
-// Insert image
+/* Insert image
   var foto = File(rutaImagen);
   final List<int> imageBytes = foto.readAsBytesSync();
-  sheet.pictures.addStream(3, 1, imageBytes);
+  sheet.pictures.addStream(3, 1, imageBytes);*/
 
 // Save and dispose the document.
   final bytes = workbook.saveAsStream();
@@ -122,16 +97,6 @@ Future<File> createExcelFicha(String rutaImagen) async {
   print(file);
   saveExcel(file);
   return file;
-}
-
-Future<Image> photoFromGallery() async {
-  var _pickedFile = await imgPicker.pickImage(source: ImageSource.gallery);
-  if (_pickedFile?.path != null) {
-    imageFile = File(_pickedFile!.path);
-    return Image.file(imageFile!, height: 450, width: 380);
-  } else {
-    return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
-  }
 }
 
 Future<File> createExcelLista(List<File> rutaImagen) async {
@@ -348,7 +313,7 @@ void saveCategToPrefs({required String categ, required int num}) {
   prefs!.setStringList(nomLista, listaCategs);
 }
 
-void saveFile(File? image, String categs) async {
+/*void saveFile(File? image, String categs) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
     var date = DateTime.now()
             .toString()
@@ -357,10 +322,10 @@ void saveFile(File? image, String categs) async {
         categs +
         '.jpg';
     var directory = await getExternalStorageDirectory();
-    imageFile = await image!.copy(directory!.path + '/$date');
+    imgBytes = await image!.copy(directory!.path + '/$date');
     await image.delete();
   }
-}
+}*/
 
 void saveExcel(File? image) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
@@ -370,7 +335,8 @@ void saveExcel(File? image) async {
             .replaceAll(RegExp(r' |:'), '-') +
         '.xlsx';
     var directory = await getExternalStorageDirectory();
-    imageFile = await image!.copy(directory!.path + '/$date');
+    //Tono: adaptar código de guardado de excel sin variable global
+    await image!.copy(directory!.path + '/$date');
     await image.delete();
   }
 }

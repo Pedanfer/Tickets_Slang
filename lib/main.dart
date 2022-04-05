@@ -3,12 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'src/views/login_page.dart';
 
-//Dentro de MyApp hay una cascada de returns:
-//MaterialApp > Scaffold > AppBar|body: Column > Progress|TaskList
 void main() => runApp(MyApp());
 
-//Los widgets sin estado no se modifican, los TaskList (checkboxes)
-//son los únicos con estado
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

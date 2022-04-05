@@ -1,56 +1,23 @@
-import 'dart:io';
-
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class EditTicket extends StatefulWidget {
-  final String ruta;
-  EditTicket(this.ruta);
-
+  final Map<String, dynamic> ticketData;
+  EditTicket(this.ticketData);
   @override
   State<EditTicket> createState() => EditTicketState();
 }
 
 class EditTicketState extends State<EditTicket> {
   TextEditingController controller = TextEditingController();
-  var img;
 
   @override
   void initState() {
-    controller = TextEditingController(text: widget.ruta);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    imageFile = File(controller.text);
-    img = Image.file(imageFile!);
-
-    var filtrado1 = controller.text.split('.');
-    var filtradocategs = filtrado1[3].split('|');
-    var filtrado2 = filtrado1[2].split('/');
-    var filtradotiempo = filtrado2[2].split('-');
-    var categ1;
-    var categ2;
-    var fecha =
-        filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
-    var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
-
-    if (filtrado1[3].contains('|')) {
-      categ1 = filtradocategs[0];
-      categ2 = filtradocategs[1];
-    } else {
-      categ1 = '';
-      categ2 = '';
-    }
-
-    if (categ1 == '') {
-      categ1 = 'Vacio';
-    }
-
-    if (categ2 == '') {
-      categ2 = 'Vacio';
-    }
     return Scaffold(
       body: Container(
           padding: EdgeInsets.fromLTRB(20, 35, 20, 10),
@@ -86,7 +53,7 @@ class EditTicketState extends State<EditTicket> {
                         ),
                         Container(
                           child: Text(
-                            fecha,
+                            widget.ticketData['date'],
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 30, color: Color(0xffECEEF3)),
@@ -107,7 +74,7 @@ class EditTicketState extends State<EditTicket> {
                     ),
                     Container(
                       child: Text(
-                        hora,
+                        widget.ticketData['hour'],
                         textAlign: TextAlign.center,
                         style:
                             TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
@@ -125,7 +92,7 @@ class EditTicketState extends State<EditTicket> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'CATEGORÍA 1: ' + categ1,
+                        'CATEGORÍA 1: ' + widget.ticketData['categ'],
                         textAlign: TextAlign.start,
                         style: TextStyle(fontSize: 15, color: Colors.white),
                         textScaleFactor: 1.3,
@@ -170,7 +137,7 @@ class EditTicketState extends State<EditTicket> {
                 Container(
                   width: 350,
                   height: 450,
-                  child: img,
+                  child: Image.file(imageFile!),
                 )
               ])),
     );

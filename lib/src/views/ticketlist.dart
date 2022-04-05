@@ -53,10 +53,11 @@ class TicketlistState extends State<Ticketlist> {
         key: categsKey);
     return FutureBuilder(
         future: Future.wait([getPrefs(), DB.getAll()]),
-        builder: (context, AsyncSnapshot<List<Object?>> snapshot) {
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
+          var ticketList = snapshot.data![1];
 
           return Scaffold(
             body: Container(
@@ -165,12 +166,6 @@ class TicketlistState extends State<Ticketlist> {
                                 'categList2')),*/
                             ],
                           ),
-                          /*Expanded(
-                            child: DropDownCategs(
-                                (value) =>
-                                    filterByCategory(value.toString(), 2),
-                                'Elija categoría',
-                                'categList2')),*/
                         ],
                       ),
                     ),
@@ -181,7 +176,7 @@ class TicketlistState extends State<Ticketlist> {
                         removeTop: true,
                         child: ListView.builder(
                             controller: scrollController,
-                            itemCount: filteredFiles.length,
+                            itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
                               return Card(
                                 color: cardColor,
@@ -195,10 +190,8 @@ class TicketlistState extends State<Ticketlist> {
                                             context,
                                             PageRouteBuilder(
                                               pageBuilder: (c, a1, a2) =>
-                                                  TicketView(
-                                                      filteredFiles[index]
-                                                          .path
-                                                          .toString()),
+                                                  TicketView(ticketList[index]
+                                                      .toMap()),
                                               transitionsBuilder:
                                                   (c, anim, a2, child) =>
                                                       FadeTransition(
@@ -217,15 +210,15 @@ class TicketlistState extends State<Ticketlist> {
                                             Container(
                                                 width: 60,
                                                 height: 60,
-                                                child: Image.file(
-                                                    filteredFiles[index])),
-                                            Text(filteredFiles[index]
-                                                .toString()
-                                                .substring(78, 88)),
-                                            Text(filteredFiles[index]
-                                                .toString()
-                                                .substring(89, 94)
-                                                .replaceAll('-', ':')),
+                                                child: Image.memory(
+                                                    ticketList[index]
+                                                        .toMap()['photo'])),
+                                            Text(ticketList[index]
+                                                .toMap()['date']),
+                                            Text(ticketList[index]
+                                                .toMap()['hour']),
+                                            Text(ticketList[index]
+                                                .toMap()['categ']),
                                             Visibility(
                                               visible: isVisibleDelete,
                                               child: IconButton(

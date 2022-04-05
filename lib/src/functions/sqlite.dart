@@ -14,7 +14,7 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'tickets.db'),
         onCreate: (db, version) {
       return db.execute(
-          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, issuer TEXT,  date TEXT, total INTEGER, photo BLOB, categ TEXT)''');
+          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, issuer TEXT,  date TEXT, hour TEXT, total INTEGER, photo BLOB, categ TEXT)''');
     }, version: 1);
   }
 
@@ -41,17 +41,13 @@ class DB {
         : [];
   }
 
-  static Future<List<Ticket>> getOne() async {
+  static Future<List<Ticket>> selectByDateRange(
+      String dateStart, String dateEnd) async {
     var database = await _openDB();
-    List<Map<String, dynamic>> tickets = await database.query('tickets');
-    return List.generate(
-      tickets.length,
-      (i) => Ticket(
-          issuer: tickets[i]['issuer'],
-          date: tickets[i]['date'],
-          total: tickets[i]['total'],
-          photo: tickets[i]['photo'],
-          categ: tickets[i]['categ']),
-    );
+    var tickets = await database.query('tickets',
+        where: 'date BETWEEN ? AND ?', whereArgs: [dateStart, dateEnd]);
+    return tickets.isNotEmpty
+        ? tickets.map((c) => Ticket.fromMap(c)).toList()
+        : [];
   }
 }

@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:exploration_planner/src/views/editTicket.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class TicketView extends StatefulWidget {
-  final String ruta;
-  TicketView(this.ruta);
+  final Map<String, dynamic> ticketData;
+  TicketView(this.ticketData);
   @override
   State<TicketView> createState() => TicketViewState();
 }
@@ -16,46 +15,17 @@ Border border = Border.all(width: 4);
 class TicketViewState extends State<TicketView> {
   TransformationController controllerTransform = TransformationController();
   var initialControllerValue;
+  /*
   TextEditingController controller = TextEditingController();
-  var img;
 
   @override
   void initState() {
-    controller = TextEditingController(text: widget.ruta);
+    controller = TextEditingController(text: widget.ticket);
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    imageFile = File(controller.text);
-    img = Image.file(imageFile!);
-
-    var filtrado1 = controller.text.split('.');
-    var filtradocategs = filtrado1[3].split('|');
-    var filtrado2 = filtrado1[2].split('/');
-    var filtradotiempo = filtrado2[2].split('-');
-    var categ1;
-    var categ2;
-    var fecha =
-        filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
-    var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
-
-    if (filtrado1[3].contains('|')) {
-      categ1 = filtradocategs[0];
-      categ2 = filtradocategs[1];
-    } else {
-      categ1 = '';
-      categ2 = '';
-    }
-
-    if (categ1 == '') {
-      categ1 = 'Vacio';
-    }
-
-    if (categ2 == '') {
-      categ2 = 'Vacio';
-    }
-
     return Scaffold(
       body: Container(
           padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
@@ -86,17 +56,17 @@ class TicketViewState extends State<TicketView> {
                             icon: Icon(Icons.share, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
-                              createExcelFicha(controller.text).then((result) {
+                              /*createExcelFicha(controller.text).then((result) {
                                 setState(() {
-                                  /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
+                                   LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS 
                                 });
-                              });
+                              });*/
                             },
                           ),
                         ),
                         Container(
                           child: Text(
-                            fecha,
+                            widget.ticketData['date'],
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 30, color: Color(0xffECEEF3)),
@@ -111,7 +81,7 @@ class TicketViewState extends State<TicketView> {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
                                 builder: (context) =>
-                                    EditTicket(controller.text),
+                                    EditTicket(widget.ticketData),
                               ))
                                   .then((result) {
                                 if (result != null) {
@@ -130,7 +100,7 @@ class TicketViewState extends State<TicketView> {
                       width: dimension.width * 0.9,
                       decoration: BoxDecoration(color: Colors.white),
                       child: Text(
-                        hora,
+                        widget.ticketData['hour'],
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 20, color: Colors.black),
                         textScaleFactor: 1.3,
@@ -146,7 +116,7 @@ class TicketViewState extends State<TicketView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        categ1,
+                        widget.ticketData['categ'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
