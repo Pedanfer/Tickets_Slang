@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:exploration_planner/src/functions/sqlite.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -266,7 +267,7 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
   return true;
 }
 
-Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
+Future<bool> dialogRemoveReceipt(BuildContext context, int id) async {
   var accept = false;
   await showDialog(
       context: context,
@@ -283,9 +284,9 @@ Future<bool> dialogRemoveReceipt(BuildContext context, String date) async {
             TextButton(
                 child: Text('Aceptar'),
                 onPressed: () {
-                  removeReceipt(date);
-                  Navigator.pop(context);
-                  accept = true;
+                  DB
+                      .delete(id)
+                      .then((value) => {Navigator.pop(context), accept = true});
                 }),
           ],
           shape:
@@ -299,8 +300,8 @@ Future<SharedPreferences?> getPrefs() async {
   prefs = await SharedPreferences.getInstance();
   var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
   if (!catsLoaded) {
-    await prefs!.setStringList('categList1', []);
-    //await prefs!.setStringList('categList2', []);
+    await prefs!.setStringList('categList1', ['Todas']);
+    await prefs!.setStringList('categList2', ['Todas']);
     await prefs!.setBool('categsLoaded', true);
   }
   return prefs;
@@ -356,18 +357,6 @@ List<File> getFiles() {
     return files;
   }
   return <File>[];
-}
-
-void removeReceipt(String date) {
-  getExternalStorageDirectory().then((value) {
-    var dir = value;
-    for (var item in dir!.listSync()) {
-      item = item as File;
-      if (item.path.split('/').last.contains(date)) {
-        item.delete();
-      }
-    }
-  });
 }
 
 Future<bool> _requestPermission(Permission permission) async {

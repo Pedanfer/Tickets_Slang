@@ -7,9 +7,8 @@ String? validateEmail(dynamic value) {
       : 'Formato incorrecto en el mail';
 }
 
-// ignore: body_might_complete_normally_nullable
 String? validatePassword(dynamic value) {
-  if (value.length == 0) return 'Campo vacío';
+  return value.length == 0 ? 'Campo vacío' : null;
 }
 
 String? validateCreatedPassword(dynamic value) {

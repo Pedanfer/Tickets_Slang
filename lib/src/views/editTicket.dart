@@ -1,4 +1,3 @@
-import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class EditTicket extends StatefulWidget {
@@ -57,7 +56,6 @@ class EditTicketState extends State<EditTicket> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 30, color: Color(0xffECEEF3)),
-                            textScaleFactor: 1.3,
                           ),
                         ),
                         Container(
@@ -77,8 +75,7 @@ class EditTicketState extends State<EditTicket> {
                         widget.ticketData['hour'],
                         textAlign: TextAlign.center,
                         style:
-                            TextStyle(fontSize: 15, color: Color(0xffECEEF3)),
-                        textScaleFactor: 1.3,
+                            TextStyle(fontSize: 30, color: Color(0xffECEEF3)),
                       ),
                     ),
                   ],
@@ -92,7 +89,7 @@ class EditTicketState extends State<EditTicket> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'CATEGORÍA 1: ' + widget.ticketData['categ'],
+                        'CATEGORÍA 1: ' + widget.ticketData['categ1'],
                         textAlign: TextAlign.start,
                         style: TextStyle(fontSize: 15, color: Colors.white),
                         textScaleFactor: 1.3,
@@ -109,7 +106,6 @@ class EditTicketState extends State<EditTicket> {
                     ],
                   ),
                 ),
-                /*
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: 350,
@@ -119,11 +115,9 @@ class EditTicketState extends State<EditTicket> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'CATEGORÍA 2: ' + categ2,
+                        'CATEGORÍA 2: ' + widget.ticketData['categ2'],
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 85, 113, 136)),
+                        style: TextStyle(fontSize: 15, color: Colors.white),
                         textScaleFactor: 1.3,
                       ),
                       IconButton(
@@ -133,11 +127,11 @@ class EditTicketState extends State<EditTicket> {
                       ),
                     ],
                   ),
-                ),*/
+                ),
                 Container(
                   width: 350,
                   height: 450,
-                  child: Image.file(imageFile!),
+                  child: Image.memory(widget.ticketData['photo']),
                 )
               ])),
     );

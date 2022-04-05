@@ -1,37 +1,31 @@
-import 'dart:io';
 import 'package:exploration_planner/src/functions/sqlite.dart';
 import 'package:exploration_planner/src/views/ticketView.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
+var textoFechaInicio = 'Fecha inicio';
+var textoFechaFin = 'Fecha fin';
+var newDateRange;
+var end;
+var categs1;
+var categs2;
+var categ1 = '';
+var categ2 = '';
+bool isVisibleFiltring = false;
+bool isVisibleDelete = false;
+
 class Ticketlist extends StatefulWidget {
   @override
   State<Ticketlist> createState() => TicketlistState();
 }
 
-var textoFechaInicio = 'Fecha inicio';
-var textoFechaFin = 'Fecha fin';
-var newDateRange;
-var end;
-var categs;
-bool filtradoDate = false;
-bool lastIsCateg = false;
-bool isVisibleFiltring = false;
-bool isVisibleDelete = false;
-
 class TicketlistState extends State<Ticketlist> {
   final dateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
-  var unfilteredFiles = getFiles();
-  var filteredFiles = getFiles();
-  var categFilteredFiles = getFiles();
-  var dateFilteredFiles = getFiles();
-  bool filtradoCateg = false;
-  bool filtradoDate = false;
-  bool lastIsCateg = false;
-  var categsKey;
+  var categs1Key;
+  var categs2Key;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -47,12 +41,23 @@ class TicketlistState extends State<Ticketlist> {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
-    categsKey = GlobalKey();
-    categs = DropDownCategs((value) => filterByCategory(value.toString(), 1),
-        'Elija categoría', 'categList1',
-        key: categsKey);
+    categs1Key = GlobalKey();
+    categs2Key = GlobalKey();
+    categs1 = DropDownCategs(
+        (value) => categ1 = value, 'Elija categoría', 'categList1',
+        key: categs1Key);
+    categs2 = DropDownCategs(
+        (value) => setState(() {
+              categ1 = value;
+            }),
+        'Elija categoría',
+        'categList1',
+        key: categs2Key);
     return FutureBuilder(
-        future: Future.wait([getPrefs(), DB.getAll()]),
+        future: Future.wait([
+          getPrefs(),
+          DB.filter(textoFechaInicio, textoFechaFin, categ1, categ2)
+        ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
@@ -138,7 +143,7 @@ class TicketlistState extends State<Ticketlist> {
                                           Color.fromARGB(255, 0, 118, 197)),
                                   onPressed: pickDateRange,
                                   child: Text(textoFechaInicio,
-                                      style: TextStyle(color: Colors.white)),
+                                      textScaleFactor: 1.3),
                                 )),
                                 SizedBox(
                                   width: 10,
@@ -149,22 +154,15 @@ class TicketlistState extends State<Ticketlist> {
                                       primary:
                                           Color.fromARGB(255, 18, 86, 189)),
                                   onPressed: pickDateRange,
-                                  child: Text(textoFechaFin),
+                                  child:
+                                      Text(textoFechaFin, textScaleFactor: 1.3),
                                 ))
                               ],
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              categs,
-                              /*Expanded(
-                            child: DropDownCategs(
-                                (value) =>
-                                    filterByCategory(value.toString(), 2),
-                                'Elija categoría',
-                                'categList2')),*/
-                            ],
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [categs1, categs2],
                           ),
                         ],
                       ),
@@ -213,12 +211,22 @@ class TicketlistState extends State<Ticketlist> {
                                                 child: Image.memory(
                                                     ticketList[index]
                                                         .toMap()['photo'])),
-                                            Text(ticketList[index]
-                                                .toMap()['date']),
-                                            Text(ticketList[index]
-                                                .toMap()['hour']),
-                                            Text(ticketList[index]
-                                                .toMap()['categ']),
+                                            Column(
+                                              children: [
+                                                Text(ticketList[index]
+                                                    .toMap()['date']),
+                                                Text(ticketList[index]
+                                                    .toMap()['hour'])
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(ticketList[index]
+                                                    .toMap()['categ2']),
+                                                Text(ticketList[index]
+                                                    .toMap()['categ1'])
+                                              ],
+                                            ),
                                             Visibility(
                                               visible: isVisibleDelete,
                                               child: IconButton(
@@ -229,16 +237,11 @@ class TicketlistState extends State<Ticketlist> {
                                                 onPressed: () {
                                                   dialogRemoveReceipt(
                                                           context,
-                                                          filteredFiles[index]
-                                                              .path
-                                                              .split('/')
-                                                              .last)
+                                                          ticketList[index]
+                                                              .toMap()['id'])
                                                       .then((value) {
                                                     if (value) {
-                                                      setState(() {
-                                                        filteredFiles =
-                                                            getFiles();
-                                                      });
+                                                      setState(() {});
                                                     }
                                                   });
                                                 },
@@ -259,7 +262,6 @@ class TicketlistState extends State<Ticketlist> {
   }
 
   Future pickDateRange() async {
-    categsKey.currentState!.changeHint('Elija categoría');
     var newDateRange = await showDateRangePicker(
         context: context,
         initialDateRange: dateRange,
@@ -268,47 +270,8 @@ class TicketlistState extends State<Ticketlist> {
     if (newDateRange == null) return;
 
     setState(() {
-      scrollController.jumpTo(scrollController.position.minScrollExtent);
-      var digitMonth1 = newDateRange.start.month < 10 ? 0 : '';
-      var digitMonth2 = newDateRange.end.month < 10 ? 0 : '';
-      var digitDay1 = newDateRange.start.day < 10 ? 0 : '';
-      var digitDay2 = newDateRange.end.day < 10 ? 0 : '';
-      textoFechaInicio =
-          '${newDateRange.start.year}-$digitMonth1${newDateRange.start.month}-$digitDay1${newDateRange.start.day}';
-      textoFechaFin =
-          '${newDateRange.end.year}-$digitMonth2${newDateRange.end.month}-$digitDay2${newDateRange.end.day}';
-      var listToFilter =
-          filtradoCateg && !lastIsCateg ? categFilteredFiles : unfilteredFiles;
-
-      filteredFiles = listToFilter
-          .where((file) =>
-              (DateTime.parse(file.toString().substring(78, 88))
-                      .isAfter(DateTime.parse(textoFechaInicio)) ||
-                  DateTime.parse(file.toString().substring(78, 88))
-                      .isAtSameMomentAs(DateTime.parse(textoFechaInicio))) &&
-              (DateTime.parse(file.toString().substring(78, 88))
-                      .isBefore(DateTime.parse(textoFechaFin)) ||
-                  DateTime.parse(file.toString().substring(78, 88))
-                      .isAtSameMomentAs(DateTime.parse(textoFechaFin))))
-          .toList();
+      textoFechaInicio = newDateRange.start.toString().substring(0, 10);
+      textoFechaFin = newDateRange.end.toString().substring(0, 10);
     });
-    dateFilteredFiles = List<File>.from(filteredFiles);
-    filtradoDate = true;
-    lastIsCateg = false;
-  }
-
-  void filterByCategory(String value, int num) {
-    lastIsCateg = true;
-    var listToFilter = filtradoDate ? dateFilteredFiles : unfilteredFiles;
-    setState(() {
-      var index = num == 1 ? 0 : 1;
-      filteredFiles = listToFilter
-          .where((file) =>
-              file.path.split('/').last.split('.')[1].split('|')[index] ==
-              value)
-          .toList();
-    });
-    categFilteredFiles = List<File>.from(filteredFiles);
-    filtradoCateg = true;
   }
 }

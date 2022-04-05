@@ -18,12 +18,13 @@ class AddPhotoState extends State<AddPhoto> {
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
-  String vista = 'Seleccione categoría';
-  //String vista2 = 'Seleccione categoría';
+  String vista1 = 'Elija categoría';
+  String vista2 = 'Elija categoría';
   var img = Image.asset(
     'lib/assets/ticketRobot.png',
   );
-  var categs = '';
+  var categ1 = '';
+  var categ2 = '';
   var ticket;
 
   @override
@@ -60,15 +61,13 @@ class AddPhotoState extends State<AddPhoto> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            DropDownCategs(
-                                (value) => categs += value.toString(),
-                                vista,
-                                'categList1',
+                            DropDownCategs((value) => categ1 = value.toString(),
+                                vista1, 'categList1',
                                 key: categsKey),
                             Container(
                               child: IconButton(
                                 icon: Icon(Icons.add_box,
-                                    color: Color(0xff011A58)),
+                                    color: Color(0xffD0098D)),
                                 iconSize: 40,
                                 onPressed: () {
                                   setState(() {
@@ -91,26 +90,27 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                             )
                           ]),
-                      /*Container(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DropDownCategs(
-                                    (value) => categs += value.toString(),
-                                    vista2,
-                                    'categList2'),
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.add_box),
-                                    iconSize: 40,
-                                    onPressed: () {
-                                      InsertListElement(context, 2)
-                                          .then((value) => setState(() {}));
-                                    },
-                                  ),
-                                )
-                              ]),
-                        )*/
+                      Container(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              DropDownCategs(
+                                  (value) => categ2 = value.toString(),
+                                  vista2,
+                                  'categList2'),
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(Icons.add_box,
+                                      color: Color(0xffD0098D)),
+                                  iconSize: 40,
+                                  onPressed: () {
+                                    InsertListElement(context, 2)
+                                        .then((value) => setState(() {}));
+                                  },
+                                ),
+                              )
+                            ]),
+                      )
                     ]),
                   ),
                   Visibility(
@@ -213,15 +213,16 @@ class AddPhotoState extends State<AddPhoto> {
                                       issuer: 'Prueba',
                                       date: DateTime.now()
                                           .toString()
-                                          .substring(0, 9),
+                                          .substring(0, 10),
                                       hour: DateTime.now()
                                           .toString()
                                           .substring(10, 16),
                                       total: 9999,
                                       photo: imageFile!.readAsBytesSync(),
-                                      categ: categs);
+                                      categ1: categ1,
+                                      categ2: categ2);
                                   DB.insert(ticket);
-                                  uploadImageToSlang(categs, imageFile!);
+                                  uploadImageToSlang(categ1, imageFile!);
                                   img =
                                       Image.asset('lib/assets/ticketRobot.png');
                                   showDialog(
@@ -234,11 +235,11 @@ class AddPhotoState extends State<AddPhoto> {
                                             TextButton(
                                               child: Text('OK'),
                                               onPressed: () {
-                                                if (categs.contains('|') ==
+                                                if (categ1.contains('|') ==
                                                     false) {
-                                                  categs = '.|' + categs;
+                                                  categ1 = '.|' + categ1;
                                                 }
-                                                categs = '';
+                                                categ1 = '';
                                                 Navigator.pop(context, true);
                                               },
                                             ),

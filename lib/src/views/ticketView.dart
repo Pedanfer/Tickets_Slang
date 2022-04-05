@@ -1,6 +1,5 @@
 import 'package:exploration_planner/src/views/editTicket.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
-import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:flutter/material.dart';
 
 class TicketView extends StatefulWidget {
@@ -10,19 +9,11 @@ class TicketView extends StatefulWidget {
   State<TicketView> createState() => TicketViewState();
 }
 
-Border border = Border.all(width: 4);
+Border border = Border.all(color: Colors.blueAccent);
 
 class TicketViewState extends State<TicketView> {
   TransformationController controllerTransform = TransformationController();
   var initialControllerValue;
-  /*
-  TextEditingController controller = TextEditingController();
-
-  @override
-  void initState() {
-    controller = TextEditingController(text: widget.ticket);
-    super.initState();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +61,6 @@ class TicketViewState extends State<TicketView> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 30, color: Color(0xffECEEF3)),
-                            textScaleFactor: 1.3,
                           ),
                         ),
                         Container(
@@ -98,35 +88,15 @@ class TicketViewState extends State<TicketView> {
                     SizedBox(height: dimension.height * 0.03),
                     Container(
                       width: dimension.width * 0.9,
-                      decoration: BoxDecoration(color: Colors.white),
+                      decoration: BoxDecoration(border: border),
                       child: Text(
                         widget.ticketData['hour'],
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                        textScaleFactor: 1.3,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
                   ],
                 )),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: dimension.width * 0.9,
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.ticketData['categ'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        textScaleFactor: 1.3,
-                      ),
-                    ],
-                  ),
-                ),
-                /*
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: dimension.width * 0.9,
@@ -135,7 +105,23 @@ class TicketViewState extends State<TicketView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        categ2,
+                        widget.ticketData['categ1'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        textScaleFactor: 1.3,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  width: dimension.width * 0.9,
+                  decoration: BoxDecoration(border: border),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.ticketData['categ2'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -145,7 +131,7 @@ class TicketViewState extends State<TicketView> {
                       ),
                     ],
                   ),
-                ),*/
+                ),
                 Container(
                   decoration: BoxDecoration(border: border),
                   width: dimension.width * 0.9,
@@ -163,8 +149,8 @@ class TicketViewState extends State<TicketView> {
                       controllerTransform.value = initialControllerValue;
                     },
                     child: ClipRRect(
-                      child: Image.file(
-                        imageFile!,
+                      child: Image.memory(
+                        widget.ticketData['photo'],
                         fit: BoxFit.scaleDown,
                       ),
                     ),
