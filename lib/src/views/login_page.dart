@@ -20,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   bool loginOK = false;
   var email;
   var password;
-  final robotOK = Image.asset('lib/assets/okRobot.png', scale: 2);
   final _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
 
@@ -44,9 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           )),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: loginOK
-                ? [robotOK]
-                : [
+            children: [
                     MediaQuery.of(context).viewInsets.bottom == 0
                         ? robotWelcome
                         : Image.asset('lib/assets/ticketRobot.png', scale: 2.5),
@@ -145,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                                                         Duration(
                                                             milliseconds: 700),
                                                         () {
-                                                      Navigator.push(
+                                                      Navigator.pushAndRemoveUntil(
                                                         context,
                                                         PageRouteBuilder(
                                                           pageBuilder:
@@ -162,8 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                                               Duration(
                                                                   milliseconds:
                                                                       700),
-                                                        ),
-                                                      );
+                                                        ),(Route<dynamic> route) => false);
                                                     }),
                                                   }
                                                 else
