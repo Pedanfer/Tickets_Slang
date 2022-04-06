@@ -8,7 +8,7 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  int paginaActual = 0;
+  int paginaActual = 1;
 
   List<Widget> paginas = [
     AddPhoto(),
