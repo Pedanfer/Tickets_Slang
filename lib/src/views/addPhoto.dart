@@ -70,22 +70,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     color: Color(0xffD0098D)),
                                 iconSize: 40,
                                 onPressed: () {
-                                  setState(() {
-                                    isVisibleBorrarAceptar = false;
-                                    isVisibleCategorias = false;
-                                  });
-                                  InsertListElement(context, 1).then((value) =>
-                                      {
-                                        setState(() {}),
-                                        Future.delayed(
-                                            const Duration(milliseconds: 150),
-                                            () {
-                                          setState(() {
-                                            isVisibleBorrarAceptar = true;
-                                            isVisibleCategorias = true;
-                                          });
-                                        }),
-                                      });
+                                  chooseCategNoBug(1);
                                 },
                               ),
                             )
@@ -104,8 +89,7 @@ class AddPhotoState extends State<AddPhoto> {
                                       color: Color(0xffD0098D)),
                                   iconSize: 40,
                                   onPressed: () {
-                                    InsertListElement(context, 2)
-                                        .then((value) => setState(() {}));
+                                    chooseCategNoBug(2);
                                   },
                                 ),
                               )
@@ -262,6 +246,21 @@ class AddPhotoState extends State<AddPhoto> {
               ),
             ),
           );
+        });
+  }
+
+  void chooseCategNoBug(int num) {
+    setState(() {
+      isVisibleBorrarAceptar = false;
+      isVisibleCategorias = false;
+    });
+    InsertListElement(context, num).then((value) => {
+          Future.delayed(const Duration(milliseconds: 150), () {
+            setState(() {
+              isVisibleBorrarAceptar = true;
+              isVisibleCategorias = true;
+            });
+          }),
         });
   }
 }
