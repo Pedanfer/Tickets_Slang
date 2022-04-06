@@ -64,7 +64,20 @@ class TicketlistState extends State<Ticketlist> {
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xff011A58),
+                    Color(0xffA0A9C0),
+                  ],
+                ),
+              ),
+            );
           }
           var ticketList = snapshot.data![1];
 

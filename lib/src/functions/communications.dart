@@ -40,6 +40,9 @@ void uploadImageToSlang(String categs, File image) async {
         request!.headers.addAll(headers)
       });
 
+/* Al menos una de las categorías escogidas por el usuario será el concepto,
+e.g. 'gasolina', 'restaurante', 'supermercado' */
+
   http.StreamedResponse response = await request!.send();
 }
 
