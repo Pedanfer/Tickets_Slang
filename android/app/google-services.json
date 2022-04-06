@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "71306902905",
+    "project_id": "pruebagdrive-346407",
+    "storage_bucket": "pruebagdrive-346407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71306902905:android:d639a5076de2d1f97c03a8",
+        "android_client_info": {
+          "package_name": "com.example.exploration_planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71306902905-b790h8g5vr4qnu2sl08gf9k5phmvoprd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmDZ78a6gKaBWGvgCvcQg5QpYyFOH0oUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71306902905-b790h8g5vr4qnu2sl08gf9k5phmvoprd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

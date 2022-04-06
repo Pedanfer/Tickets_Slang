@@ -12,6 +12,10 @@ dependencies:
   google_fonts: ^2.1.0
   flutter:
     sdk: flutter
+  googleapis: ^7.0.0
+  google_sign_in: ^5.2.1
+  firebase_auth:
+  firebase_core:
   syncfusion_flutter_xlsio: ^19.1.64-beta
   pedantic: 1.11.0
   image_picker: ^0.8.4+11
