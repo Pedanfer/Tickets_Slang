@@ -3,6 +3,7 @@ import 'package:exploration_planner/src/views/ticketView.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 var textoFechaInicio = 'Fecha inicio';
 var textoFechaFin = 'Fecha fin';
@@ -113,8 +114,14 @@ class TicketlistState extends State<Ticketlist> {
                             IconButton(
                               icon: Icon(Icons.share),
                               onPressed: () {
-                                setState(() {
-                                  // COMPARTIR
+                                createExcelLista(filteredFiles)
+                                    .then((result) async {
+                                  await FlutterShare.shareFile(
+                                      title: 'Lista de facturas',
+                                      filePath:
+                                          '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx',
+                                      text:
+                                          'Comparto contigo este excel con la lista de tickets');
                                 });
                               },
                             ),

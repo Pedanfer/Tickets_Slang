@@ -331,14 +331,8 @@ void saveCategToPrefs({required String categ, required int num}) {
 
 void saveExcel(File? image) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
-    var date = DateTime.now()
-            .toString()
-            .substring(0, 19)
-            .replaceAll(RegExp(r' |:'), '-') +
-        '.xlsx';
     var directory = await getExternalStorageDirectory();
-    //Tono: adaptar código de guardado de excel sin variable global
-    await image!.copy(directory!.path + '/$date');
+    imageFile = await image!.copy(directory!.path + '/Output.xlsx');
     await image.delete();
   }
 }
