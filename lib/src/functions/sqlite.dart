@@ -36,23 +36,43 @@ class DB {
   static Future<List<Ticket>> filter(
       String dateStart, String dateEnd, String categ1, String categ2) async {
     var database = await _openDB();
-    print(categ1);
-    List<dynamic> tickets;
+    List<dynamic>? tickets;
+    var categ1None = RegExp(categ1).hasMatch('|Todas');
+    var categ2None = RegExp(categ2).hasMatch('|Todas');
     if (dateStart != 'Fecha inicio') {
-      if (categ1 != '' && RegExp(categ2).hasMatch('|Todas')) {
+      if (!categ1None) {
+        if (categ2None) {
+          tickets = await database.query('tickets',
+              where: 'date BETWEEN ? AND ? AND categ1 = ?',
+              whereArgs: [dateStart, dateEnd, categ1]);
+        } else {
+          tickets = await database.query('tickets',
+              where: 'date BETWEEN ? AND ? AND categ1 = ? AND categ2 = ?',
+              whereArgs: [dateStart, dateEnd, categ1, categ2]);
+        }
+      } else if (!categ2None) {
         tickets = await database.query('tickets',
-            where: 'date BETWEEN ? AND ? AND categ1',
-            whereArgs: [dateStart, dateEnd, categ1]);
-      }
-      if (categ2 != '' && RegExp(categ1).hasMatch('|Todas')) {
-        tickets = await database.query('tickets',
-            where: 'date BETWEEN ? AND ? AND categ2',
+            where: 'date BETWEEN ? AND ? AND categ2 = ?',
             whereArgs: [dateStart, dateEnd, categ2]);
+      } else {
+        tickets = await database.query('tickets',
+            where: 'date BETWEEN ? AND ?', whereArgs: [dateStart, dateEnd]);
       }
-      tickets = await database.query('tickets',
-          where: 'date BETWEEN ? AND ?', whereArgs: [dateStart, dateEnd]);
     } else {
-      tickets = await database.query('tickets');
+      if (!categ1None) {
+        if (categ2None) {
+          tickets = await database
+              .query('tickets', where: 'categ1 = ?', whereArgs: [categ1]);
+        } else {
+          tickets = await database.query('tickets',
+              where: 'categ1 = ? AND categ2 = ?', whereArgs: [categ1, categ2]);
+        }
+      } else if (!categ2None) {
+        tickets = await database
+            .query('tickets', where: 'categ2 = ?', whereArgs: [categ2]);
+      } else {
+        tickets = await database.query('tickets');
+      }
     }
     return tickets.isNotEmpty
         ? tickets.map((c) => Ticket.fromMap(c)).toList()

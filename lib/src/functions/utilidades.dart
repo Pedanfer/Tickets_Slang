@@ -15,6 +15,7 @@ SharedPreferences? prefs;
 
 Future<Image> photoFrom(String source) async {
   var _pickedFile = await imgPicker.pickImage(
+      imageQuality: 50,
       source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
   if (_pickedFile?.path != null) {
     imageFile = File(_pickedFile!.path);

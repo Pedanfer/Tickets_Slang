@@ -8,10 +8,6 @@ var textoFechaInicio = 'Fecha inicio';
 var textoFechaFin = 'Fecha fin';
 var newDateRange;
 var end;
-var categs1;
-var categs2;
-var categ1 = '';
-var categ2 = '';
 bool isVisibleFiltring = false;
 bool isVisibleDelete = false;
 
@@ -26,13 +22,30 @@ class TicketlistState extends State<Ticketlist> {
   var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
   var categs1Key;
   var categs2Key;
+  var categs1;
+  var categs2;
+  var categ1 = '';
+  var categ2 = '';
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
   Color cardColor = Colors.grey;
 
   @override
+  void initState() {
+    categs1 = DropDownCategs(
+        (value) => auxFilterCateg(1, value), 'Elija categoría', 'categList1',
+        key: categs1Key);
+    categs2 = DropDownCategs(
+        (value) => auxFilterCateg(2, value), 'Elija categoría', 'categList2',
+        key: categs2Key);
+    super.initState();
+  }
+
+  @override
   void dispose() {
+    categ1 = '';
+    categ2 = '';
     textoFechaInicio = 'Fecha inicio';
     textoFechaFin = 'Fecha fin';
     super.dispose();
@@ -43,16 +56,6 @@ class TicketlistState extends State<Ticketlist> {
     WidgetsFlutterBinding.ensureInitialized();
     categs1Key = GlobalKey();
     categs2Key = GlobalKey();
-    categs1 = DropDownCategs(
-        (value) => categ1 = value, 'Elija categoría', 'categList1',
-        key: categs1Key);
-    categs2 = DropDownCategs(
-        (value) => setState(() {
-              categ1 = value;
-            }),
-        'Elija categoría',
-        'categList1',
-        key: categs2Key);
     return FutureBuilder(
         future: Future.wait([
           getPrefs(),
@@ -222,9 +225,9 @@ class TicketlistState extends State<Ticketlist> {
                                             Column(
                                               children: [
                                                 Text(ticketList[index]
-                                                    .toMap()['categ2']),
+                                                    .toMap()['categ1']),
                                                 Text(ticketList[index]
-                                                    .toMap()['categ1'])
+                                                    .toMap()['categ2'])
                                               ],
                                             ),
                                             Visibility(
@@ -272,6 +275,16 @@ class TicketlistState extends State<Ticketlist> {
     setState(() {
       textoFechaInicio = newDateRange.start.toString().substring(0, 10);
       textoFechaFin = newDateRange.end.toString().substring(0, 10);
+    });
+  }
+
+  void auxFilterCateg(int num, String value) {
+    setState(() {
+      if (num == 1) {
+        categ1 = value;
+      } else {
+        categ2 = value;
+      }
     });
   }
 }
