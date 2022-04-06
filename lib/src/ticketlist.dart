@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:exploration_planner/src/ticketView.dart';
 import 'package:exploration_planner/src/utilidades.dart';
+
+import 'package:exploration_planner/src/Google.dart';
 import 'package:exploration_planner/src/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -31,6 +33,7 @@ class TicketlistState extends State<Ticketlist> {
   bool filtradoCateg = false;
   bool filtradoDate = false;
   bool lastIsCateg = false;
+  bool isVisibleDriveConection = true;
   var categsKey;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
@@ -123,10 +126,24 @@ class TicketlistState extends State<Ticketlist> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.add_to_drive),
+                              icon: isVisibleDriveConection
+                                  ? Icon(Icons.add_to_drive)
+                                  : Icon(Icons.no_cell),
                               onPressed: () async {
-                                // AÑADE AL DRIVE EL FICHERO
+                                if (isVisibleDriveConection) {
+                                  await signIn().then((result) {
+                                    setState(() {});
+                                  });
+                                } else {
+                                  await signOut().then((result) {
+                                    setState(() {});
+                                  });
+                                }
 
+                                isVisibleDriveConection =
+                                    !isVisibleDriveConection;
+
+/*
                                 await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -164,7 +181,7 @@ class TicketlistState extends State<Ticketlist> {
                                                   BorderRadius.circular(100)),
                                         );
                                       });
-                                    });
+                                    });*/
                               },
                             ),
                           ],
