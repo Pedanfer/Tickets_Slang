@@ -114,7 +114,7 @@ class TicketlistState extends State<Ticketlist> {
                             IconButton(
                               icon: Icon(Icons.share),
                               onPressed: () {
-                                createExcelLista(filteredFiles)
+                                createExcelLista(ticketList)
                                     .then((result) async {
                                   await FlutterShare.shareFile(
                                       title: 'Lista de facturas',

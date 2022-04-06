@@ -8,6 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsx;
 
+import '../utils/ticket.dart';
+
 final imgPicker = ImagePicker();
 List<int>? imgBytes;
 File? imageFile;
@@ -101,7 +103,7 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   return file;
 }
 
-Future<File> createExcelLista(List<File> rutaImagen) async {
+Future<File> createExcelLista(List<Ticket> listaTickets) async {
 // Create a new Excel document.
   final workbook = xlsx.Workbook();
 
@@ -115,42 +117,20 @@ Future<File> createExcelLista(List<File> rutaImagen) async {
   sheet.getRangeByName('C1').setText('CATEGORIA 1');
   sheet.getRangeByName('D1').setText('CATEGORIA 2');
 
-  for (var i = 0; i < rutaImagen.length; i++) {
-    var filtrado1 = rutaImagen[i].path.split('.');
-    var filtradocategs = filtrado1[3].split('|');
-    var filtrado2 = filtrado1[2].split('/');
-    var filtradotiempo = filtrado2[2].split('-');
-    var categ1;
-    var categ2;
-    var fecha =
-        filtradotiempo[2] + '/' + filtradotiempo[1] + '/' + filtradotiempo[0];
-    var hora = filtradotiempo[3] + ':' + filtradotiempo[4];
-
-    if (filtrado1[3].contains('|')) {
-      categ1 = filtradocategs[0];
-      categ2 = filtradocategs[1];
-    } else {
-      categ1 = '';
-      categ2 = '';
-    }
-
-    if (categ1 == '') {
-      categ1 = 'Vacio';
-    }
-
-    if (categ2 == '') {
-      categ2 = 'Vacio';
-    }
-
-    print('entra');
-
+  for (var i = 0; i < listaTickets.length; i++) {
 // Set value to cell.
 
+    var ticketData = listaTickets[i].toMap();
+
     // CONTENIDO
-    sheet.getRangeByName('A' + (i + 2).toString()).setText(fecha);
-    sheet.getRangeByName('B' + (i + 2).toString()).setText(hora);
-    sheet.getRangeByName('C' + (i + 2).toString()).setText(categ1);
-    sheet.getRangeByName('D' + (i + 2).toString()).setText(categ2);
+    sheet.getRangeByName('A' + (i + 2).toString()).setText(ticketData['date']);
+    sheet.getRangeByName('B' + (i + 2).toString()).setText(ticketData['hour']);
+    sheet
+        .getRangeByName('C' + (i + 2).toString())
+        .setText(ticketData['categ1']);
+    sheet
+        .getRangeByName('D' + (i + 2).toString())
+        .setText(ticketData['categ2']);
   }
 
 //Defining a global style with properties.
@@ -181,8 +161,9 @@ Future<File> createExcelLista(List<File> rutaImagen) async {
   sheet.getRangeByName('A1:D1').cellStyle = globalStyle;
 
 //Apply GlobalStyle1
-  sheet.getRangeByName('A2:D' + (rutaImagen.length + 1).toString()).cellStyle =
-      globalStyle1;
+  sheet
+      .getRangeByName('A2:D' + (listaTickets.length + 1).toString())
+      .cellStyle = globalStyle1;
 
 // Auto-Fit
   for (var i = 1; i <= 4; i++) {

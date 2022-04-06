@@ -3,6 +3,8 @@ import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 
+import '../functions/utilidades.dart';
+
 class TicketView extends StatefulWidget {
   final Map<String, dynamic> ticketData;
   TicketView(this.ticketData);
@@ -48,7 +50,7 @@ class TicketViewState extends State<TicketView> {
                             icon: Icon(Icons.share, color: Colors.white),
                             iconSize: 40,
                             onPressed: () {
-                              createExcelFicha(controller.text)
+                              createExcelFicha(widget.ticketData)
                                   .then((result) async {
                                 await FlutterShare.shareFile(
                                     title: 'Factura detallada',
