@@ -21,9 +21,11 @@ Future<bool> loginSlang(String email, String password) async {
   return true;
 }
 
-void uploadImageToSlang(String categs, File image) async {
+Future<Map<String, dynamic>> uploadImageToSlang(
+    String categs, File image) async {
   var jsonData;
   var headers;
+
   http.MultipartRequest? request;
   await getPrefs().then((value) async => {
         jsonData = json.decode(prefs!.getString('jsonData')!),
@@ -39,11 +41,9 @@ void uploadImageToSlang(String categs, File image) async {
             .add(await http.MultipartFile.fromPath('file', image.path)),
         request!.headers.addAll(headers)
       });
-
-/* Al menos una de las categorías escogidas por el usuario será el concepto,
-e.g. 'gasolina', 'restaurante', 'supermercado' */
-
-  http.StreamedResponse response = await request!.send();
+  var response = await http.Response.fromStream(await request!.send());
+  jsonData = await json.decode(response.body);
+  return jsonData;
 }
 
 Future<bool> registerSlang(
@@ -58,9 +58,4 @@ Future<bool> registerSlang(
   var url = Uri.parse('http://serv.slang.digital/api/client/users');
   var response = await http.post(url, headers: headers, body: body);
   return true;
-}
-
-Map<String, String> fieldsFromTextract() {
-  Map<String, String> receiptData = {};
-  return receiptData;
 }

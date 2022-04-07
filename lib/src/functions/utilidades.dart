@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:exploration_planner/src/functions/sqlite.dart';
+import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsx;
-
 import '../utils/ticket.dart';
 
 final imgPicker = ImagePicker();
@@ -26,6 +26,54 @@ Future<Image> photoFrom(String source) async {
   } else {
     return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
   }
+}
+
+Future<bool> deleteCateg(
+    BuildContext context, int num, GlobalKey<DropDownCategsState> key) async {
+  var categList = num == 1 ? 'categList1' : 'categList2';
+  var categToRemove;
+  var list;
+  await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.all(dimension.width * 0.07),
+          title: Text(
+            '¿Qué categoría quieres eliminar?',
+            style: TextStyle(fontSize: 16),
+          ),
+          content: DropDownCategs((value) {
+            categToRemove = value.toString();
+          }, 'Elija categoría', categList),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  child: Text('Cancelar'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  child: Text('Aceptar'),
+                  onPressed: () {
+                    getPrefs().then((value) => {
+                          addRemoveCategToPrefs(
+                              categ: categToRemove, num: num, add: false),
+                          key.currentState!.changeHint('Elija categoría')
+                        });
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            )
+          ],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        );
+      });
+  return true;
 }
 
 Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
@@ -186,7 +234,12 @@ Future<File> createExcelLista(List<Ticket> listaTickets) async {
 }
 
 Future<bool> InsertListElement(BuildContext context, int lista) async {
-  var text = Text('');
+  var text = Text(
+    lista == 1
+        ? 'Por ejemplo: Gasolina, Carrefour, Restaurante...'
+        : 'Por ejemplo: con qué vas a pagar, quién va a pagar, si es un gasto justificado o extra...',
+    textAlign: TextAlign.center,
+  );
   var nuevaCategoria = '';
   await showDialog(
       context: context,
@@ -215,14 +268,13 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
                     child: Text('Aceptar'),
                     onPressed: () {
                       nuevaCategoria = nuevaCategoria.trim();
-
                       if (nuevaCategoria.length <= 10) {
                         if (nuevaCategoria != '') {
                           if (nuevaCategoria.contains('.') == false) {
                             nuevaCategoria =
                                 nuevaCategoria.replaceAll('.', '+');
-                            saveCategToPrefs(categ: nuevaCategoria, num: lista);
-
+                            addRemoveCategToPrefs(
+                                categ: nuevaCategoria, num: lista, add: true);
                             Navigator.pop(context);
                           } else {
                             text = Text('No puede contener puntos');
@@ -289,26 +341,19 @@ Future<SharedPreferences?> getPrefs() async {
   return prefs;
 }
 
-void saveCategToPrefs({required String categ, required int num}) {
+void addRemoveCategToPrefs(
+    {required String categ, required int num, required bool add}) {
   var nomLista = num == 1 ? 'categList1' : 'categList2';
   var listaCategs = prefs!.getStringList(nomLista);
-  listaCategs!.add(categ);
+  if (add) {
+    listaCategs!.add(categ);
+  } else if (categ != 'Todas') {
+    listaCategs!.remove(categ);
+  } else {
+    return;
+  }
   prefs!.setStringList(nomLista, listaCategs);
 }
-
-/*void saveFile(File? image, String categs) async {
-  if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
-    var date = DateTime.now()
-            .toString()
-            .substring(0, 19)
-            .replaceAll(RegExp(r' |:'), '-') +
-        categs +
-        '.jpg';
-    var directory = await getExternalStorageDirectory();
-    imgBytes = await image!.copy(directory!.path + '/$date');
-    await image.delete();
-  }
-}*/
 
 void saveExcel(File? image) async {
   if (Platform.isAndroid && await _requestPermission(Permission.storage)) {

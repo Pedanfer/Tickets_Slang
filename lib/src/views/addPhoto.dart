@@ -14,7 +14,8 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
-  GlobalKey<DropDownCategsState> categsKey = GlobalKey();
+  GlobalKey<DropDownCategsState> categs1Key = GlobalKey();
+  GlobalKey<DropDownCategsState> categs2Key = GlobalKey();
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
@@ -63,17 +64,27 @@ class AddPhotoState extends State<AddPhoto> {
                           children: [
                             DropDownCategs((value) => categ1 = value.toString(),
                                 vista1, 'categList1',
-                                key: categsKey),
-                            Container(
-                              child: IconButton(
-                                icon: Icon(Icons.add_box,
-                                    color: Color(0xffD0098D)),
+                                key: categs1Key),
+                            Row(children: [
+                              IconButton(
+                                icon: Icon(Icons.add_circle_outline_outlined,
+                                    color: Color(0xff011A58)),
                                 iconSize: 40,
                                 onPressed: () {
                                   chooseCategNoBug(1);
                                 },
                               ),
-                            )
+                              IconButton(
+                                icon: Icon(Icons.remove_circle_outline_outlined,
+                                    color: Color(0xff011A58)),
+                                iconSize: 40,
+                                onPressed: () {
+                                  deleteCateg(context, 1, categs1Key)
+                                      .then((value) => setState(() {}));
+                                  ;
+                                },
+                              ),
+                            ])
                           ]),
                       Container(
                         child: Row(
@@ -82,17 +93,28 @@ class AddPhotoState extends State<AddPhoto> {
                               DropDownCategs(
                                   (value) => categ2 = value.toString(),
                                   vista2,
-                                  'categList2'),
-                              Container(
-                                child: IconButton(
-                                  icon: Icon(Icons.add_box,
-                                      color: Color(0xffD0098D)),
+                                  'categList2',
+                                  key: categs2Key),
+                              Row(children: [
+                                IconButton(
+                                  icon: Icon(Icons.add_circle_outline_outlined,
+                                      color: Color(0xff011A58)),
                                   iconSize: 40,
                                   onPressed: () {
                                     chooseCategNoBug(2);
                                   },
                                 ),
-                              )
+                                IconButton(
+                                  icon: Icon(
+                                      Icons.remove_circle_outline_outlined,
+                                      color: Color(0xff011A58)),
+                                  iconSize: 40,
+                                  onPressed: () {
+                                    deleteCateg(context, 2, categs2Key)
+                                        .then((value) => setState(() {}));
+                                  },
+                                ),
+                              ])
                             ]),
                       )
                     ]),
