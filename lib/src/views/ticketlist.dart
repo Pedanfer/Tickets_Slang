@@ -132,10 +132,12 @@ class TicketlistState extends State<Ticketlist> {
                                   await FlutterShare.shareFile(
                                       title: 'Lista de facturas',
                                       filePath:
-                                          '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx',
+                                          '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
                                       text:
-                                          'Comparto contigo este excel con la lista de tickets');
+                                          'Comparto contigo este excel con la lista de tickets y las fotos de los tickets');
                                 });
+                                Future.delayed(
+                                    Duration(seconds: 20), () => emptyAppDir());
                               },
                             ),
                             IconButton(
@@ -258,7 +260,7 @@ class TicketlistState extends State<Ticketlist> {
                                                 color: Color.fromARGB(
                                                     255, 114, 14, 7),
                                                 onPressed: () {
-                                                  dialogRemoveReceipt(
+                                                  dialogRemoveTicket(
                                                           context,
                                                           ticketList[index]
                                                               .toMap()['id'])

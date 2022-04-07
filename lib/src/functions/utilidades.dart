@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:async';
+import 'package:archive/archive_io.dart';
 import 'package:exploration_planner/src/functions/sqlite.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
@@ -151,7 +153,12 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   return file;
 }
 
-Future<File> createExcelLista(List<Ticket> listaTickets) async {
+Future<void> createExcelLista(List<Ticket> listaTickets) async {
+  final dirToCompress =
+      '/storage/emulated/0/Android/data/com.example.exploration_planner/files';
+  var encoder = ZipFileEncoder();
+  encoder.create(dirToCompress + '/Tickets.zip');
+
 // Create a new Excel document.
   final workbook = xlsx.Workbook();
 
@@ -166,8 +173,7 @@ Future<File> createExcelLista(List<Ticket> listaTickets) async {
   sheet.getRangeByName('D1').setText('CATEGORIA 2');
 
   for (var i = 0; i < listaTickets.length; i++) {
-// Set value to cell.
-
+    // Set value to cell.
     var ticketData = listaTickets[i].toMap();
 
     // CONTENIDO
@@ -179,6 +185,10 @@ Future<File> createExcelLista(List<Ticket> listaTickets) async {
     sheet
         .getRangeByName('D' + (i + 2).toString())
         .setText(ticketData['categ2']);
+
+    await encoder.addFile(
+        await File(dirToCompress + '/Ticket' + i.toString() + '.jpg')
+            .writeAsBytes(ticketData['photo']));
   }
 
 //Defining a global style with properties.
@@ -223,17 +233,22 @@ Future<File> createExcelLista(List<Ticket> listaTickets) async {
   final bytes = workbook.saveAsStream();
   workbook.dispose();
 
-// Save on Internal Storage
-  final path = (await getApplicationSupportDirectory()).path;
-  final fileName = '$path/Output.xlsx';
-  final file = File(fileName);
-  await file.writeAsBytes(bytes, flush: true);
-  print(file);
-  saveExcel(file);
-  return file;
+  await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx')
+      .writeAsBytes(bytes, flush: true));
+  encoder.close();
+  //saveExcel(file);
 }
 
-Future<bool> InsertListElement(BuildContext context, int lista) async {
+void emptyAppDir() async {
+  if (Platform.isAndroid) {
+    var dir = await getExternalStorageDirectory();
+    for (var file in dir!.listSync()) {
+      await file.delete();
+    }
+  }
+}
+
+Future<bool> insertNewCateg(BuildContext context, int lista) async {
   var text = Text(
     lista == 1
         ? 'Por ejemplo: Gasolina, Carrefour, Restaurante...'
@@ -301,7 +316,7 @@ Future<bool> InsertListElement(BuildContext context, int lista) async {
   return true;
 }
 
-Future<bool> dialogRemoveReceipt(BuildContext context, int id) async {
+Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
   var accept = false;
   await showDialog(
       context: context,
@@ -356,7 +371,7 @@ void addRemoveCategToPrefs(
 }
 
 void saveExcel(File? image) async {
-  if (Platform.isAndroid && await _requestPermission(Permission.storage)) {
+  if (Platform.isAndroid && await requestPermission(Permission.storage)) {
     var directory = await getExternalStorageDirectory();
     imageFile = await image!.copy(directory!.path + '/Output.xlsx');
     await image.delete();
@@ -380,7 +395,7 @@ List<File> getFiles() {
   return <File>[];
 }
 
-Future<bool> _requestPermission(Permission permission) async {
+Future<bool> requestPermission(Permission permission) async {
   if (await permission.isGranted) {
     return true;
   } else {

@@ -276,7 +276,7 @@ class AddPhotoState extends State<AddPhoto> {
       isVisibleBorrarAceptar = false;
       isVisibleCategorias = false;
     });
-    InsertListElement(context, num).then((value) => {
+    insertNewCateg(context, num).then((value) => {
           Future.delayed(const Duration(milliseconds: 150), () {
             setState(() {
               isVisibleBorrarAceptar = true;

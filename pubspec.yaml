@@ -12,8 +12,8 @@ dependencies:
   google_fonts: ^2.1.0
   flutter:
     sdk: flutter
-  syncfusion_flutter_xlsio: ^19.1.64-beta
-  pedantic: 1.11.0
+  syncfusion_flutter_xlsio: ^20.1.47-beta.1
+  pedantic: ^1.11.1
   image_picker: ^0.8.4+11
   shared_preferences: ^2.0.13
   permission_handler: ^9.2.0
@@ -23,6 +23,7 @@ dependencies:
   sqflite: ^2.0.2
   flutter_share: ^2.0.0
   path_provider: ^2.0.3
+  archive: ^3.3.0
 
 dev_dependencies:
   flutter_test:
