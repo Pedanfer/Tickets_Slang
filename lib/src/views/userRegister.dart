@@ -57,18 +57,28 @@ class _UserRegisterState extends State<UserRegister> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextFormField(
-                      validator: validators.validateName,
-                      keyboardType: TextInputType.name,
-                      autocorrect: false,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          errorStyle: TextStyle(fontSize: 10, height: 1),
-                          icon: Icon(Icons.abc_rounded,
-                              size: dimension.height * 0.04),
-                          labelText: 'Nombre'),
-                      onChanged: (value) => setState(() => {name = value}),
+                    Padding(
+                      padding: EdgeInsets.only(right: dimension.width * 0.001),
+                      child: TextFormField(
+                        validator: validators.validateName,
+                        keyboardType: TextInputType.name,
+                        autocorrect: false,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            contentPadding:
+                                EdgeInsets.all(dimension.width * 0.015),
+                            filled: true,
+                            fillColor: Color.fromARGB(255, 229, 240, 251),
+                            errorStyle: TextStyle(fontSize: 10, height: 1),
+                            icon: Icon(Icons.abc_rounded,
+                                size: dimension.height * 0.04),
+                            labelText: 'Nombre'),
+                        onChanged: (value) => setState(() => {name = value}),
+                      ),
                     ),
                     TextFormField(
                       validator: validators.validatePhone,
@@ -76,6 +86,13 @@ class _UserRegisterState extends State<UserRegister> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       autocorrect: false,
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          contentPadding:
+                              EdgeInsets.all(dimension.width * 0.015),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 229, 240, 251),
                           errorMaxLines: 3,
                           errorStyle: TextStyle(fontSize: 10, height: 1),
                           icon: Icon(Icons.phone),
@@ -89,6 +106,13 @@ class _UserRegisterState extends State<UserRegister> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          contentPadding:
+                              EdgeInsets.all(dimension.width * 0.015),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 229, 240, 251),
                           errorStyle: TextStyle(fontSize: 10, height: 1),
                           icon: Icon(Icons.mail_outline_rounded),
                           hintText: 'ejemplo@mail.com',
@@ -101,6 +125,13 @@ class _UserRegisterState extends State<UserRegister> {
                       autocorrect: false,
                       obscureText: !_showPassword ? true : false,
                       decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          contentPadding:
+                              EdgeInsets.all(dimension.width * 0.015),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 229, 240, 251),
                           errorMaxLines: 3,
                           errorStyle: TextStyle(fontSize: 10, height: 1),
                           suffixIcon: InkWell(
@@ -119,7 +150,7 @@ class _UserRegisterState extends State<UserRegister> {
                 ),
               ),
               CustomButton(
-                text: 'REGISTRARME',
+                text: 'Regístrate',
                 width: dimension.width * 0.90,
                 onPressed: () => {
                   if (_formKey.currentState!.validate())

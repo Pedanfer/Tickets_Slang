@@ -15,8 +15,27 @@ TextButton CustomButton(
     ),
     onPressed: onPressed,
     child: Text(text,
-        style: GoogleFonts.josefinSans(
-            fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)),
+        style: GoogleFonts.ibmPlexSans(
+            fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+  );
+}
+
+AlertDialog CustomAlertDialog(String message, Size dimension) {
+  return AlertDialog(
+    title: Text(
+      message,
+      style: TextStyle(
+          fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      textAlign: TextAlign.center,
+    ),
+    backgroundColor: Color(0xffDC47A9),
+    titlePadding: EdgeInsets.all(dimension.width * 0.03),
+    contentPadding: EdgeInsets.all(0),
+    content: Image.asset(
+      'lib/assets/loadSlang.gif',
+      fit: BoxFit.cover,
+    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
   );
 }
 

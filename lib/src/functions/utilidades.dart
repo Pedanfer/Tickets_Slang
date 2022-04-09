@@ -34,7 +34,6 @@ Future<bool> deleteCateg(
     BuildContext context, int num, GlobalKey<DropDownCategsState> key) async {
   var categList = num == 1 ? 'categList1' : 'categList2';
   var categToRemove;
-  var list;
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -115,7 +114,7 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 
   final globalStyle1 = workbook.styles.add('globalStyle1');
   globalStyle1.fontSize = 14;
-  globalStyle1.fontColor = '#362191';
+  globalStyle1.fontColor = '#000000';
   globalStyle1.hAlign = xlsx.HAlignType.center;
   globalStyle1.vAlign = xlsx.VAlignType.center;
   globalStyle1.borders.bottom.lineStyle = xlsx.LineStyle.thin;
@@ -134,11 +133,6 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
     sheet.autoFitRow(i);
   }
 
-/* Insert image
-  var foto = File(rutaImagen);
-  final List<int> imageBytes = foto.readAsBytesSync();
-  sheet.pictures.addStream(3, 1, imageBytes);*/
-
 // Save and dispose the document.
   final bytes = workbook.saveAsStream();
   workbook.dispose();
@@ -154,89 +148,101 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 }
 
 Future<void> createExcelLista(List<Ticket> listaTickets) async {
-  final dirToCompress =
-      '/storage/emulated/0/Android/data/com.example.exploration_planner/files';
-  var encoder = ZipFileEncoder();
-  encoder.create(dirToCompress + '/Tickets.zip');
+  if (await requestPermission(Permission.storage)) {
+    final dirToCompress =
+        '/storage/emulated/0/Android/data/com.example.exploration_planner/files';
+    var encoder = ZipFileEncoder();
+    encoder.create(dirToCompress + '/Tickets.zip');
 
 // Create a new Excel document.
-  final workbook = xlsx.Workbook();
+    final workbook = xlsx.Workbook();
 
 // Accessing worksheet via index.
-  final sheet = workbook.worksheets[0];
+    final sheet = workbook.worksheets[0];
 
 // Set value to cell.
-  // CABECERA
-  sheet.getRangeByName('A1').setText('FECHA');
-  sheet.getRangeByName('B1').setText('HORA');
-  sheet.getRangeByName('C1').setText('CATEGORIA 1');
-  sheet.getRangeByName('D1').setText('CATEGORIA 2');
+    // CABECERA
+    sheet.getRangeByName('A1').setText('EMISOR');
+    sheet.getRangeByName('B1').setText('TOTAL');
+    sheet.getRangeByName('C1').setText('FECHA');
+    sheet.getRangeByName('D1').setText('HORA');
+    sheet.getRangeByName('E1').setText('CATEGORIA 1');
+    sheet.getRangeByName('F1').setText('CATEGORIA 2');
 
-  for (var i = 0; i < listaTickets.length; i++) {
-    // Set value to cell.
-    var ticketData = listaTickets[i].toMap();
+    for (var i = 0; i < listaTickets.length; i++) {
+      // Set value to cell.
+      var ticketData = listaTickets[i].toMap();
 
-    // CONTENIDO
-    sheet.getRangeByName('A' + (i + 2).toString()).setText(ticketData['date']);
-    sheet.getRangeByName('B' + (i + 2).toString()).setText(ticketData['hour']);
-    sheet
-        .getRangeByName('C' + (i + 2).toString())
-        .setText(ticketData['categ1']);
-    sheet
-        .getRangeByName('D' + (i + 2).toString())
-        .setText(ticketData['categ2']);
+      // CONTENIDO
+      sheet
+          .getRangeByName('A' + (i + 2).toString())
+          .setText(ticketData['issuer']);
+      sheet
+          .getRangeByName('B' + (i + 2).toString())
+          .setText(ticketData['total'].toString() + '€');
+      sheet
+          .getRangeByName('C' + (i + 2).toString())
+          .setText(ticketData['date']);
+      sheet
+          .getRangeByName('D' + (i + 2).toString())
+          .setText(ticketData['hour']);
+      sheet
+          .getRangeByName('E' + (i + 2).toString())
+          .setText(ticketData['categ1']);
+      sheet
+          .getRangeByName('F' + (i + 2).toString())
+          .setText(ticketData['categ2']);
 
-    await encoder.addFile(
-        await File(dirToCompress + '/Ticket' + i.toString() + '.jpg')
-            .writeAsBytes(ticketData['photo']));
-  }
+      await encoder.addFile(
+          await File(dirToCompress + '/Ticket' + (i + 2).toString() + '.jpg')
+              .writeAsBytes(ticketData['photo']));
+    }
 
 //Defining a global style with properties.
-  final globalStyle = workbook.styles.add('globalStyle');
-  globalStyle.backColor = '#37D8E9';
-  globalStyle.fontName = 'Times New Roman';
-  globalStyle.fontSize = 12;
-  globalStyle.fontColor = '#C67878';
-  globalStyle.italic = true;
-  globalStyle.bold = true;
-  globalStyle.underline = true;
-  globalStyle.wrapText = true;
-  globalStyle.hAlign = xlsx.HAlignType.center;
-  globalStyle.vAlign = xlsx.VAlignType.center;
-  globalStyle.borders.all.lineStyle = xlsx.LineStyle.thick;
-  globalStyle.borders.all.color = '#9954CC';
+    final globalStyle = workbook.styles.add('globalStyle');
+    globalStyle.backColor = '#37D8E9';
+    globalStyle.fontName = 'Carlito';
+    globalStyle.fontSize = 16;
+    globalStyle.fontColor = '#000000';
+    globalStyle.bold = true;
+    globalStyle.wrapText = true;
+    globalStyle.hAlign = xlsx.HAlignType.center;
+    globalStyle.vAlign = xlsx.VAlignType.center;
+    globalStyle.borders.all.lineStyle = xlsx.LineStyle.thick;
+    globalStyle.borders.all.color = '#9954CC';
 
-  final globalStyle1 = workbook.styles.add('globalStyle1');
-  globalStyle1.fontSize = 14;
-  globalStyle1.fontColor = '#362191';
-  globalStyle1.hAlign = xlsx.HAlignType.center;
-  globalStyle1.vAlign = xlsx.VAlignType.center;
-  globalStyle1.borders.bottom.lineStyle = xlsx.LineStyle.thin;
-  globalStyle1.borders.bottom.color = '#829193';
-  globalStyle1.numberFormat = '0.00';
+    final globalStyle1 = workbook.styles.add('globalStyle1');
+    globalStyle1.fontSize = 14;
+    globalStyle1.fontColor = '#000000';
+    globalStyle1.hAlign = xlsx.HAlignType.center;
+    globalStyle1.vAlign = xlsx.VAlignType.center;
+    globalStyle1.borders.bottom.lineStyle = xlsx.LineStyle.thin;
+    globalStyle1.borders.bottom.color = '#829193';
+    globalStyle1.numberFormat = '0.00';
 
 //Apply GlobalStyle
-  sheet.getRangeByName('A1:D1').cellStyle = globalStyle;
+    sheet.getRangeByName('A1:F1').cellStyle = globalStyle;
 
 //Apply GlobalStyle1
-  sheet
-      .getRangeByName('A2:D' + (listaTickets.length + 1).toString())
-      .cellStyle = globalStyle1;
+    sheet
+        .getRangeByName('A2:F' + (listaTickets.length + 1).toString())
+        .cellStyle = globalStyle1;
 
 // Auto-Fit
-  for (var i = 1; i <= 4; i++) {
-    sheet.autoFitColumn(i);
-    sheet.autoFitRow(i);
-  }
+    for (var i = 1; i <= 6; i++) {
+      sheet.autoFitColumn(i);
+      sheet.autoFitRow(i);
+    }
 
 // Save and dispose the document.
-  final bytes = workbook.saveAsStream();
-  workbook.dispose();
+    final bytes = workbook.saveAsStream();
+    workbook.dispose();
 
-  await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx')
-      .writeAsBytes(bytes, flush: true));
-  encoder.close();
-  //saveExcel(file);
+    await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx')
+        .writeAsBytes(bytes, flush: true));
+    encoder.close();
+  }
+  ;
 }
 
 void emptyAppDir() async {
@@ -283,7 +289,7 @@ Future<bool> insertNewCateg(BuildContext context, int lista) async {
                     child: Text('Aceptar'),
                     onPressed: () {
                       nuevaCategoria = nuevaCategoria.trim();
-                      if (nuevaCategoria.length <= 10) {
+                      if (nuevaCategoria.length < 19) {
                         if (nuevaCategoria != '') {
                           if (nuevaCategoria.contains('.') == false) {
                             nuevaCategoria =
@@ -300,7 +306,7 @@ Future<bool> insertNewCateg(BuildContext context, int lista) async {
                         }
                       } else {
                         text = Text(
-                            'La longitud tiene que ser de 1 a 10 caracteres');
+                            'La longitud tiene que ser de 1 a 14 caracteres');
                       }
                       setState(() => {});
                     },

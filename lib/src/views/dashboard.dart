@@ -1,3 +1,4 @@
+import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/views/addPhoto.dart';
 import 'package:exploration_planner/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xff011A58),
+        backgroundColor: blue100,
         onTap: (index) {
           setState(() {
             paginaActual = index;
@@ -28,13 +29,18 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'AÑADIR'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
-            label: 'CATEGORIAS',
+            label: 'Archivador',
           )
         ],
-        showUnselectedLabels: false,
+        selectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
+        unselectedLabelStyle:
+            TextStyle(fontSize: 12, color: Color.fromARGB(255, 177, 177, 177)),
+        unselectedItemColor: Color.fromARGB(255, 177, 177, 177),
+        selectedItemColor: Colors.white,
       ),
     );
   }

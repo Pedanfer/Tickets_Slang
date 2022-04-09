@@ -3,7 +3,7 @@ class Ticket {
   String issuer;
   String date;
   String hour;
-  int total;
+  double total;
   List<int> photo;
   String categ1;
   String categ2;

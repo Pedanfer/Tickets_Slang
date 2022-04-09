@@ -1,4 +1,6 @@
 import 'package:exploration_planner/src/functions/sqlite.dart';
+import 'package:exploration_planner/src/utils/constants.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:exploration_planner/src/views/ticketView.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
@@ -30,7 +32,7 @@ class TicketlistState extends State<Ticketlist> {
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
-  Color cardColor = Colors.grey;
+  Color cardColor = Color.fromARGB(255, 209, 228, 243);
 
   @override
   void initState() {
@@ -65,59 +67,41 @@ class TicketlistState extends State<Ticketlist> {
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
             return Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color(0xff011A58),
-                    Color(0xffA0A9C0),
-                  ],
-                ),
-              ),
-            );
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white,
+                child: Center(child: Image.asset('lib/assets/loadSlang.gif')));
           }
           var ticketList = snapshot.data![1];
-
           return Scaffold(
             body: Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xff011A58),
-                      Color(0xffA0A9C0),
-                    ],
-                  ),
-                ),
+                color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
                         padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
-                        color: Color.fromARGB(255, 14, 117, 185),
+                        color: blue100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Container(
                               child: Text(
-                                'Slang Ticket Manager',
+                                'Mis tickets',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 0, 0, 0)),
+                                    fontSize: 16, color: Colors.white),
                                 textScaleFactor: 1.3,
                               ),
                             ),
                             IconButton(
                               icon: isVisibleDelete
-                                  ? Icon(Icons.delete_forever)
-                                  : Icon(Icons.delete),
+                                  ? Icon(Icons.delete_forever,
+                                      color: Colors.white, size: 28)
+                                  : Icon(Icons.delete,
+                                      color: Colors.white, size: 28),
                               onPressed: () {
                                 setState(() {
                                   isVisibleDelete = !isVisibleDelete;
@@ -125,25 +109,40 @@ class TicketlistState extends State<Ticketlist> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.share),
+                              icon: Icon(
+                                Icons.download,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                               onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      Future.delayed(Duration(seconds: 5), () {
+                                        Navigator.pop(context, true);
+                                      });
+                                      return CustomAlertDialog(
+                                          'Abriendo el compartidor de archivos...',
+                                          dimension);
+                                    });
                                 createExcelLista(ticketList)
                                     .then((result) async {
                                   await FlutterShare.shareFile(
-                                      title: 'Lista de facturas',
-                                      filePath:
-                                          '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
-                                      text:
-                                          'Comparto contigo este excel con la lista de tickets y las fotos de los tickets');
+                                          title: 'Lista de facturas',
+                                          filePath:
+                                              '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
+                                          text:
+                                              'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
+                                      .then((value) => null);
                                 });
-                                Future.delayed(
-                                    Duration(seconds: 20), () => emptyAppDir());
                               },
                             ),
                             IconButton(
                               icon: isVisibleFiltring
-                                  ? Icon(Icons.filter_alt_off)
-                                  : Icon(Icons.filter_alt),
+                                  ? Icon(Icons.filter_alt_off,
+                                      color: Colors.white, size: 28)
+                                  : Icon(Icons.filter_alt,
+                                      color: Colors.white, size: 28),
                               onPressed: () {
                                 setState(() {
                                   isVisibleFiltring = !isVisibleFiltring;
@@ -168,7 +167,7 @@ class TicketlistState extends State<Ticketlist> {
                                           Color.fromARGB(255, 0, 118, 197)),
                                   onPressed: pickDateRange,
                                   child: Text(textoFechaInicio,
-                                      textScaleFactor: 1.3),
+                                      textScaleFactor: 1.2),
                                 )),
                                 SizedBox(
                                   width: 10,
@@ -180,7 +179,7 @@ class TicketlistState extends State<Ticketlist> {
                                           Color.fromARGB(255, 18, 86, 189)),
                                   onPressed: pickDateRange,
                                   child:
-                                      Text(textoFechaFin, textScaleFactor: 1.3),
+                                      Text(textoFechaFin, textScaleFactor: 1.2),
                                 ))
                               ],
                             ),
@@ -201,6 +200,10 @@ class TicketlistState extends State<Ticketlist> {
                             controller: scrollController,
                             itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
+                              var vendor = ticketList[index]
+                                  .toMap()['issuer']
+                                  .split('\n')[0]
+                                  .toString();
                               return Card(
                                 color: cardColor,
                                 child: Column(
@@ -208,34 +211,31 @@ class TicketlistState extends State<Ticketlist> {
                                     children: <Widget>[
                                       ListTile(
                                         selected: isSelected,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageRouteBuilder(
-                                              pageBuilder: (c, a1, a2) =>
-                                                  TicketView(ticketList[index]
-                                                      .toMap()),
-                                              transitionsBuilder:
-                                                  (c, anim, a2, child) =>
-                                                      FadeTransition(
-                                                          opacity: anim,
-                                                          child: child),
-                                              transitionDuration:
-                                                  Duration(milliseconds: 700),
-                                            ),
-                                          );
-                                        },
                                         title: Container(
                                             child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Container(
-                                                width: 60,
-                                                height: 60,
-                                                child: Image.memory(
-                                                    ticketList[index]
-                                                        .toMap()['photo'])),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  vendor.substring(
+                                                      0,
+                                                      vendor.length > 14
+                                                          ? 14
+                                                          : vendor.length),
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                                Text(ticketList[index]
+                                                        .toMap()['total']
+                                                        .toString() +
+                                                    '€')
+                                              ],
+                                            ),
                                             Column(
                                               children: [
                                                 Text(ticketList[index]
@@ -244,21 +244,38 @@ class TicketlistState extends State<Ticketlist> {
                                                     .toMap()['hour'])
                                               ],
                                             ),
-                                            Column(
-                                              children: [
-                                                Text(ticketList[index]
-                                                    .toMap()['categ1']),
-                                                Text(ticketList[index]
-                                                    .toMap()['categ2'])
-                                              ],
+                                            TextButton(
+                                              child: Text('Ver foto',
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration
+                                                          .underline)),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  PageRouteBuilder(
+                                                    pageBuilder: (c, a1, a2) =>
+                                                        TicketView(
+                                                            ticketList[index]
+                                                                .toMap()),
+                                                    transitionsBuilder:
+                                                        (c, anim, a2, child) =>
+                                                            FadeTransition(
+                                                                opacity: anim,
+                                                                child: child),
+                                                    transitionDuration:
+                                                        Duration(
+                                                            milliseconds: 700),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                             Visibility(
                                               visible: isVisibleDelete,
                                               child: IconButton(
                                                 icon: Icon(Icons.delete),
-                                                iconSize: 30,
+                                                iconSize: 28,
                                                 color: Color.fromARGB(
-                                                    255, 114, 14, 7),
+                                                    255, 161, 30, 21),
                                                 onPressed: () {
                                                   dialogRemoveTicket(
                                                           context,
@@ -288,6 +305,7 @@ class TicketlistState extends State<Ticketlist> {
 
   Future pickDateRange() async {
     var newDateRange = await showDateRangePicker(
+        locale: Locale('es', ''),
         context: context,
         initialDateRange: dateRange,
         firstDate: DateTime(1900),

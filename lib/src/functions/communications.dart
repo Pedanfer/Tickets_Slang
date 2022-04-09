@@ -21,11 +21,9 @@ Future<bool> loginSlang(String email, String password) async {
   return true;
 }
 
-Future<Map<String, dynamic>> uploadImageToSlang(
-    String categs, File image) async {
+Future<Map<String, dynamic>> uploadImageToSlang(File image) async {
   var jsonData;
   var headers;
-
   http.MultipartRequest? request;
   await getPrefs().then((value) async => {
         jsonData = json.decode(prefs!.getString('jsonData')!),
@@ -34,14 +32,15 @@ Future<Map<String, dynamic>> uploadImageToSlang(
           'clientVersion': '0.1.16'
         },
         request = http.MultipartRequest(
-            'PUT',
-            Uri.parse('http://serv.slang.digital/api/client/storage/users/' +
-                jsonData['userData']['uid'])),
+            'POST',
+            Uri.parse(
+                'http://serv.slang.digital/api/client/tools/textract?doctype=invoiceticket')),
         request!.files
             .add(await http.MultipartFile.fromPath('file', image.path)),
         request!.headers.addAll(headers)
       });
   var response = await http.Response.fromStream(await request!.send());
+  print(response.body);
   jsonData = await json.decode(response.body);
   return jsonData;
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exploration_planner/src/functions/communications.dart';
+import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
@@ -21,12 +22,11 @@ class AddPhotoState extends State<AddPhoto> {
   bool isVisibleCategorias = false;
   String vista1 = 'Elija categoría';
   String vista2 = 'Elija categoría';
-  var img = Image.asset(
-    'lib/assets/ticketRobot.png',
-  );
+  var img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
   var categ1 = '';
   var categ2 = '';
   var ticket;
+  var isVisibleImg = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,8 @@ class AddPhotoState extends State<AddPhoto> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color(0xff011A58),
-                Color(0xffECEEF3),
+                blue100,
+                blue50,
               ],
             )),
             child: Container(
@@ -51,10 +51,9 @@ class AddPhotoState extends State<AddPhoto> {
               width: double.infinity - 20,
               height: double.infinity - 20,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: dimension.height * 0.05),
-                  img,
+                  Visibility(visible: isVisibleImg, child: img),
                   SizedBox(height: dimension.height * 0.015),
                   Visibility(
                     visible: isVisibleCategorias,
@@ -122,62 +121,81 @@ class AddPhotoState extends State<AddPhoto> {
                   Visibility(
                     visible: isVisibleFotoGaleria,
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      height: dimension.height * 0.09,
-                      width: dimension.width * 0.38,
+                      margin: EdgeInsets.only(bottom: dimension.height * 0.15),
+                      height: dimension.height * 0.2,
+                      width: dimension.width * 0.9,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Color(0xffD0098D)),
+                          borderRadius: BorderRadius.circular(10),
+                          color: blue100),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.add_a_photo_sharp,
-                              color: Colors.white,
+                          SizedBox(width: dimension.width * 0.005),
+                          Column(children: [
+                            SizedBox(height: dimension.height * 0.03),
+                            IconButton(
+                              icon: Icon(
+                                Icons.add_a_photo_outlined,
+                                color: Colors.white,
+                              ),
+                              iconSize: 56,
+                              onPressed: () {
+                                photoFrom('camera')
+                                    .then((value) => setState(() {
+                                          if (value.toString() !=
+                                              Image.asset(
+                                                      'lib/assets/ticketRobot.png',
+                                                      height: 450,
+                                                      width: 380)
+                                                  .toString()) {
+                                            img = value;
+                                            isVisibleBorrarAceptar = true;
+                                            isVisibleFotoGaleria = false;
+                                            isVisibleCategorias = true;
+                                          }
+                                        }));
+                              },
                             ),
-                            iconSize: 42,
-                            onPressed: () {
-                              photoFrom('camera').then((value) => setState(() {
-                                    if (value.toString() !=
-                                        Image.asset(
-                                                'lib/assets/ticketRobot.png',
-                                                height: 450,
-                                                width: 380)
-                                            .toString()) {
-                                      img = value;
-                                      isVisibleBorrarAceptar = true;
-                                      isVisibleFotoGaleria = false;
-                                      isVisibleCategorias = true;
-                                    }
-                                  }));
-                            },
+                            Text('Hacer foto a ticket',
+                                style: TextStyle(color: Colors.white))
+                          ]),
+                          VerticalDivider(
+                            color: Colors.white,
+                            indent: 10,
+                            endIndent: 10,
+                            thickness: 2.5,
                           ),
-                          SizedBox(
-                            width: 20,
+                          Column(
+                            children: [
+                              SizedBox(height: dimension.height * 0.03),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.photo_library_outlined,
+                                  color: Colors.white,
+                                ),
+                                iconSize: 56,
+                                onPressed: () {
+                                  photoFrom('gallery')
+                                      .then((value) => setState(() {
+                                            if (value.toString() !=
+                                                Image.asset(
+                                                        'lib/assets/ticketRobot.png',
+                                                        height: 450,
+                                                        width: 380)
+                                                    .toString()) {
+                                              img = value;
+                                              isVisibleBorrarAceptar = true;
+                                              isVisibleFotoGaleria = false;
+                                              isVisibleCategorias = true;
+                                            }
+                                          }));
+                                },
+                              ),
+                              Text('Usar foto de galería',
+                                  style: TextStyle(color: Colors.white))
+                            ],
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.image,
-                              color: Colors.white,
-                            ),
-                            iconSize: 42,
-                            onPressed: () {
-                              photoFrom('gallery').then((value) => setState(() {
-                                    if (value.toString() !=
-                                        Image.asset(
-                                                'lib/assets/ticketRobot.png',
-                                                height: 450,
-                                                width: 380)
-                                            .toString()) {
-                                      img = value;
-                                      isVisibleBorrarAceptar = true;
-                                      isVisibleFotoGaleria = false;
-                                      isVisibleCategorias = true;
-                                    }
-                                  }));
-                            },
-                          )
+                          SizedBox(width: dimension.width * 0.005),
                         ],
                       ),
                     ),
@@ -188,7 +206,7 @@ class AddPhotoState extends State<AddPhoto> {
                         margin: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xff415382),
+                          color: blue75,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -200,8 +218,9 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  img =
-                                      Image.asset('lib/assets/ticketRobot.png');
+                                  img = Image.asset(
+                                      'lib/assets/ticketRobot.png',
+                                      scale: 1.5);
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;
                                   isVisibleCategorias = false;
@@ -215,45 +234,37 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  ticket = Ticket(
-                                      issuer: 'Prueba',
-                                      date: DateTime.now()
-                                          .toString()
-                                          .substring(0, 10),
-                                      hour: DateTime.now()
-                                          .toString()
-                                          .substring(10, 16),
-                                      total: 9999,
-                                      photo: imageFile!.readAsBytesSync(),
-                                      categ1: categ1,
-                                      categ2: categ2);
-                                  DB.insert(ticket);
-                                  uploadImageToSlang(categ1, imageFile!);
-                                  img =
-                                      Image.asset('lib/assets/ticketRobot.png');
+                                  var jsonData;
+                                  //Controlar campos vacíos con 'Vacío'
+                                  uploadImageToSlang(imageFile!)
+                                      .then((value) => {
+                                            jsonData = value,
+                                            ticket = Ticket(
+                                                issuer: jsonData['issuer'],
+                                                date: jsonData['date']
+                                                    .split('/')
+                                                    .reversed
+                                                    .join('-'),
+                                                hour: jsonData['hour'],
+                                                total: jsonData['total'] * 1.0,
+                                                photo: imageFile!
+                                                    .readAsBytesSync(),
+                                                categ1: categ1,
+                                                categ2: categ2),
+                                            DB.insert(ticket)
+                                          });
+                                  img = Image.asset(
+                                      'lib/assets/ticketRobot.png',
+                                      scale: 1.5);
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          content: Text(
-                                              'El ticket se ha añadido correctamente'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: Text('OK'),
-                                              onPressed: () {
-                                                if (categ1.contains('|') ==
-                                                    false) {
-                                                  categ1 = '.|' + categ1;
-                                                }
-                                                categ1 = '';
-                                                Navigator.pop(context, true);
-                                              },
-                                            ),
-                                          ],
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                        );
+                                        Future.delayed(Duration(seconds: 6),
+                                            () {
+                                          Navigator.pop(context, true);
+                                        });
+                                        return CustomAlertDialog(
+                                            'Extrayendo datos...', dimension);
                                       });
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;
@@ -275,12 +286,14 @@ class AddPhotoState extends State<AddPhoto> {
     setState(() {
       isVisibleBorrarAceptar = false;
       isVisibleCategorias = false;
+      isVisibleImg = false;
     });
     insertNewCateg(context, num).then((value) => {
-          Future.delayed(const Duration(milliseconds: 150), () {
+          Future.delayed(const Duration(milliseconds: 200), () {
             setState(() {
               isVisibleBorrarAceptar = true;
               isVisibleCategorias = true;
+              isVisibleImg = true;
             });
           }),
         });

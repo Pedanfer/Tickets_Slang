@@ -14,7 +14,7 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'tickets.db'),
         onCreate: (db, version) {
       return db.execute(
-          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, issuer TEXT,  date TEXT, hour TEXT, total INTEGER, photo BLOB, categ1 TEXT, categ2 TEXT)''');
+          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, issuer TEXT,  date TEXT, hour TEXT, total REAL, photo BLOB, categ1 TEXT, categ2 TEXT)''');
     }, version: 1);
   }
 
