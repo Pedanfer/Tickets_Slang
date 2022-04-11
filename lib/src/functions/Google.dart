@@ -1,8 +1,4 @@
-<<<<<<< HEAD:lib/src/Google.dart
 // ignore_for_file: unused_element
-=======
-import 'dart:io';
->>>>>>> origin/main:lib/src/functions/Google.dart
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,18 +13,17 @@ final googleSignIn = GoogleSignIn.standard(scopes: [
 Future<void> signIn() async {
   print('Entra');
   final googleUser = await googleSignIn.signIn();
-print('USUARIO' + googleUser.toString());
+  print('USUARIO' + googleUser.toString());
   try {
     if (googleUser != null) {
       print('No es nulo');
       final googleAuth = await googleUser.authentication;
       print('PC1');
       final credential = GoogleAuthProvider.credential(
-        
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-            print('PC2');
+      print('PC2');
       final loginUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
       print('PC3');
@@ -37,9 +32,11 @@ print('USUARIO' + googleUser.toString());
       _loginStatus = true;
     }
   } catch (e) {
-    print('----------------------------Error en login----------------------------');
+    print(
+        '----------------------------Error en login----------------------------');
     print(e);
-    print('----------------------------------------------------------------------');
+    print(
+        '----------------------------------------------------------------------');
   }
   print(_loginStatus);
 }

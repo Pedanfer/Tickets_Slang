@@ -18,16 +18,18 @@ File? imageFile;
 SharedPreferences? prefs;
 
 Future<Image> photoFrom(String source) async {
-  var _pickedFile = await imgPicker.pickImage(
-      imageQuality: 50,
-      source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
-  if (_pickedFile?.path != null) {
-    imageFile = File(_pickedFile!.path);
-    imgBytes = imageFile!.readAsBytesSync();
-    return Image.file(imageFile!, height: 450, width: 380);
-  } else {
-    return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
+  if (await requestPermission(Permission.camera) &&
+      await requestPermission(Permission.storage)) {
+    var _pickedFile = await imgPicker.pickImage(
+        imageQuality: 50,
+        source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
+    if (_pickedFile?.path != null) {
+      imageFile = File(_pickedFile!.path);
+      imgBytes = imageFile!.readAsBytesSync();
+      return Image.file(imageFile!, height: 450, width: 380);
+    }
   }
+  return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
 }
 
 Future<bool> deleteCateg(
@@ -149,8 +151,9 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 
 Future<void> createExcelLista(List<Ticket> listaTickets) async {
   if (await requestPermission(Permission.storage)) {
-    final dirToCompress =
-        '/storage/emulated/0/Android/data/com.example.exploration_planner/files';
+    var dirToCompress;
+    await getExternalStorageDirectory()
+        .then((value) => dirToCompress = value!.path);
     var encoder = ZipFileEncoder();
     encoder.create(dirToCompress + '/Tickets.zip');
 

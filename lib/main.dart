@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -31,8 +31,6 @@ class MyApp extends StatelessWidget {
         const Locale('es', ''),
         const Locale('en', ''),
       ],
-      // ...
-
       theme: ThemeData(
           textTheme:
               GoogleFonts.ibmPlexSansTextTheme(Theme.of(context).textTheme),

@@ -31,6 +31,7 @@ class TicketlistState extends State<Ticketlist> {
   var categs2;
   var categ1 = '';
   var categ2 = '';
+  bool loading = true;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -38,6 +39,10 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   void initState() {
+    Future.delayed(Duration(seconds: 2), () {
+      loading = false;
+      setState(() {});
+    });
     categs1 = DropDownCategs(
         (value) => auxFilterCateg(1, value), 'Elija categoría', 'categList1',
         key: categs1Key);
@@ -67,12 +72,14 @@ class TicketlistState extends State<Ticketlist> {
           DB.filter(textoFechaInicio, textoFechaFin, categ1, categ2)
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (!snapshot.hasData) {
+          if (loading) {
             return Container(
                 width: double.infinity,
                 height: double.infinity,
-                color: Colors.white,
-                child: Center(child: Image.asset('lib/assets/loadSlang.gif')));
+                color: Color(0xffFAFBF8),
+                child: Center(
+                    child:
+                        Image.asset('lib/assets/loadSlang.gif', scale: 0.7)));
           }
           var ticketList = snapshot.data![1];
           return Scaffold(
@@ -117,16 +124,6 @@ class TicketlistState extends State<Ticketlist> {
                                 size: 30,
                               ),
                               onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      Future.delayed(Duration(seconds: 5), () {
-                                        Navigator.pop(context, true);
-                                      });
-                                      return CustomAlertDialog(
-                                          'Abriendo el compartidor de archivos...',
-                                          dimension);
-                                    });
                                 createExcelLista(ticketList)
                                     .then((result) async {
                                   await FlutterShare.shareFile(
@@ -139,11 +136,11 @@ class TicketlistState extends State<Ticketlist> {
                                 });
                               },
                             ),
-IconButton(
+                            IconButton(
                               icon: isVisibleDriveConection
                                   ? Icon(Icons.add_to_drive)
                                   : Icon(Icons.no_cell),
-                                  color: Colors.white,
+                              color: Colors.white,
                               onPressed: () async {
                                 if (isVisibleDriveConection) {
                                   await signIn().then((result) {
@@ -158,7 +155,6 @@ IconButton(
                                 isVisibleDriveConection =
                                     !isVisibleDriveConection;
 
-
                                 await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -172,19 +168,23 @@ IconButton(
                                                 MainAxisAlignment.center,
                                             children: [
                                               Visibility(
-                                                visible: !isVisibleDriveConection,
-                                                child:
-                                              Text(
-                                                'Conectado a Drive\n exitosamente',
-                                                style: TextStyle(fontSize: 18),
-                                              ), ),
+                                                visible:
+                                                    !isVisibleDriveConection,
+                                                child: Text(
+                                                  'Conectado a Drive\n exitosamente',
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                              ),
                                               Visibility(
-                                                visible: isVisibleDriveConection,
-                                                child:
-                                              Text(
-                                                'Desconectado a Drive\n exitosamente',
-                                                style: TextStyle(fontSize: 18),
-                                              ), )
+                                                visible:
+                                                    isVisibleDriveConection,
+                                                child: Text(
+                                                  'Desconectado a Drive\n exitosamente',
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                              )
                                             ],
                                           ),
                                           actions: <Widget>[
