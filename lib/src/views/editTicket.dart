@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:exploration_planner/src/ticketlist.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
+import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 class EditTicket extends StatefulWidget {
@@ -7,7 +12,12 @@ class EditTicket extends StatefulWidget {
   State<EditTicket> createState() => EditTicketState();
 }
 
+var categs = '';
+String vista = 'Seleccione categoría';
+bool isVisibleEditioCateg = false;
+
 class EditTicketState extends State<EditTicket> {
+  GlobalKey<DropDownCategsState> categsKey = GlobalKey();
   TextEditingController controller = TextEditingController();
 
   @override
@@ -84,23 +94,46 @@ class EditTicketState extends State<EditTicket> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: 350,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent)),
+                    color: !isVisibleEditioCateg
+                        ? Colors.white
+                        : Colors.transparent,
+                    border: Border.all(
+                      color: !isVisibleEditioCateg
+                          ? Colors.white
+                          : Colors.transparent,
+                    ),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'CATEGORÍA 1: ' + widget.ticketData['categ1'],
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
-                        textScaleFactor: 1.3,
+                      Visibility(
+                        visible: isVisibleEditioCateg,
+                        child: DropDownCategs(
+                            (value) => categs += '.' + value.toString() + '|',
+                            vista,
+                            'categList1',
+                            key: categsKey),
                       ),
+                      Visibility(
+                          visible: !isVisibleEditioCateg,
+                          child: Text(
+                            'CATEGORÍA 1: ' + widget.ticketData['categ1'],
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Color.fromARGB(255, 0, 0, 0)),
+                            textScaleFactor: 1.3,
+                          )),
                       IconButton(
-                        icon: Icon(Icons.edit_note),
+                        icon: !isVisibleEditioCateg
+                            ? Icon(Icons.edit)
+                            : Icon(Icons.save),
                         iconSize: 40,
+                        color: Colors.black,
                         onPressed: () {
-                          // Aparecer los botones de editar
-                          // Aparecer el boton de aceptar
-                          // Desaparecer este boton
+                          setState(() {
+                            isVisibleEditioCateg = !isVisibleEditioCateg;
+                          });
                         },
                       ),
                     ],
