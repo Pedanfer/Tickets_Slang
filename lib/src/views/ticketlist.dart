@@ -1,3 +1,4 @@
+import 'package:exploration_planner/src/functions/Google.dart';
 import 'package:exploration_planner/src/functions/sqlite.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/views/login_page.dart';
@@ -13,6 +14,7 @@ var newDateRange;
 var end;
 bool isVisibleFiltring = false;
 bool isVisibleDelete = false;
+bool isVisibleDriveConection = true;
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -135,6 +137,76 @@ class TicketlistState extends State<Ticketlist> {
                                               'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
                                       .then((value) => null);
                                 });
+                              },
+                            ),
+IconButton(
+                              icon: isVisibleDriveConection
+                                  ? Icon(Icons.add_to_drive)
+                                  : Icon(Icons.no_cell),
+                                  color: Colors.white,
+                              onPressed: () async {
+                                if (isVisibleDriveConection) {
+                                  await signIn().then((result) {
+                                    setState(() {});
+                                  });
+                                } else {
+                                  await signOut().then((result) {
+                                    setState(() {});
+                                  });
+                                }
+
+                                isVisibleDriveConection =
+                                    !isVisibleDriveConection;
+
+
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return AlertDialog(
+                                          insetPadding: EdgeInsets.all(
+                                              dimension.width * 0.07),
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Visibility(
+                                                visible: !isVisibleDriveConection,
+                                                child:
+                                              Text(
+                                                'Conectado a Drive\n exitosamente',
+                                                style: TextStyle(fontSize: 18),
+                                              ), ),
+                                              Visibility(
+                                                visible: isVisibleDriveConection,
+                                                child:
+                                              Text(
+                                                'Desconectado a Drive\n exitosamente',
+                                                style: TextStyle(fontSize: 18),
+                                              ), )
+                                            ],
+                                          ),
+                                          actions: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  child: Text('Aceptar'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
+                                        );
+                                      });
+                                    });
                               },
                             ),
                             IconButton(
