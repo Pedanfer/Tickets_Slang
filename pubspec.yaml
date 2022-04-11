@@ -17,10 +17,6 @@ dependencies:
   pedantic: ^1.11.1
   googleapis: ^7.0.0
   google_sign_in: ^5.2.1
-  firebase_auth:
-  firebase_core:
-  syncfusion_flutter_xlsio: ^19.1.64-beta
-  pedantic: 1.11.0
   image_picker: ^0.8.4+11
   shared_preferences: ^2.0.13
   permission_handler: ^9.2.0
@@ -34,6 +30,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
     version: ^0.0.0
+  firebase_core: ^1.14.0
+  firebase_auth: ^3.3.13
 
 dev_dependencies:
   flutter_test:

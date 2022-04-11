@@ -1,15 +1,14 @@
+// ignore_for_file: unused_element
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:flutter/material.dart';
-
 
 bool _loginStatus = false;
 final googleSignIn = GoogleSignIn.standard(scopes: [
-    drive.DriveApi.driveAppdataScope,
-    drive.DriveApi.driveFileScope,
-  ]);
-
+  drive.DriveApi.driveAppdataScope,
+  drive.DriveApi.driveFileScope,
+]);
 
 Future<void> signIn() async {
   final googleUser = await googleSignIn.signIn();
@@ -32,7 +31,6 @@ Future<void> signIn() async {
     print(e);
   }
 }
-
 
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
