@@ -9,22 +9,18 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  animated_splash_screen: ^1.1.0
   google_fonts: ^2.1.0
   flutter:
     sdk: flutter
   googleapis: ^7.0.0
   google_sign_in: ^5.2.1
-  image_picker: ^0.8.4+11
+  image_picker: 0.8.4
+
   shared_preferences: ^2.0.13
   permission_handler: ^9.2.0
-  image_gallery_saver: ^1.7.1
-  aws_textract_api: ^1.2.0
-  image_cropper: ^1.5.0
   sqflite: ^2.0.2
   flutter_share: ^2.0.0
   path_provider: ^2.0.3
-  archive: ^3.3.0
   flutter_localizations:
     sdk: flutter
     version: ^0.0.0
