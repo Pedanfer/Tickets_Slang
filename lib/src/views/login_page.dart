@@ -113,25 +113,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Column(
                 children: [
-                  Visibility(
-                    visible: isVisibleRegister,
-                    child: CustomButton(
-                      text: 'Crear cuenta nueva',
-                      width: dimension.width * 0.90,
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (c, a1, a2) => UserRegister(),
-                            transitionsBuilder: (c, anim, a2, child) =>
-                                FadeTransition(opacity: anim, child: child),
-                            transitionDuration: Duration(milliseconds: 700),
-                          ),
-                        )
-                      },
-                    ),
-                  ),
-                  SizedBox(height: dimension.height * 0.01),
                   CustomButton(
                       text: 'Login',
                       width: dimension.width * 0.90,
@@ -198,6 +179,23 @@ class _LoginPageState extends State<LoginPage> {
                                     }),
                               }
                           }),
+                
+                  SizedBox(height: dimension.height * 0.01),
+
+                  TextButton(
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (c, a1, a2) => UserRegister(),
+                            transitionsBuilder: (c, anim, a2, child) =>
+                                FadeTransition(opacity: anim, child: child),
+                            transitionDuration: Duration(milliseconds: 700),
+                          ),
+                        )
+                      }, child: Text('Crear cuenta nueva',)),
+                  
+                  
                 ],
               ),
             ],

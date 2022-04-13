@@ -12,7 +12,7 @@ class TicketView extends StatefulWidget {
   State<TicketView> createState() => TicketViewState();
 }
 
-Border border = Border.all(color: Colors.blueAccent);
+Border border = Border.all(color: Colors.white);
 
 class TicketViewState extends State<TicketView> {
   TransformationController controllerTransform = TransformationController();
@@ -99,7 +99,7 @@ class TicketViewState extends State<TicketView> {
                       child: Text(
                         widget.ticketData['hour'],
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                     ),
                   ],
@@ -114,7 +114,7 @@ class TicketViewState extends State<TicketView> {
                       Text(
                         widget.ticketData['categ1'],
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                         textScaleFactor: 1.3,
                       ),
                     ],
@@ -131,7 +131,7 @@ class TicketViewState extends State<TicketView> {
                         widget.ticketData['categ2'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                         textScaleFactor: 1.3,
@@ -140,7 +140,6 @@ class TicketViewState extends State<TicketView> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(border: border),
                   width: dimension.width * 0.9,
                   height: dimension.height * 0.55,
                   child: InteractiveViewer(
