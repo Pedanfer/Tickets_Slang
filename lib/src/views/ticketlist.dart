@@ -7,6 +7,7 @@ import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:path_provider/path_provider.dart';
 
 var textoFechaInicio = 'Fecha inicio';
 var textoFechaFin = 'Fecha fin';
@@ -123,7 +124,12 @@ class TicketlistState extends State<Ticketlist> {
                                 color: Colors.white,
                                 size: 30,
                               ),
-                              onPressed: () {
+                              onPressed: () async {
+                                var storageDir =
+                                    await getExternalStorageDirectory();
+                                if (!storageDir!.listSync().isEmpty) {
+                                  emptyAppDir();
+                                }
                                 createExcelLista(ticketList)
                                     .then((result) async {
                                   await FlutterShare.shareFile(

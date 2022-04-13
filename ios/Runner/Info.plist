@@ -43,5 +43,7 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app will access the gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app will use the camera</string>
 </dict>
 </plist>

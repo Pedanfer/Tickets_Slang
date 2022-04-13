@@ -142,13 +142,9 @@ class AddPhotoState extends State<AddPhoto> {
                               onPressed: () {
                                 photoFrom('camera')
                                     .then((value) => setState(() {
-                                          if (value.toString() !=
-                                              Image.asset(
-                                                      'lib/assets/ticketRobot.png',
-                                                      height: 450,
-                                                      width: 380)
-                                                  .toString()) {
-                                            img = value;
+                                          if (value) {
+                                            img = Image.file(imageFile!,
+                                                height: 450, width: 380);
                                             isVisibleBorrarAceptar = true;
                                             isVisibleFotoGaleria = false;
                                             isVisibleCategorias = true;
@@ -177,13 +173,9 @@ class AddPhotoState extends State<AddPhoto> {
                                 onPressed: () {
                                   photoFrom('gallery')
                                       .then((value) => setState(() {
-                                            if (value.toString() !=
-                                                Image.asset(
-                                                        'lib/assets/ticketRobot.png',
-                                                        height: 450,
-                                                        width: 380)
-                                                    .toString()) {
-                                              img = value;
+                                            if (value) {
+                                              img = Image.file(imageFile!,
+                                                  height: 450, width: 380);
                                               isVisibleBorrarAceptar = true;
                                               isVisibleFotoGaleria = false;
                                               isVisibleCategorias = true;

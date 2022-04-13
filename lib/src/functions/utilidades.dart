@@ -17,7 +17,7 @@ List<int>? imgBytes;
 File? imageFile;
 SharedPreferences? prefs;
 
-Future<Image> photoFrom(String source) async {
+Future<bool> photoFrom(String source) async {
   if (await requestPermission(Permission.camera) &&
       await requestPermission(Permission.storage)) {
     var _pickedFile = await imgPicker.pickImage(
@@ -26,10 +26,10 @@ Future<Image> photoFrom(String source) async {
     if (_pickedFile?.path != null) {
       imageFile = File(_pickedFile!.path);
       imgBytes = imageFile!.readAsBytesSync();
-      return Image.file(imageFile!, height: 450, width: 380);
+      return true;
     }
   }
-  return Image.asset('lib/assets/ticketRobot.png', height: 450, width: 380);
+  return false;
 }
 
 Future<bool> deleteCateg(
