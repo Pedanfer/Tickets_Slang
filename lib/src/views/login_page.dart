@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exploration_planner/src/functions/communications.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/views/dashboard.dart';
 import 'package:exploration_planner/src/views/userRegister.dart';
 import 'package:exploration_planner/src/utils/validators.dart' as validators;
@@ -123,6 +124,9 @@ class _LoginPageState extends State<LoginPage> {
                                     {
                                       if (connection)
                                         {
+                                          getPrefs().then((value) => value!
+                                              .setStringList(
+                                                  'login', [email, password])),
                                           setState(() => {loginOK = true}),
                                           Timer(Duration(milliseconds: 700),
                                               () {
@@ -179,23 +183,22 @@ class _LoginPageState extends State<LoginPage> {
                                     }),
                               }
                           }),
-                
                   SizedBox(height: dimension.height * 0.01),
-
                   TextButton(
                       onPressed: () => {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (c, a1, a2) => UserRegister(),
-                            transitionsBuilder: (c, anim, a2, child) =>
-                                FadeTransition(opacity: anim, child: child),
-                            transitionDuration: Duration(milliseconds: 700),
-                          ),
-                        )
-                      }, child: Text('Crear cuenta nueva',)),
-                  
-                  
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (c, a1, a2) => UserRegister(),
+                                transitionsBuilder: (c, anim, a2, child) =>
+                                    FadeTransition(opacity: anim, child: child),
+                                transitionDuration: Duration(milliseconds: 700),
+                              ),
+                            )
+                          },
+                      child: Text(
+                        'Crear cuenta nueva',
+                      )),
                 ],
               ),
             ],

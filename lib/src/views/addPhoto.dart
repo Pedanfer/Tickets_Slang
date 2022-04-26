@@ -34,7 +34,8 @@ class AddPhotoState extends State<AddPhoto> {
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {
-          return Container(
+          return Scaffold(
+              body: Container(
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
@@ -270,7 +271,7 @@ class AddPhotoState extends State<AddPhoto> {
                 ],
               ),
             ),
-          );
+          ));
         });
   }
 

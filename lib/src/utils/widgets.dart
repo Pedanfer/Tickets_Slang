@@ -32,7 +32,7 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
     titlePadding: EdgeInsets.all(dimension.width * 0.03),
     contentPadding: EdgeInsets.all(0),
     content: Image.asset(
-      'lib/assets/loadSlang.gif',
+      'lib/assets/loadSlang2.gif',
       fit: BoxFit.cover,
     ),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
