@@ -45,14 +45,12 @@ Future<Map<String, dynamic>> uploadImageToSlang(File image) async {
   return jsonData;
 }
 
-Future<bool> registerSlang(
-    String name, String phone, String email, String password) async {
+Future<bool> registerSlang(String name, String email, String password) async {
   var headers = {'clientVersion': '0.1.16'};
   var body = {
     'email': email,
     'name': name,
     'password': password,
-    'phone': phone
   };
   var url = Uri.parse('http://serv.slang.digital/api/client/users');
   var response = await http.post(url, headers: headers, body: body);

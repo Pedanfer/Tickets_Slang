@@ -27,10 +27,11 @@ class AddPhotoState extends State<AddPhoto> {
   var categ2 = '';
   var ticket;
   var isVisibleImg = true;
+  var dimension;
 
   @override
   Widget build(BuildContext context) {
-    final dimension = MediaQuery.of(context).size;
+    dimension = MediaQuery.of(context).size;
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {
@@ -79,7 +80,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     color: Color(0xff011A58)),
                                 iconSize: 40,
                                 onPressed: () {
-                                  deleteCateg(context, 1, categs1Key)
+                                  deleteCateg(context, 1, categs1Key, dimension)
                                       .then((value) => setState(() {}));
                                   ;
                                 },
@@ -110,7 +111,8 @@ class AddPhotoState extends State<AddPhoto> {
                                       color: Color(0xff011A58)),
                                   iconSize: 40,
                                   onPressed: () {
-                                    deleteCateg(context, 2, categs2Key)
+                                    deleteCateg(
+                                            context, 2, categs2Key, dimension)
                                         .then((value) => setState(() {}));
                                   },
                                 ),
@@ -281,7 +283,7 @@ class AddPhotoState extends State<AddPhoto> {
       isVisibleCategorias = false;
       isVisibleImg = false;
     });
-    insertNewCateg(context, num).then((value) => {
+    insertNewCateg(context, num, dimension).then((value) => {
           Future.delayed(const Duration(milliseconds: 200), () {
             setState(() {
               isVisibleBorrarAceptar = true;

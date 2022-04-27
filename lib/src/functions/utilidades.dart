@@ -32,8 +32,8 @@ Future<bool> photoFrom(String source) async {
   return false;
 }
 
-Future<bool> deleteCateg(
-    BuildContext context, int num, GlobalKey<DropDownCategsState> key) async {
+Future<bool> deleteCateg(BuildContext context, int num,
+    GlobalKey<DropDownCategsState> key, Size dimension) async {
   var categList = num == 1 ? 'categList1' : 'categList2';
   var categToRemove;
   await showDialog(
@@ -257,7 +257,8 @@ void emptyAppDir() async {
   }
 }
 
-Future<bool> insertNewCateg(BuildContext context, int lista) async {
+Future<bool> insertNewCateg(
+    BuildContext context, int lista, Size dimension) async {
   var text = Text(
     lista == 1
         ? 'Por ejemplo: Gasolina, Carrefour, Restaurante...'
@@ -414,4 +415,16 @@ Future<bool> requestPermission(Permission permission) async {
     }
   }
   return false;
+}
+
+void changePageFade(Widget destinyPage, BuildContext context) {
+  Navigator.pushAndRemoveUntil(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (c, a1, a2) => destinyPage,
+        transitionsBuilder: (c, anim, a2, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: Duration(milliseconds: 400),
+      ),
+      (Route<dynamic> route) => false);
 }
