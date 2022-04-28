@@ -1,9 +1,7 @@
-import 'dart:html';
-
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:exploration_planner/src/views/dashboard.dart';
-import 'package:exploration_planner/src/views/userRegister.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
@@ -26,7 +24,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size;
+    var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Form(
         child: Container(
@@ -54,13 +52,74 @@ class _MenuState extends State<Menu> {
                   onPressed: () => changePageFade(DashBoard(), context),
                 ),
               ),
-              Text('hey'),
-              Column(
-                children: [
-                  TitleWithUnderline(
-                      text: 'Menú', fontSize: 24, spaceLength: 24)
-                ],
-              ),
+              Padding(
+                padding: EdgeInsets.only(right: dimension.width * 0.2),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: dimension.height * 0.25,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(width: dimension.width * 0.02),
+                        Expanded(
+                          child: TitleWithUnderline(
+                              color: Colors.white,
+                              text: 'Menú',
+                              fontSize: 24,
+                              spaceLength: 48),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: dimension.height * 0.005,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'CONFIGURACIÓN DE ALMACENAMIENTO',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      height: dimension.height * 0.005,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'EDITAR CATEGORÍAS',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      height: dimension.height * 0.005,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'IR A SLANG DIGITAL',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      height: dimension.height * 0.005,
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        var prefs = await getPrefs();
+                        await prefs!.remove('login');
+                        changePageFade(LoginPage(), context);
+                      },
+                      child: Text(
+                        'CERRAR SESIÓN',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

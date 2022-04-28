@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/views/dashboard.dart';
@@ -14,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
+  await loadImage(AssetImage('lib/assets/fondo.png'));
   runApp(MyApp());
 }
 
@@ -32,14 +35,11 @@ class MyApp extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  blue100,
-                  blue50,
-                ],
-              )),
+                image: DecorationImage(
+                  image: AssetImage("lib/assets/fondo.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
             );
           }
           return MaterialApp(
@@ -71,4 +71,28 @@ class MyApp extends StatelessWidget {
     if (login != null) return DashBoard();
     return LoginPage();
   }
+}
+
+/*Código copiado de Internet, el fondo tarda en cargar por alguna razón,
+falta implementar para ambas plataformas*/
+Future<void> loadImage(ImageProvider provider) {
+  final config = ImageConfiguration(
+    bundle: rootBundle,
+    devicePixelRatio: 1,
+    platform: TargetPlatform.android,
+  );
+
+  final Completer<void> completer = Completer();
+  final ImageStream stream = provider.resolve(config);
+  late final ImageStreamListener listener;
+
+  listener = ImageStreamListener(
+    (ImageInfo image, bool sync) {
+      completer.complete();
+      stream.removeListener(listener);
+    },
+  );
+
+  stream.addListener(listener);
+  return completer.future;
 }

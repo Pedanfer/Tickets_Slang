@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     dimension = MediaQuery.of(context).size;
-    var robotWelcome = Image.asset('lib/assets/Logo_slang_horiz.png', width: dimension.width * 0.55);
+    var robotWelcome = Image.asset('lib/assets/Logo_slang_horiz.png',
+        width: dimension.width * 0.55);
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -42,7 +43,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            MediaQuery.of(context).viewInsets.bottom == 0 ? robotWelcome : SizedBox(),
+            MediaQuery.of(context).viewInsets.bottom == 0
+                ? robotWelcome
+                : SizedBox(),
             SizedBox(height: dimension.height * 0.015),
             Container(
               decoration: BoxDecoration(
@@ -50,12 +53,17 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.white,
               ),
               height: dimension.height * 0.54,
-              margin: EdgeInsets.symmetric(horizontal: dimension.width * 0.05, vertical: dimension.width * 0.05),
-              padding: EdgeInsets.symmetric(horizontal: dimension.width * 0.06, vertical: dimension.height * 0.04),
+              margin: EdgeInsets.symmetric(
+                  horizontal: dimension.width * 0.05,
+                  vertical: dimension.width * 0.05),
+              padding: EdgeInsets.symmetric(
+                  horizontal: dimension.width * 0.06,
+                  vertical: dimension.height * 0.04),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TitleWithUnderline(
+                    color: blue100,
                     text: 'Login',
                     fontSize: 24,
                     spaceLength: 40,
@@ -68,8 +76,9 @@ class _LoginPageState extends State<LoginPage> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none),
                         contentPadding: EdgeInsets.all(dimension.width * 0.015),
                         filled: true,
                         fillColor: formBackground,
@@ -89,8 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                     autocorrect: false,
                     obscureText: !_showPassword ? true : false,
                     decoration: InputDecoration(
-                        border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none),
                         contentPadding: EdgeInsets.all(dimension.width * 0.015),
                         filled: true,
                         fillColor: formBackground,
@@ -100,7 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                             onTap: () => setState(() {
                                   _showPassword = !_showPassword;
                                 }),
-                            child: _showPassword ? Icon(Icons.visibility) : Icon(Icons.visibility_off)),
+                            child: _showPassword
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off)),
                         icon: Icon(
                           Icons.lock,
                           color: blue100,
@@ -136,38 +148,49 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () => {
                             if (_formKey.currentState!.validate())
                               {
-                                loginSlang(email, password).then((connection) => {
-                                      if (connection)
-                                        {
-                                          if (checkBoxKey.currentState!.checked)
+                                loginSlang(email, password)
+                                    .then((connection) => {
+                                          if (connection)
                                             {
-                                              getPrefs()
-                                                  .then((value) => value!.setStringList('login', [email, password]))
-                                            },
-                                          setState(() => {loginOK = true}),
-                                          Timer(Duration(milliseconds: 700), () {
-                                            changePageFade(DashBoard(), context);
-                                          }),
-                                        }
-                                      else
-                                        {
-                                          Future.delayed(const Duration(milliseconds: 5000), () {
-                                            setState(() {
-                                              isVisibleRegister = true;
-                                            });
-                                          }),
-                                          customSnackBar(
-                                              context,
-                                              'Usuario o contraseña incorrectos.' +
-                                                  '\nCompruebe los datos o regístrese.',
-                                              4),
-                                        }
-                                    }),
+                                              if (checkBoxKey
+                                                  .currentState!.checked)
+                                                {
+                                                  getPrefs().then((value) =>
+                                                      value!.setStringList(
+                                                          'login',
+                                                          [email, password]))
+                                                },
+                                              setState(() => {loginOK = true}),
+                                              Timer(Duration(milliseconds: 700),
+                                                  () {
+                                                changePageFade(
+                                                    DashBoard(), context);
+                                              }),
+                                            }
+                                          else
+                                            {
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 5000), () {
+                                                setState(() {
+                                                  isVisibleRegister = true;
+                                                });
+                                              }),
+                                              customSnackBar(
+                                                  context,
+                                                  'Usuario o contraseña incorrectos.' +
+                                                      '\nCompruebe los datos o regístrese.',
+                                                  4),
+                                            }
+                                        }),
                               }
                             else
                               {
                                 setState(() => {
-                                      customSnackBar(context, 'Hay campos sin rellenar o con formato erróneo', 2),
+                                      customSnackBar(
+                                          context,
+                                          'Hay campos sin rellenar o con formato erróneo',
+                                          2),
                                     }),
                               }
                           }),
