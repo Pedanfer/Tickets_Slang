@@ -29,16 +29,14 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
             label: 'Archivador',
           )
         ],
         selectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
-        unselectedLabelStyle:
-            TextStyle(fontSize: 12, color: Color.fromARGB(255, 177, 177, 177)),
+        unselectedLabelStyle: TextStyle(fontSize: 12, color: Color.fromARGB(255, 177, 177, 177)),
         unselectedItemColor: Color.fromARGB(255, 177, 177, 177),
         selectedItemColor: Colors.white,
       ),

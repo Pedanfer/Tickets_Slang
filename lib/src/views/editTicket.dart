@@ -44,158 +44,130 @@ class EditTicketState extends State<EditTicket> {
               ],
             ),
           ),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Container(
+                child: Column(
               children: [
-                Container(
-                    child: Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: IconButton(
-                            icon: Icon(Icons.cancel, color: Colors.white),
-                            iconSize: 40,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            widget.ticketData['date'],
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 30, color: Color(0xffECEEF3)),
-                          ),
-                        ),
-                        Container(
-                          child: IconButton(
-                            icon: Icon(Icons.check, color: Colors.white),
-                            iconSize: 40,
-                            onPressed: () {
-                              print('CONTROLLER: ' + controller.text);
-                              // GUARDAR Y VOLVER
-                            },
-                          ),
-                        ),
-                      ],
+                    Container(
+                      child: IconButton(
+                        icon: Icon(Icons.cancel, color: Colors.white),
+                        iconSize: 40,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                     Container(
                       child: Text(
-                        widget.ticketData['hour'],
-                        textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 30, color: Color(0xffECEEF3)),
+                        widget.ticketData['date'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontSize: 30, color: Color(0xffECEEF3)),
+                      ),
+                    ),
+                    Container(
+                      child: IconButton(
+                        icon: Icon(Icons.check, color: Colors.white),
+                        iconSize: 40,
+                        onPressed: () {
+                          print('CONTROLLER: ' + controller.text);
+                          // GUARDAR Y VOLVER
+                        },
                       ),
                     ),
                   ],
-                )),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 350,
-                  decoration: BoxDecoration(
-                    color: !isVisibleEditioCateg
-                        ? Colors.white
-                        : Colors.transparent,
-                    border: Border.all(
-                      color: !isVisibleEditioCateg
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Visibility(
-                        visible: isVisibleEditioCateg,
-                        child: DropDownCategs(
-                            (value) => categs += '.' + value.toString() + '|',
-                            vista,
-                            'categList1',
-                            key: categsKey),
-                      ),
-                      Visibility(
-                          visible: !isVisibleEditioCateg,
-                          child: Text(
-                            'CATEGORÍA 1: ' + widget.ticketData['categ1'],
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                            textScaleFactor: 1.3,
-                          )),
-                      IconButton(
-                        icon: !isVisibleEditioCateg
-                            ? Icon(Icons.edit)
-                            : Icon(Icons.save),
-                        iconSize: 40,
-                        color: Colors.black,
-                        onPressed: () {
-                          setState(() {
-                            isVisibleEditioCateg = !isVisibleEditioCateg;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 350,
-                  decoration: BoxDecoration(
-                    color: !isVisibleEditioCateg2
-                        ? Colors.white
-                        : Colors.transparent,
-                    border: Border.all(
-                      color: !isVisibleEditioCateg2
-                          ? Colors.white
-                          : Colors.transparent,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Visibility(
-                        visible: isVisibleEditioCateg2,
-                        child: DropDownCategs(
-                            (value) => categs += '.' + value.toString() + '|',
-                            vista,
-                            'categList2',
-                            key: categsKey2),
-                      ),
-                      Visibility(
-                          visible: !isVisibleEditioCateg2,
-                          child: Text(
-                            'CATEGORÍA 2: ' + widget.ticketData['categ2'],
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                            textScaleFactor: 1.3,
-                          )),
-                      IconButton(
-                        icon: !isVisibleEditioCateg2
-                            ? Icon(Icons.edit)
-                            : Icon(Icons.save),
-                        iconSize: 40,
-                        color: Colors.black,
-                        onPressed: () {
-                          setState(() {
-                            isVisibleEditioCateg2 = !isVisibleEditioCateg2;
-                          });
-                        },
-                      ),
-                    ],
+                  child: Text(
+                    widget.ticketData['hour'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 30, color: Color(0xffECEEF3)),
                   ),
                 ),
-                Container(
-                  width: 350,
-                  height: 450,
-                  child: Image.memory(widget.ticketData['photo']),
-                )
-              ])),
+              ],
+            )),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              width: 350,
+              decoration: BoxDecoration(
+                color: !isVisibleEditioCateg ? Colors.white : Colors.transparent,
+                border: Border.all(
+                  color: !isVisibleEditioCateg ? Colors.white : Colors.transparent,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: isVisibleEditioCateg,
+                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList1', key: categsKey),
+                  ),
+                  Visibility(
+                      visible: !isVisibleEditioCateg,
+                      child: Text(
+                        'CATEGORÍA 1: ' + widget.ticketData['categ1'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 0, 0, 0)),
+                        textScaleFactor: 1.3,
+                      )),
+                  IconButton(
+                    icon: !isVisibleEditioCateg ? Icon(Icons.edit) : Icon(Icons.save),
+                    iconSize: 40,
+                    color: Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        isVisibleEditioCateg = !isVisibleEditioCateg;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              width: 350,
+              decoration: BoxDecoration(
+                color: !isVisibleEditioCateg2 ? Colors.white : Colors.transparent,
+                border: Border.all(
+                  color: !isVisibleEditioCateg2 ? Colors.white : Colors.transparent,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: isVisibleEditioCateg2,
+                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList2', key: categsKey2),
+                  ),
+                  Visibility(
+                      visible: !isVisibleEditioCateg2,
+                      child: Text(
+                        'CATEGORÍA 2: ' + widget.ticketData['categ2'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 0, 0, 0)),
+                        textScaleFactor: 1.3,
+                      )),
+                  IconButton(
+                    icon: !isVisibleEditioCateg2 ? Icon(Icons.edit) : Icon(Icons.save),
+                    iconSize: 40,
+                    color: Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        isVisibleEditioCateg2 = !isVisibleEditioCateg2;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 350,
+              height: 450,
+              child: Image.memory(widget.ticketData['photo']),
+            )
+          ])),
     );
   }
 }

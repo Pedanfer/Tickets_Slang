@@ -3,11 +3,7 @@ import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-TextButton CustomButton(
-    {required String text,
-    required double width,
-    required double height,
-    Function()? onPressed}) {
+TextButton CustomButton({required String text, required double width, required double height, Function()? onPressed}) {
   return TextButton(
     style: TextButton.styleFrom(
       shape: RoundedRectangleBorder(
@@ -18,9 +14,7 @@ TextButton CustomButton(
       minimumSize: Size(width, height),
     ),
     onPressed: onPressed,
-    child: Text(text,
-        style: GoogleFonts.ibmPlexSans(
-            fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+    child: Text(text, style: GoogleFonts.ibmPlexSans(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
   );
 }
 
@@ -28,8 +22,7 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
   return AlertDialog(
     title: Text(
       message,
-      style: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
       textAlign: TextAlign.center,
     ),
     backgroundColor: blue75,
@@ -44,10 +37,7 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
 }
 
 //Truco que hace invisible el texto y usa en realidad su sombra con offset
-Text TitleWithUnderline(
-    {required String text,
-    required double fontSize,
-    required int spaceLength}) {
+Text TitleWithUnderline({required String text, required double fontSize, required int spaceLength}) {
   return Text.rich(
     TextSpan(
       text: text,
@@ -81,11 +71,7 @@ class CustomCheckBox extends StatefulWidget {
   final List<TextSpan> text;
 
   CustomCheckBox(
-      {required this.dimension,
-      required this.offsetCheck,
-      required this.offsetText,
-      required this.text,
-      Key? key})
+      {required this.dimension, required this.offsetCheck, required this.offsetText, required this.text, Key? key})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => CustomCheckBoxState();
@@ -101,8 +87,7 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
       data: ThemeData(
           checkboxTheme: CheckboxThemeData(
               fillColor: MaterialStateProperty.all(Colors.transparent),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
       child: Transform.scale(
         scale: 0.85,
         child: Transform.translate(
@@ -140,8 +125,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
     BuildContext context, String message, int duration) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Color(0xff011A58),
-      content: Text(message,
-          style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
+      content: Text(message, style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
       duration: Duration(seconds: duration)));
 }
 
@@ -150,8 +134,7 @@ class DropDownCategs extends StatefulWidget {
   final String hint;
   final String categList;
 
-  DropDownCategs(this.func, this.hint, this.categList, {Key? key})
-      : super(key: key);
+  DropDownCategs(this.func, this.hint, this.categList, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => DropDownCategsState();
 }
@@ -177,9 +160,7 @@ class DropDownCategsState extends State<DropDownCategs> {
       margin: EdgeInsets.symmetric(vertical: 2.5),
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.black),
-          color: Colors.white),
+          borderRadius: BorderRadius.circular(100), border: Border.all(color: Colors.black), color: Colors.white),
       child: DropdownButton(
           items: prefs!.getStringList(widget.categList)!.map((String e) {
             return DropdownMenuItem(value: e, child: Text(e));

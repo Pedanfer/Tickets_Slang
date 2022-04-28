@@ -18,11 +18,9 @@ File? imageFile;
 SharedPreferences? prefs;
 
 Future<bool> photoFrom(String source) async {
-  if (await requestPermission(Permission.camera) &&
-      await requestPermission(Permission.storage)) {
+  if (await requestPermission(Permission.camera) && await requestPermission(Permission.storage)) {
     var _pickedFile = await imgPicker.pickImage(
-        imageQuality: 50,
-        source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
+        imageQuality: 50, source: source == 'camera' ? ImageSource.camera : ImageSource.gallery);
     if (_pickedFile?.path != null) {
       imageFile = File(_pickedFile!.path);
       imgBytes = imageFile!.readAsBytesSync();
@@ -32,8 +30,7 @@ Future<bool> photoFrom(String source) async {
   return false;
 }
 
-Future<bool> deleteCateg(BuildContext context, int num,
-    GlobalKey<DropDownCategsState> key, Size dimension) async {
+Future<bool> deleteCateg(BuildContext context, int num, GlobalKey<DropDownCategsState> key, Size dimension) async {
   var categList = num == 1 ? 'categList1' : 'categList2';
   var categToRemove;
   await showDialog(
@@ -62,8 +59,7 @@ Future<bool> deleteCateg(BuildContext context, int num,
                   child: Text('Aceptar'),
                   onPressed: () {
                     getPrefs().then((value) => {
-                          addRemoveCategToPrefs(
-                              categ: categToRemove, num: num, add: false),
+                          addRemoveCategToPrefs(categ: categToRemove, num: num, add: false),
                           key.currentState!.changeHint('Elija categoría')
                         });
                     Navigator.pop(context);
@@ -72,8 +68,7 @@ Future<bool> deleteCateg(BuildContext context, int num,
               ],
             )
           ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         );
       });
   return true;
@@ -152,8 +147,7 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 Future<void> createExcelLista(List<Ticket> listaTickets) async {
   if (await requestPermission(Permission.storage)) {
     var dirToCompress;
-    await getExternalStorageDirectory()
-        .then((value) => dirToCompress = value!.path);
+    await getExternalStorageDirectory().then((value) => dirToCompress = value!.path);
     var encoder = ZipFileEncoder();
     encoder.create(dirToCompress + '/Tickets.zip');
 
@@ -177,28 +171,15 @@ Future<void> createExcelLista(List<Ticket> listaTickets) async {
       var ticketData = listaTickets[i].toMap();
 
       // CONTENIDO
-      sheet
-          .getRangeByName('A' + (i + 2).toString())
-          .setText(ticketData['issuer']);
-      sheet
-          .getRangeByName('B' + (i + 2).toString())
-          .setText(ticketData['total'].toString() + '€');
-      sheet
-          .getRangeByName('C' + (i + 2).toString())
-          .setText(ticketData['date']);
-      sheet
-          .getRangeByName('D' + (i + 2).toString())
-          .setText(ticketData['hour']);
-      sheet
-          .getRangeByName('E' + (i + 2).toString())
-          .setText(ticketData['categ1']);
-      sheet
-          .getRangeByName('F' + (i + 2).toString())
-          .setText(ticketData['categ2']);
+      sheet.getRangeByName('A' + (i + 2).toString()).setText(ticketData['issuer']);
+      sheet.getRangeByName('B' + (i + 2).toString()).setText(ticketData['total'].toString() + '€');
+      sheet.getRangeByName('C' + (i + 2).toString()).setText(ticketData['date']);
+      sheet.getRangeByName('D' + (i + 2).toString()).setText(ticketData['hour']);
+      sheet.getRangeByName('E' + (i + 2).toString()).setText(ticketData['categ1']);
+      sheet.getRangeByName('F' + (i + 2).toString()).setText(ticketData['categ2']);
 
       await encoder.addFile(
-          await File(dirToCompress + '/Ticket' + (i + 2).toString() + '.jpg')
-              .writeAsBytes(ticketData['photo']));
+          await File(dirToCompress + '/Ticket' + (i + 2).toString() + '.jpg').writeAsBytes(ticketData['photo']));
     }
 
 //Defining a global style with properties.
@@ -227,9 +208,7 @@ Future<void> createExcelLista(List<Ticket> listaTickets) async {
     sheet.getRangeByName('A1:F1').cellStyle = globalStyle;
 
 //Apply GlobalStyle1
-    sheet
-        .getRangeByName('A2:F' + (listaTickets.length + 1).toString())
-        .cellStyle = globalStyle1;
+    sheet.getRangeByName('A2:F' + (listaTickets.length + 1).toString()).cellStyle = globalStyle1;
 
 // Auto-Fit
     for (var i = 1; i <= 6; i++) {
@@ -241,8 +220,7 @@ Future<void> createExcelLista(List<Ticket> listaTickets) async {
     final bytes = workbook.saveAsStream();
     workbook.dispose();
 
-    await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx')
-        .writeAsBytes(bytes, flush: true));
+    await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx').writeAsBytes(bytes, flush: true));
     encoder.close();
   }
   ;
@@ -257,8 +235,7 @@ void emptyAppDir() async {
   }
 }
 
-Future<bool> insertNewCateg(
-    BuildContext context, int lista, Size dimension) async {
+Future<bool> insertNewCateg(BuildContext context, int lista, Size dimension) async {
   var text = Text(
     lista == 1
         ? 'Por ejemplo: Gasolina, Carrefour, Restaurante...'
@@ -276,8 +253,7 @@ Future<bool> insertNewCateg(
               '¿Como se llamará la nueva categoría?',
               style: TextStyle(fontSize: 16),
             ),
-            content:
-                TextFormField(onChanged: (value) => nuevaCategoria = value),
+            content: TextFormField(onChanged: (value) => nuevaCategoria = value),
             actions: <Widget>[
               Center(child: text),
               Row(
@@ -296,21 +272,17 @@ Future<bool> insertNewCateg(
                       if (nuevaCategoria.length < 19) {
                         if (nuevaCategoria != '') {
                           if (nuevaCategoria.contains('.') == false) {
-                            nuevaCategoria =
-                                nuevaCategoria.replaceAll('.', '+');
-                            addRemoveCategToPrefs(
-                                categ: nuevaCategoria, num: lista, add: true);
+                            nuevaCategoria = nuevaCategoria.replaceAll('.', '+');
+                            addRemoveCategToPrefs(categ: nuevaCategoria, num: lista, add: true);
                             Navigator.pop(context);
                           } else {
                             text = Text('No puede contener puntos');
                           }
                         } else {
-                          text = Text(
-                              'No puede estar vacío o contener solo espacios');
+                          text = Text('No puede estar vacío o contener solo espacios');
                         }
                       } else {
-                        text = Text(
-                            'La longitud tiene que ser de 1 a 14 caracteres');
+                        text = Text('La longitud tiene que ser de 1 a 14 caracteres');
                       }
                       setState(() => {});
                     },
@@ -318,8 +290,7 @@ Future<bool> insertNewCateg(
                 ],
               )
             ],
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           );
         });
       });
@@ -343,13 +314,10 @@ Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
             TextButton(
                 child: Text('Aceptar'),
                 onPressed: () {
-                  DB
-                      .delete(id)
-                      .then((value) => {Navigator.pop(context), accept = true});
+                  DB.delete(id).then((value) => {Navigator.pop(context), accept = true});
                 }),
           ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         );
       });
   return accept;
@@ -366,8 +334,7 @@ Future<SharedPreferences?> getPrefs() async {
   return prefs;
 }
 
-void addRemoveCategToPrefs(
-    {required String categ, required int num, required bool add}) {
+void addRemoveCategToPrefs({required String categ, required int num, required bool add}) {
   var nomLista = num == 1 ? 'categList1' : 'categList2';
   var listaCategs = prefs!.getStringList(nomLista);
   if (add) {
@@ -422,8 +389,7 @@ void changePageFade(Widget destinyPage, BuildContext context) {
       context,
       PageRouteBuilder(
         pageBuilder: (c, a1, a2) => destinyPage,
-        transitionsBuilder: (c, anim, a2, child) =>
-            FadeTransition(opacity: anim, child: child),
+        transitionsBuilder: (c, anim, a2, child) => FadeTransition(opacity: anim, child: child),
         transitionDuration: Duration(milliseconds: 400),
       ),
       (Route<dynamic> route) => false);

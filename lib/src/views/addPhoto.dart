@@ -60,64 +60,46 @@ class AddPhotoState extends State<AddPhoto> {
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Column(children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            DropDownCategs((value) => categ1 = value.toString(),
-                                vista1, 'categList1',
-                                key: categs1Key),
-                            Row(children: [
-                              IconButton(
-                                icon: Icon(Icons.add_circle_outline_outlined,
-                                    color: Color(0xff011A58)),
-                                iconSize: 40,
-                                onPressed: () {
-                                  chooseCategNoBug(1);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.remove_circle_outline_outlined,
-                                    color: Color(0xff011A58)),
-                                iconSize: 40,
-                                onPressed: () {
-                                  deleteCateg(context, 1, categs1Key, dimension)
-                                      .then((value) => setState(() {}));
-                                  ;
-                                },
-                              ),
-                            ])
-                          ]),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                        DropDownCategs((value) => categ1 = value.toString(), vista1, 'categList1', key: categs1Key),
+                        Row(children: [
+                          IconButton(
+                            icon: Icon(Icons.add_circle_outline_outlined, color: Color(0xff011A58)),
+                            iconSize: 40,
+                            onPressed: () {
+                              chooseCategNoBug(1);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.remove_circle_outline_outlined, color: Color(0xff011A58)),
+                            iconSize: 40,
+                            onPressed: () {
+                              deleteCateg(context, 1, categs1Key, dimension).then((value) => setState(() {}));
+                              ;
+                            },
+                          ),
+                        ])
+                      ]),
                       Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DropDownCategs(
-                                  (value) => categ2 = value.toString(),
-                                  vista2,
-                                  'categList2',
-                                  key: categs2Key),
-                              Row(children: [
-                                IconButton(
-                                  icon: Icon(Icons.add_circle_outline_outlined,
-                                      color: Color(0xff011A58)),
-                                  iconSize: 40,
-                                  onPressed: () {
-                                    chooseCategNoBug(2);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                      Icons.remove_circle_outline_outlined,
-                                      color: Color(0xff011A58)),
-                                  iconSize: 40,
-                                  onPressed: () {
-                                    deleteCateg(
-                                            context, 2, categs2Key, dimension)
-                                        .then((value) => setState(() {}));
-                                  },
-                                ),
-                              ])
-                            ]),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          DropDownCategs((value) => categ2 = value.toString(), vista2, 'categList2', key: categs2Key),
+                          Row(children: [
+                            IconButton(
+                              icon: Icon(Icons.add_circle_outline_outlined, color: Color(0xff011A58)),
+                              iconSize: 40,
+                              onPressed: () {
+                                chooseCategNoBug(2);
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.remove_circle_outline_outlined, color: Color(0xff011A58)),
+                              iconSize: 40,
+                              onPressed: () {
+                                deleteCateg(context, 2, categs2Key, dimension).then((value) => setState(() {}));
+                              },
+                            ),
+                          ])
+                        ]),
                       )
                     ]),
                   ),
@@ -127,9 +109,7 @@ class AddPhotoState extends State<AddPhoto> {
                       margin: EdgeInsets.only(bottom: dimension.height * 0.15),
                       height: dimension.height * 0.2,
                       width: dimension.width * 0.9,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: blue100),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: blue100),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -143,20 +123,17 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                               iconSize: 56,
                               onPressed: () {
-                                photoFrom('camera')
-                                    .then((value) => setState(() {
-                                          if (value) {
-                                            img = Image.file(imageFile!,
-                                                height: 450, width: 380);
-                                            isVisibleBorrarAceptar = true;
-                                            isVisibleFotoGaleria = false;
-                                            isVisibleCategorias = true;
-                                          }
-                                        }));
+                                photoFrom('camera').then((value) => setState(() {
+                                      if (value) {
+                                        img = Image.file(imageFile!, height: 450, width: 380);
+                                        isVisibleBorrarAceptar = true;
+                                        isVisibleFotoGaleria = false;
+                                        isVisibleCategorias = true;
+                                      }
+                                    }));
                               },
                             ),
-                            Text('Hacer foto a ticket',
-                                style: TextStyle(color: Colors.white))
+                            Text('Hacer foto a ticket', style: TextStyle(color: Colors.white))
                           ]),
                           VerticalDivider(
                             color: Colors.white,
@@ -174,20 +151,17 @@ class AddPhotoState extends State<AddPhoto> {
                                 ),
                                 iconSize: 56,
                                 onPressed: () {
-                                  photoFrom('gallery')
-                                      .then((value) => setState(() {
-                                            if (value) {
-                                              img = Image.file(imageFile!,
-                                                  height: 450, width: 380);
-                                              isVisibleBorrarAceptar = true;
-                                              isVisibleFotoGaleria = false;
-                                              isVisibleCategorias = true;
-                                            }
-                                          }));
+                                  photoFrom('gallery').then((value) => setState(() {
+                                        if (value) {
+                                          img = Image.file(imageFile!, height: 450, width: 380);
+                                          isVisibleBorrarAceptar = true;
+                                          isVisibleFotoGaleria = false;
+                                          isVisibleCategorias = true;
+                                        }
+                                      }));
                                 },
                               ),
-                              Text('Usar foto de galería',
-                                  style: TextStyle(color: Colors.white))
+                              Text('Usar foto de galería', style: TextStyle(color: Colors.white))
                             ],
                           ),
                           SizedBox(width: dimension.width * 0.005),
@@ -213,9 +187,7 @@ class AddPhotoState extends State<AddPhoto> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 1.5);
+                                  img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;
                                   isVisibleCategorias = false;
@@ -231,35 +203,26 @@ class AddPhotoState extends State<AddPhoto> {
                                 setState(() {
                                   var jsonData;
                                   //Controlar campos vacíos con 'Vacío'
-                                  uploadImageToSlang(imageFile!)
-                                      .then((value) => {
-                                            jsonData = value,
-                                            ticket = Ticket(
-                                                issuer: jsonData['issuer'],
-                                                date: jsonData['date']
-                                                    .split('/')
-                                                    .reversed
-                                                    .join('-'),
-                                                hour: jsonData['hour'],
-                                                total: jsonData['total'] * 1.0,
-                                                photo: imageFile!
-                                                    .readAsBytesSync(),
-                                                categ1: categ1,
-                                                categ2: categ2),
-                                            DB.insert(ticket)
-                                          });
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 1.5);
+                                  uploadImageToSlang(imageFile!).then((value) => {
+                                        jsonData = value,
+                                        ticket = Ticket(
+                                            issuer: jsonData['issuer'],
+                                            date: jsonData['date'].split('/').reversed.join('-'),
+                                            hour: jsonData['hour'],
+                                            total: jsonData['total'] * 1.0,
+                                            photo: imageFile!.readAsBytesSync(),
+                                            categ1: categ1,
+                                            categ2: categ2),
+                                        DB.insert(ticket)
+                                      });
+                                  img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 6),
-                                            () {
+                                        Future.delayed(Duration(seconds: 6), () {
                                           Navigator.pop(context, true);
                                         });
-                                        return CustomAlertDialog(
-                                            'Extrayendo datos...', dimension);
+                                        return CustomAlertDialog('Extrayendo datos...', dimension);
                                       });
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;

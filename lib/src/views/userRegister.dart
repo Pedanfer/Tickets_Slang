@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 var dimension;
+var userData = ['', '', '', ''];
 bool isVisibleRegister = false;
 GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
 
@@ -20,9 +21,6 @@ class UserRegister extends StatefulWidget {
 
 class _UserRegisterState extends State<UserRegister> {
   bool loginOK = false;
-  var email;
-  var password;
-  var name;
   final _formKey = GlobalKey<FormState>();
   bool isRobotVisible = false;
   bool areButtonsVisible = false;
@@ -30,6 +28,7 @@ class _UserRegisterState extends State<UserRegister> {
 
   @override
   Widget build(BuildContext context) {
+    print(userData[0]);
     var separator = 0.01;
     dimension = MediaQuery.of(context).size;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {
@@ -62,44 +61,32 @@ class _UserRegisterState extends State<UserRegister> {
               SizedBox(height: dimension.height * 0.05),
               Visibility(
                   visible: isRobotVisible,
-                  child: Image.asset('lib/assets/Logo_slang_horiz.png',
-                      width: dimension.width * 0.55)),
+                  child: Image.asset('lib/assets/Logo_slang_horiz.png', width: dimension.width * 0.55)),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   color: Colors.white,
                 ),
                 height: dimension.height * adaptHeight,
-                margin: EdgeInsets.symmetric(
-                    horizontal: dimension.width * 0.05,
-                    vertical: dimension.height * 0.01),
-                padding: EdgeInsets.symmetric(
-                    horizontal: dimension.width * 0.05,
-                    vertical: dimension.height * 0.02),
+                margin: EdgeInsets.symmetric(horizontal: dimension.width * 0.05, vertical: dimension.height * 0.01),
+                padding: EdgeInsets.symmetric(horizontal: dimension.width * 0.05, vertical: dimension.height * 0.02),
                 child: Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(height: dimension.height * separator),
-                      TitleWithUnderline(
-                          text: 'Regístrate', fontSize: 24, spaceLength: 32),
+                      TitleWithUnderline(text: 'Regístrate', fontSize: 24, spaceLength: 32),
                       SizedBox(height: dimension.height * separator),
                       RichText(
                         text: TextSpan(
-                          // Note: Styles for TextSpans must be explicitly defined.
-                          // Child text spans will inherit styles from parent
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 16.0,
                             color: blue100,
                           ),
                           children: <TextSpan>[
+                            new TextSpan(text: 'Para formar parte de SLANG debes completar '),
                             new TextSpan(
-                                text:
-                                    'Para formar parte de SLANG debes completar '),
-                            new TextSpan(
-                                text: 'los siguientes campos ',
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                text: 'los siguientes campos ', style: new TextStyle(fontWeight: FontWeight.bold)),
                             new TextSpan(text: '¡Vamos con ellos!'),
                           ],
                         ),
@@ -111,26 +98,24 @@ class _UserRegisterState extends State<UserRegister> {
                       ),
                       SizedBox(height: dimension.height * separator),
                       Padding(
-                        padding:
-                            EdgeInsets.only(right: dimension.width * 0.001),
+                        padding: EdgeInsets.only(right: dimension.width * 0.001),
                         child: TextFormField(
                           validator: validators.validateName,
                           keyboardType: TextInputType.name,
+                          initialValue: userData[0],
                           autocorrect: false,
+                          onChanged: (value) => {userData[0] = value},
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             labelText: 'Nombre de Usuario',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide.none),
-                            contentPadding:
-                                EdgeInsets.all(dimension.width * 0.015),
+                                borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                            contentPadding: EdgeInsets.all(dimension.width * 0.015),
                             filled: true,
                             fillColor: formBackground,
                             errorStyle: TextStyle(fontSize: 10, height: 1),
                           ),
-                          onChanged: (value) => name = value,
                         ),
                       ),
                       SizedBox(height: dimension.height * separator),
@@ -138,35 +123,33 @@ class _UserRegisterState extends State<UserRegister> {
                         validator: validators.validateEmail,
                         keyboardType: TextInputType.emailAddress,
                         autocorrect: false,
+                        initialValue: userData[1],
+                        onChanged: (value) => {userData[1] = value},
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           labelText: '*Email',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none),
-                          contentPadding:
-                              EdgeInsets.all(dimension.width * 0.015),
+                              borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.all(dimension.width * 0.015),
                           filled: true,
                           fillColor: formBackground,
                           errorStyle: TextStyle(fontSize: 10, height: 1),
                           hintText: 'ejemplo@mail.com',
                         ),
-                        onChanged: (value) => setState(() => {email = value}),
                       ),
                       SizedBox(height: dimension.height * separator),
                       TextFormField(
                         validator: validators.validateCreatedPassword,
-                        onChanged: (value) => password = value,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         autocorrect: false,
+                        initialValue: userData[2],
+                        onChanged: (value) => {userData[2] = value},
                         decoration: InputDecoration(
                           labelText: '*Contraseña',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none),
-                          contentPadding:
-                              EdgeInsets.all(dimension.width * 0.01),
+                              borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.all(dimension.width * 0.01),
                           filled: true,
                           fillColor: formBackground,
                           errorMaxLines: 3,
@@ -178,13 +161,12 @@ class _UserRegisterState extends State<UserRegister> {
                         validator: validators.validateCreatedPassword,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         autocorrect: false,
+                        onChanged: (value) => {userData[3] = value},
                         decoration: InputDecoration(
                           labelText: '*Confirma la contraseña',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none),
-                          contentPadding:
-                              EdgeInsets.all(dimension.width * 0.015),
+                              borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.all(dimension.width * 0.015),
                           filled: true,
                           fillColor: formBackground,
                           errorMaxLines: 3,
@@ -224,26 +206,20 @@ class _UserRegisterState extends State<UserRegister> {
                                     child: TextButton(
                                       style: TextButton.styleFrom(
                                         shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              color: pink100,
-                                              width: 1,
-                                              style: BorderStyle.solid),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          side: BorderSide(color: pink100, width: 1, style: BorderStyle.solid),
+                                          borderRadius: BorderRadius.circular(50),
                                         ),
                                         backgroundColor: Colors.white,
                                         elevation: 1.0,
-                                        minimumSize: Size(dimension.width * 0.4,
-                                            dimension.height * 0.065),
+                                        minimumSize: Size(dimension.width * 0.4, dimension.height * 0.065),
                                       ),
                                       onPressed: () {
+                                        userData = ['', '', '', ''];
                                         changePageFade(LoginPage(), context);
                                       },
                                       child: Text('Volver',
                                           style: GoogleFonts.ibmPlexSans(
-                                              fontSize: 16,
-                                              color: pink100,
-                                              fontWeight: FontWeight.bold)),
+                                              fontSize: 16, color: pink100, fontWeight: FontWeight.bold)),
                                     ),
                                   ),
                                   SizedBox(width: dimension.width * 0.02),
@@ -255,42 +231,24 @@ class _UserRegisterState extends State<UserRegister> {
                                       onPressed: () => {
                                         if (checkBoxKey.currentState!.checked)
                                           {
-                                            if (_formKey.currentState!
-                                                .validate())
+                                            if (_formKey.currentState!.validate())
                                               {
-                                                registerSlang(
-                                                        name, email, password)
-                                                    .then(
+                                                registerSlang(userData[0], userData[1], userData[2]).then(
                                                   (connection) => {
                                                     if (connection)
                                                       {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                SnackBar(
-                                                          backgroundColor:
-                                                              Color(0xff011A58),
+                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                          backgroundColor: Color(0xff011A58),
                                                           content: Text(
                                                               'Complete el registro en su correo, por favor.\nNo podrá utilizar Slang hasta entonces.',
-                                                              style: TextStyle(
-                                                                  fontSize: 14),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                          duration: Duration(
-                                                              seconds: 6),
+                                                              style: TextStyle(fontSize: 14),
+                                                              textAlign: TextAlign.center),
+                                                          duration: Duration(seconds: 6),
                                                         )),
-                                                        setState(() =>
-                                                            {loginOK = true}),
+                                                        setState(() => {loginOK = true}),
                                                         Future.delayed(
-                                                          Duration(
-                                                              milliseconds:
-                                                                  5500),
-                                                          () => {
-                                                            changePageFade(
-                                                                LoginPage(),
-                                                                context)
-                                                          },
+                                                          Duration(milliseconds: 5500),
+                                                          () => {changePageFade(LoginPage(), context)},
                                                         ),
                                                       }
                                                   },
@@ -301,9 +259,7 @@ class _UserRegisterState extends State<UserRegister> {
                                                 setState(() {
                                                   separator = 0.005;
                                                   customSnackBar(
-                                                      context,
-                                                      'Hay campos sin rellenar o con formato erróneo',
-                                                      2);
+                                                      context, 'Hay campos sin rellenar o con formato erróneo', 2);
                                                 })
                                               }
                                           }
@@ -311,9 +267,7 @@ class _UserRegisterState extends State<UserRegister> {
                                           {
                                             setState(() {
                                               customSnackBar(
-                                                  context,
-                                                  'No has aceptado las condiciones de privacidad.',
-                                                  2);
+                                                  context, 'No has aceptado las condiciones de privacidad.', 2);
                                             })
                                           }
                                       },
