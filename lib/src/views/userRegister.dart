@@ -23,6 +23,7 @@ class _UserRegisterState extends State<UserRegister> {
   bool loginOK = false;
   final _formKey = GlobalKey<FormState>();
   bool isRobotVisible = false;
+  bool isMessageVisible = true;
   bool areButtonsVisible = false;
   var adaptHeight;
 
@@ -32,29 +33,31 @@ class _UserRegisterState extends State<UserRegister> {
     var separator = 0.01;
     dimension = MediaQuery.of(context).size;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {
+      isMessageVisible = true;
       isRobotVisible = true;
       areButtonsVisible = true;
       adaptHeight = 0.8;
     } else {
+      if (!_formKey.currentState!.validate()) {
+        isMessageVisible = false;
+      }
       isRobotVisible = false;
       areButtonsVisible = false;
       adaptHeight = 0.58;
     }
     return Scaffold(
       body: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
         child: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xff011A58),
-              Color(0xffECEEF3),
-            ],
-          )),
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fondo.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -77,18 +80,21 @@ class _UserRegisterState extends State<UserRegister> {
                       SizedBox(height: dimension.height * separator),
                       TitleWithUnderline(text: 'Regístrate', fontSize: 24, spaceLength: 32),
                       SizedBox(height: dimension.height * separator),
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: blue100,
+                      Visibility(
+                        visible: isMessageVisible,
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: blue100,
+                            ),
+                            children: <TextSpan>[
+                              new TextSpan(text: 'Para formar parte de SLANG debes completar '),
+                              new TextSpan(
+                                  text: 'los siguientes campos ', style: new TextStyle(fontWeight: FontWeight.bold)),
+                              new TextSpan(text: '¡Vamos con ellos!'),
+                            ],
                           ),
-                          children: <TextSpan>[
-                            new TextSpan(text: 'Para formar parte de SLANG debes completar '),
-                            new TextSpan(
-                                text: 'los siguientes campos ', style: new TextStyle(fontWeight: FontWeight.bold)),
-                            new TextSpan(text: '¡Vamos con ellos!'),
-                          ],
                         ),
                       ),
                       SizedBox(height: dimension.height * separator),
@@ -260,6 +266,7 @@ class _UserRegisterState extends State<UserRegister> {
                                                   separator = 0.005;
                                                   customSnackBar(
                                                       context, 'Hay campos sin rellenar o con formato erróneo', 2);
+                                                  isMessageVisible = false;
                                                 })
                                               }
                                           }

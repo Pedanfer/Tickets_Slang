@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:exploration_planner/src/functions/communications.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
@@ -29,11 +30,10 @@ class AddPhotoState extends State<AddPhoto> {
   var categ1 = '';
   var categ2 = '';
   var ticket;
-  var dimension;
 
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size;
+    final dimension = MediaQuery.of(context).size;
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {
@@ -71,7 +71,6 @@ class AddPhotoState extends State<AddPhoto> {
                   ),
                   SizedBox(height: dimension.height * 0.01),
                   Row(
-                    
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -81,7 +80,7 @@ class AddPhotoState extends State<AddPhoto> {
                         child: Container(
                           color: Colors.red,
                           child: img,
-                          width: dimension.width* 0.5,
+                          width: dimension.width * 0.5,
                           height: dimension.height * 0.4,
                         ),
                       ),
@@ -233,8 +232,11 @@ class AddPhotoState extends State<AddPhoto> {
                                             }));
                                   },
                                 ),
-                                Text('Obtener ticket de \n galería',
-                                    style: TextStyle(color: Colors.white), textAlign: TextAlign.center,)
+                                Text(
+                                  'Obtener ticket de \n galería',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                )
                               ],
                             ),
                           ),
@@ -263,26 +265,35 @@ class AddPhotoState extends State<AddPhoto> {
                                 setState(() {
                                   var jsonData;
                                   //Controlar campos vacíos con 'Vacío'
-                                  uploadImageToSlang(imageFile!).then((value) => {
-                                        jsonData = value,
-                                        ticket = Ticket(
-                                            issuer: jsonData['issuer'],
-                                            date: jsonData['date'].split('/').reversed.join('-'),
-                                            hour: jsonData['hour'],
-                                            total: jsonData['total'] * 1.0,
-                                            photo: imageFile!.readAsBytesSync(),
-                                            categ1: categ1,
-                                            categ2: categ2),
-                                        DB.insert(ticket)
-                                      });
-                                  img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
+                                  uploadImageToSlang(imageFile!)
+                                      .then((value) => {
+                                            jsonData = value,
+                                            ticket = Ticket(
+                                                issuer: jsonData['issuer'],
+                                                date: jsonData['date']
+                                                    .split('/')
+                                                    .reversed
+                                                    .join('-'),
+                                                hour: jsonData['hour'],
+                                                total: jsonData['total'] * 1.0,
+                                                photo: imageFile!
+                                                    .readAsBytesSync(),
+                                                categ1: categ1,
+                                                categ2: categ2),
+                                            DB.insert(ticket)
+                                          });
+                                  img = Image.asset(
+                                      'lib/assets/ticketRobot.png',
+                                      scale: 1.5);
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 6), () {
+                                        Future.delayed(Duration(seconds: 6),
+                                            () {
                                           Navigator.pop(context, true);
                                         });
-                                        return CustomAlertDialog('Extrayendo datos...', dimension);
+                                        return CustomAlertDialog(
+                                            'Extrayendo datos...', dimension);
                                       });
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;

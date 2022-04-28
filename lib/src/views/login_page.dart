@@ -36,14 +36,11 @@ class _LoginPageState extends State<LoginPage> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xff011A58),
-              Color(0xffECEEF3),
-            ],
-          )),
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fondo.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             MediaQuery.of(context).viewInsets.bottom == 0 ? robotWelcome : SizedBox(),
             SizedBox(height: dimension.height * 0.015),

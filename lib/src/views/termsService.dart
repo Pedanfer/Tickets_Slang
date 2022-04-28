@@ -1,6 +1,5 @@
 import 'package:exploration_planner/src/views/userRegister.dart';
 import 'package:flutter/material.dart';
-
 import '../functions/utilidades.dart';
 import '../utils/widgets.dart';
 
@@ -33,14 +32,11 @@ class _TermsServiceState extends State<TermsService> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xff011A58),
-              Color(0xffECEEF3),
-            ],
-          )),
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fondo.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

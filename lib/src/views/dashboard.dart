@@ -1,5 +1,6 @@
-import 'package:exploration_planner/src/utils/constants.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/views/addPhoto.dart';
+import 'package:exploration_planner/src/views/menu.dart';
 import 'package:exploration_planner/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 
@@ -20,18 +21,21 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () => changePageFade(
+              Menu(
+                previousScreen: paginas[paginaActual],
+              ),
+              context),
+        ),
         title: Image.asset('lib/assets/Logo_slang_horizontalblanco.png'),
         actions: [
-          
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(Icons.person)
-          ),
-          
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.person)),
         ],
-        backgroundColor: Color(0xFF011A58
-),
+        backgroundColor: Color(0xFF011A58),
       ),
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
@@ -43,7 +47,8 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
             label: 'Archivador',
