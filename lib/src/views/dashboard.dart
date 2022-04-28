@@ -43,8 +43,7 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
             label: 'Archivador',

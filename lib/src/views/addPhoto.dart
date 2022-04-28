@@ -263,35 +263,26 @@ class AddPhotoState extends State<AddPhoto> {
                                 setState(() {
                                   var jsonData;
                                   //Controlar campos vacíos con 'Vacío'
-                                  uploadImageToSlang(imageFile!)
-                                      .then((value) => {
-                                            jsonData = value,
-                                            ticket = Ticket(
-                                                issuer: jsonData['issuer'],
-                                                date: jsonData['date']
-                                                    .split('/')
-                                                    .reversed
-                                                    .join('-'),
-                                                hour: jsonData['hour'],
-                                                total: jsonData['total'] * 1.0,
-                                                photo: imageFile!
-                                                    .readAsBytesSync(),
-                                                categ1: categ1,
-                                                categ2: categ2),
-                                            DB.insert(ticket)
-                                          });
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 1.5);
+                                  uploadImageToSlang(imageFile!).then((value) => {
+                                        jsonData = value,
+                                        ticket = Ticket(
+                                            issuer: jsonData['issuer'],
+                                            date: jsonData['date'].split('/').reversed.join('-'),
+                                            hour: jsonData['hour'],
+                                            total: jsonData['total'] * 1.0,
+                                            photo: imageFile!.readAsBytesSync(),
+                                            categ1: categ1,
+                                            categ2: categ2),
+                                        DB.insert(ticket)
+                                      });
+                                  img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 6),
-                                            () {
+                                        Future.delayed(Duration(seconds: 6), () {
                                           Navigator.pop(context, true);
                                         });
-                                        return CustomAlertDialog(
-                                            'Extrayendo datos...', dimension);
+                                        return CustomAlertDialog('Extrayendo datos...', dimension);
                                       });
                                   isVisibleBorrarAceptar = false;
                                   isVisibleFotoGaleria = true;
