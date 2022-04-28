@@ -20,13 +20,15 @@ class AddPhotoState extends State<AddPhoto> {
   bool isVisibleBorrarAceptar = false;
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
+  bool isVisibleImg = false;
   String vista1 = 'Elija categoría';
   String vista2 = 'Elija categoría';
-  var img = Image.asset('lib/assets/ticketRobot.png', scale: 1.5);
+  var img = Image.asset(
+    'lib/assets/ticketRobot.png',
+  );
   var categ1 = '';
   var categ2 = '';
   var ticket;
-  var isVisibleImg = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,24 +39,69 @@ class AddPhotoState extends State<AddPhoto> {
           return Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                blue100,
-                blue50,
-              ],
-            )),
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: isVisibleImg
+                    ? new AssetImage("lib/assets/fondo2.png")
+                    : new AssetImage("lib/assets/fondo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              width: double.infinity - 20,
-              height: double.infinity - 20,
+              width: double.infinity,
+              height: double.infinity,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Visibility(visible: isVisibleImg, child: img),
-                  SizedBox(height: dimension.height * 0.015),
+                  Opacity(
+                    opacity: 0.95,
+                    child: Container(
+                      width: double.infinity,
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      child: Text('\t\tTickets',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'IBM Plex Sans',
+                              color: Colors.white)),
+                      color: Color(0xFF41538280),
+                    ),
+                  ),
+                  SizedBox(height: dimension.height * 0.01),
+                  Row(
+                    
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(width: 20),
+                      Visibility(
+                        visible: isVisibleImg,
+                        child: Container(
+                          color: Colors.red,
+                          child: img,
+                          width: dimension.width* 0.5,
+                          height: dimension.height * 0.4,
+                        ),
+                      ),
+                      Visibility(
+                          visible: isVisibleBorrarAceptar,
+                          child: IconButton(
+                            icon: Icon(Icons.cancel),
+                            iconSize: 20,
+                            onPressed: () {
+                              isVisibleImg = false;
+                              setState(() {
+                                img = Image.asset('lib/assets/ticketRobot.png',
+                                    scale: 1.5);
+                                isVisibleBorrarAceptar = false;
+                                isVisibleFotoGaleria = true;
+                                isVisibleCategorias = false;
+                              });
+                            },
+                          )),
+                    ],
+                  ),
+                  SizedBox(height: dimension.height * 0.05),
                   Visibility(
                     visible: isVisibleCategorias,
                     child: Column(children: [
@@ -68,7 +115,7 @@ class AddPhotoState extends State<AddPhoto> {
                               IconButton(
                                 icon: Icon(Icons.add_circle_outline_outlined,
                                     color: Color(0xff011A58)),
-                                iconSize: 40,
+                                iconSize: 20,
                                 onPressed: () {
                                   chooseCategNoBug(1);
                                 },
@@ -76,7 +123,7 @@ class AddPhotoState extends State<AddPhoto> {
                               IconButton(
                                 icon: Icon(Icons.remove_circle_outline_outlined,
                                     color: Color(0xff011A58)),
-                                iconSize: 40,
+                                iconSize: 20,
                                 onPressed: () {
                                   deleteCateg(context, 1, categs1Key)
                                       .then((value) => setState(() {}));
@@ -98,7 +145,7 @@ class AddPhotoState extends State<AddPhoto> {
                                 IconButton(
                                   icon: Icon(Icons.add_circle_outline_outlined,
                                       color: Color(0xff011A58)),
-                                  iconSize: 40,
+                                  iconSize: 20,
                                   onPressed: () {
                                     chooseCategNoBug(2);
                                   },
@@ -107,7 +154,7 @@ class AddPhotoState extends State<AddPhoto> {
                                   icon: Icon(
                                       Icons.remove_circle_outline_outlined,
                                       color: Color(0xff011A58)),
-                                  iconSize: 40,
+                                  iconSize: 20,
                                   onPressed: () {
                                     deleteCateg(context, 2, categs2Key)
                                         .then((value) => setState(() {}));
@@ -122,56 +169,24 @@ class AddPhotoState extends State<AddPhoto> {
                     visible: isVisibleFotoGaleria,
                     child: Container(
                       margin: EdgeInsets.only(bottom: dimension.height * 0.15),
-                      height: dimension.height * 0.2,
+                      height: dimension.height * 0.6,
                       width: dimension.width * 0.9,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: blue100),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(width: dimension.width * 0.005),
-                          Column(children: [
-                            SizedBox(height: dimension.height * 0.03),
-                            IconButton(
-                              icon: Icon(
-                                Icons.add_a_photo_outlined,
-                                color: Colors.white,
-                              ),
-                              iconSize: 56,
-                              onPressed: () {
-                                photoFrom('camera')
-                                    .then((value) => setState(() {
-                                          if (value) {
-                                            img = Image.file(imageFile!,
-                                                height: 450, width: 380);
-                                            isVisibleBorrarAceptar = true;
-                                            isVisibleFotoGaleria = false;
-                                            isVisibleCategorias = true;
-                                          }
-                                        }));
-                              },
-                            ),
-                            Text('Hacer foto a ticket',
-                                style: TextStyle(color: Colors.white))
-                          ]),
-                          VerticalDivider(
-                            color: Colors.white,
-                            indent: 10,
-                            endIndent: 10,
-                            thickness: 2.5,
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(height: dimension.height * 0.03),
+                          Container(
+                            height: dimension.height * 0.2,
+                            child: Column(children: [
                               IconButton(
                                 icon: Icon(
-                                  Icons.photo_library_outlined,
+                                  Icons.add_a_photo_outlined,
                                   color: Colors.white,
                                 ),
                                 iconSize: 56,
                                 onPressed: () {
-                                  photoFrom('gallery')
+                                  isVisibleImg = true;
+                                  photoFrom('camera')
                                       .then((value) => setState(() {
                                             if (value) {
                                               img = Image.file(imageFile!,
@@ -183,11 +198,43 @@ class AddPhotoState extends State<AddPhoto> {
                                           }));
                                 },
                               ),
-                              Text('Usar foto de galería',
+                              Text('Hacer foto a ticket',
                                   style: TextStyle(color: Colors.white))
-                            ],
+                            ]),
                           ),
-                          SizedBox(width: dimension.width * 0.005),
+                          VerticalDivider(
+                            color: Colors.white,
+                            thickness: 2,
+                          ),
+                          Container(
+                            height: dimension.height * 0.2,
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.photo_library_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  iconSize: 56,
+                                  onPressed: () {
+                                    isVisibleImg = true;
+                                    photoFrom('gallery')
+                                        .then((value) => setState(() {
+                                              if (value) {
+                                                img = Image.file(imageFile!,
+                                                    height: 450, width: 380);
+                                                isVisibleBorrarAceptar = true;
+                                                isVisibleFotoGaleria = false;
+                                                isVisibleCategorias = true;
+                                              }
+                                            }));
+                                  },
+                                ),
+                                Text('Obtener ticket de \n galería',
+                                    style: TextStyle(color: Colors.white), textAlign: TextAlign.center,)
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -205,26 +252,11 @@ class AddPhotoState extends State<AddPhoto> {
                           children: [
                             TextButton(
                               child: Text(
-                                'BORRAR',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 1.5);
-                                  isVisibleBorrarAceptar = false;
-                                  isVisibleFotoGaleria = true;
-                                  isVisibleCategorias = false;
-                                });
-                              },
-                            ),
-                            TextButton(
-                              child: Text(
                                 'ENVIAR',
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
+                                isVisibleImg = false;
                                 setState(() {
                                   var jsonData;
                                   //Controlar campos vacíos con 'Vacío'

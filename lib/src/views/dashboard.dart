@@ -19,9 +19,23 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.menu),
+        title: Image.asset('lib/assets/Logo_slang_horizontalblanco.png'),
+        actions: [
+          
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Icon(Icons.person)
+          ),
+          
+        ],
+        backgroundColor: Color(0xFF011A58
+),
+      ),
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: blue100,
+        backgroundColor: Color(0xFF011A58),
         onTap: (index) {
           setState(() {
             paginaActual = index;
@@ -37,9 +51,8 @@ class _DashBoardState extends State<DashBoard> {
           )
         ],
         selectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
-        unselectedLabelStyle:
-            TextStyle(fontSize: 12, color: Color.fromARGB(255, 177, 177, 177)),
-        unselectedItemColor: Color.fromARGB(255, 177, 177, 177),
+        unselectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
+        unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
       ),
     );
