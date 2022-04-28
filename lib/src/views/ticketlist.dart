@@ -80,7 +80,7 @@ class TicketlistState extends State<Ticketlist> {
                 color: Color(0xffFAFBF8),
                 child: Center(
                     child:
-                        Image.asset('lib/assets/loadSlang.gif', scale: 0.7)));
+                        Image.asset('lib/assets/loadSlang.gif', scale: 1.1)));
           }
           var ticketList = snapshot.data![1];
           return Scaffold(
@@ -328,23 +328,10 @@ class TicketlistState extends State<Ticketlist> {
                                                       decoration: TextDecoration
                                                           .underline)),
                                               onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  PageRouteBuilder(
-                                                    pageBuilder: (c, a1, a2) =>
-                                                        TicketView(
-                                                            ticketList[index]
-                                                                .toMap()),
-                                                    transitionsBuilder:
-                                                        (c, anim, a2, child) =>
-                                                            FadeTransition(
-                                                                opacity: anim,
-                                                                child: child),
-                                                    transitionDuration:
-                                                        Duration(
-                                                            milliseconds: 700),
-                                                  ),
-                                                );
+                                                changePageFade(
+                                                    TicketView(ticketList[index]
+                                                        .toMap()),
+                                                    context);
                                               },
                                             ),
                                             Visibility(

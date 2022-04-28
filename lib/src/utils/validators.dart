@@ -15,7 +15,7 @@ String? validateCreatedPassword(dynamic value) {
   if (value.length == 0) return 'Campo vacío';
   return RegExp(regexPassword).hasMatch(value)
       ? null
-      : 'Contraseña débil, incluya al menos 6 caracteres: mayúsculas, minúsculas y números';
+      : 'Contraseña débil, incluya al menos 6 caracteres: mayúsculas, minúsculas, 1 cáracter especial y números';
 }
 
 String? validateName(dynamic value) {

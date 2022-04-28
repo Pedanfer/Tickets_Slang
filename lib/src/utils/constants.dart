@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const regexEmail =
     r"^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$";
 const regexPassword =
-    r"(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$";
+    r"(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&€amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$";
 const regexDNI = r'^(\d{8})([A-z])$';
 const regexCIF = r'^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$';
 const regexNIE = r'^[XYZ]\d{7,8}[A-Z]$';
@@ -20,3 +20,4 @@ const pink75 = Color(0xffDC47A9);
 const pink50 = Color(0xffE784C6);
 const pink10 = Color(0xffFAE6F4);
 const pink5 = Color(0xffFDF3F9);
+const formBackground = Color(0xffF2F4F7);
