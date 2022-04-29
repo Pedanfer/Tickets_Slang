@@ -1,7 +1,7 @@
 import 'package:exploration_planner/src/views/userRegister.dart';
 import 'package:flutter/material.dart';
-
 import '../functions/utilidades.dart';
+import '../utils/constants.dart';
 import '../utils/widgets.dart';
 
 var dimension;
@@ -33,31 +33,39 @@ class _TermsServiceState extends State<TermsService> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xff011A58),
-              Color(0xffECEEF3),
-            ],
-          )),
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fondo.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: dimension.height * 0.02),
-              Visibility(child: Image.asset('lib/assets/Logo_slang_horiz.png', width: dimension.width * 0.55)),
+              Visibility(
+                  child: Image.asset('lib/assets/Logo_slang_horiz.png',
+                      width: dimension.width * 0.55)),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   color: Colors.white,
                 ),
                 height: dimension.height * 0.7,
-                margin: EdgeInsets.symmetric(horizontal: dimension.width * 0.05, vertical: dimension.width * 0.05),
-                padding: EdgeInsets.symmetric(horizontal: dimension.width * 0.05, vertical: dimension.height * 0.025),
+                margin: EdgeInsets.symmetric(
+                    horizontal: dimension.width * 0.05,
+                    vertical: dimension.width * 0.05),
+                padding: EdgeInsets.symmetric(
+                    horizontal: dimension.width * 0.05,
+                    vertical: dimension.height * 0.025),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TitleWithUnderline(text: 'Política de privacidad', fontSize: 24, spaceLength: 10),
+                    TitleWithUnderline(
+                        color: blue100,
+                        text: 'Política de privacidad',
+                        fontSize: 24,
+                        spaceLength: 10,
+                        dashed: false),
                     Expanded(
                       child: ListView.separated(
                         physics: BouncingScrollPhysics(),

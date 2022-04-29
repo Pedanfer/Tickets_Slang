@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:exploration_planner/src/functions/communications.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
+import 'package:exploration_planner/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
@@ -29,11 +30,10 @@ class AddPhotoState extends State<AddPhoto> {
   var categ1 = '';
   var categ2 = '';
   var ticket;
-  var dimension;
 
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size;
+    final dimension = MediaQuery.of(context).size;
     return FutureBuilder(
         future: getPrefs(),
         builder: (context, snapshot) {

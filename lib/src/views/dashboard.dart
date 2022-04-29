@@ -1,5 +1,6 @@
-import 'package:exploration_planner/src/utils/constants.dart';
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/views/addPhoto.dart';
+import 'package:exploration_planner/src/views/menu.dart';
 import 'package:exploration_planner/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:exploration_planner/src/views/ticketlist.dart';
-import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -102,7 +98,8 @@ class EditTicketState extends State<EditTicket> {
                 children: [
                   Visibility(
                     visible: isVisibleEditioCateg,
-                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList1', key: categsKey),
+                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList1',
+                        key: categsKey),
                   ),
                   Visibility(
                       visible: !isVisibleEditioCateg,
@@ -139,7 +136,8 @@ class EditTicketState extends State<EditTicket> {
                 children: [
                   Visibility(
                     visible: isVisibleEditioCateg2,
-                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList2', key: categsKey2),
+                    child: DropDownCategs((value) => categs += '.' + value.toString() + '|', vista, 'categList2',
+                        key: categsKey2),
                   ),
                   Visibility(
                       visible: !isVisibleEditioCateg2,
