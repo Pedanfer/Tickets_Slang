@@ -64,7 +64,8 @@ class _TermsServiceState extends State<TermsService> {
                         color: blue100,
                         text: 'Política de privacidad',
                         fontSize: 24,
-                        spaceLength: 10),
+                        spaceLength: 10,
+                        dashed: false),
                     Expanded(
                       child: ListView.separated(
                         physics: BouncingScrollPhysics(),

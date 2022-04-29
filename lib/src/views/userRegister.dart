@@ -87,7 +87,8 @@ class _UserRegisterState extends State<UserRegister> {
                           color: blue100,
                           text: 'Regístrate',
                           fontSize: 24,
-                          spaceLength: 32),
+                          spaceLength: 32,
+                          dashed: false),
                       SizedBox(height: dimension.height * separator),
                       Visibility(
                         visible: isMessageVisible,

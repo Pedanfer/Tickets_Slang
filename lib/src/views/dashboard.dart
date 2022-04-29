@@ -23,11 +23,7 @@ class _DashBoardState extends State<DashBoard> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.menu),
-          onPressed: () => changePageFade(
-              Menu(
-                previousScreen: paginas[paginaActual],
-              ),
-              context),
+          onPressed: () => changePageFade(Menu(), context),
         ),
         title: Image.asset('lib/assets/Logo_slang_horizontalblanco.png'),
         actions: [

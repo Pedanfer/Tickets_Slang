@@ -1,7 +1,23 @@
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+Padding getBackButton(Size dimension, Widget screen, BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.fromLTRB(
+      dimension.width * 0.85,
+      dimension.height * 0.1,
+      dimension.width * 0.03,
+      0,
+    ),
+    child: IconButton(
+      icon: SvgPicture.asset('lib/assets/getBackButton.svg'),
+      onPressed: () => changePageFade(screen, context),
+    ),
+  );
+}
 
 TextButton CustomButton(
     {required String text,
@@ -48,7 +64,8 @@ Text TitleWithUnderline(
     {required String text,
     required Color color,
     required double fontSize,
-    required int spaceLength}) {
+    required int spaceLength,
+    required bool dashed}) {
   return Text.rich(
     TextSpan(
       text: text,
@@ -58,14 +75,18 @@ Text TitleWithUnderline(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.underline,
+          decorationStyle:
+              dashed ? TextDecorationStyle.dashed : TextDecorationStyle.solid,
           decorationColor: color,
-          decorationThickness: 0.7),
+          decorationThickness: 1),
       children: <TextSpan>[
         TextSpan(
             text: ' ' * spaceLength,
             style: TextStyle(
-              decoration: TextDecoration.underline,
-            )),
+                decoration: TextDecoration.underline,
+                decorationStyle: dashed
+                    ? TextDecorationStyle.dashed
+                    : TextDecorationStyle.solid)),
         // can add more TextSpans here...
       ],
     ),

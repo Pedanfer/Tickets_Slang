@@ -63,11 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TitleWithUnderline(
-                    color: blue100,
-                    text: 'Login',
-                    fontSize: 24,
-                    spaceLength: 40,
-                  ),
+                      color: blue100,
+                      text: 'Login',
+                      fontSize: 24,
+                      spaceLength: 40,
+                      dashed: false),
                   SizedBox(height: dimension.height * 0.015),
                   TextFormField(
                     validator: validators.validateEmail,

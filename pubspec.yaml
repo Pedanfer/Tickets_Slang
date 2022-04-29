@@ -26,6 +26,7 @@ dependencies:
   firebase_core: ^1.14.0
   firebase_auth: ^3.3.13
   syncfusion_flutter_xlsio: ^20.1.47-beta.1
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:
