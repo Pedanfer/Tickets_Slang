@@ -21,17 +21,15 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        title: Image.asset('lib/assets/Logo_slang_horizontalblanco.png'),
+        title: Container(
+            padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
+            child: Image.asset('lib/assets/Logo_slang_horizontalblanco.png')),
         actions: [
-          
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(Icons.person)
-          ),
-          
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.person)),
         ],
-        backgroundColor: Color(0xFF011A58
-),
+        backgroundColor: Color(0xFF011A58),
       ),
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
@@ -43,7 +41,8 @@ class _DashBoardState extends State<DashBoard> {
         },
         currentIndex: paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder_open_outlined),
             label: 'Archivador',

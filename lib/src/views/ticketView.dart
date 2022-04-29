@@ -20,6 +20,7 @@ class TicketViewState extends State<TicketView> {
 
   @override
   Widget build(BuildContext context) {
+    dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
           padding: EdgeInsets.fromLTRB(20, 25, 20, 10),

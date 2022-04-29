@@ -82,7 +82,7 @@ class TicketlistState extends State<Ticketlist> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         color: blue100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -239,6 +239,7 @@ class TicketlistState extends State<Ticketlist> {
                         context: context,
                         removeTop: true,
                         child: ListView.builder(
+                          
                             controller: scrollController,
                             itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
@@ -247,6 +248,7 @@ class TicketlistState extends State<Ticketlist> {
                                 color: cardColor,
                                 child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
                                   ListTile(
+                                    onTap: ()  {  changePageFade(TicketView(ticketList[index].toMap()), context);},
                                     selected: isSelected,
                                     title: Container(
                                         child: Row(
@@ -267,13 +269,6 @@ class TicketlistState extends State<Ticketlist> {
                                             Text(ticketList[index].toMap()['date']),
                                             Text(ticketList[index].toMap()['hour'])
                                           ],
-                                        ),
-                                        TextButton(
-                                          child:
-                                              Text('Ver foto', style: TextStyle(decoration: TextDecoration.underline)),
-                                          onPressed: () {
-                                            changePageFade(TicketView(ticketList[index].toMap()), context);
-                                          },
                                         ),
                                         Visibility(
                                           visible: isVisibleDelete,
