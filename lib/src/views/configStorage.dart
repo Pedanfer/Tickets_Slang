@@ -46,7 +46,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SvgPicture.asset('lib/assets/iconDrive.svg'),
+                      SvgPicture.asset(iconDrive),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

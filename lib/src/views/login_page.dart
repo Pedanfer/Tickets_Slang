@@ -4,6 +4,7 @@ import 'package:exploration_planner/src/functions/communications.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
 import 'package:exploration_planner/src/views/dashboard.dart';
+import 'package:exploration_planner/src/views/initialConfig.dart';
 import 'package:exploration_planner/src/views/userRegister.dart';
 import 'package:exploration_planner/src/utils/validators.dart' as validators;
 import 'package:exploration_planner/src/utils/widgets.dart';
@@ -125,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Expanded(
                           child: CustomCheckBox(
+                        color: blue100,
                         key: checkBoxKey,
                         dimension: dimension,
                         offsetCheck: -8,
@@ -148,41 +150,53 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () => {
                             if (_formKey.currentState!.validate())
                               {
-                                loginSlang(email, password)
-                                    .then((connection) => {
-                                          if (connection)
-                                            {
-                                              if (checkBoxKey
-                                                  .currentState!.checked)
-                                                {
-                                                  getPrefs().then((value) =>
-                                                      value!.setStringList(
-                                                          'login',
-                                                          [email, password]))
-                                                },
-                                              setState(() => {loginOK = true}),
-                                              Timer(Duration(milliseconds: 700),
-                                                  () {
-                                                changePageFade(
-                                                    DashBoard(), context);
+                                loginSlang(email, password).then((connection) =>
+                                    {
+                                      if (connection)
+                                        {
+                                          getPrefs().then((value) => {
+                                                if (value!.getBool(
+                                                        'initialConfig') !=
+                                                    true)
+                                                  {
+                                                    changePageFade(
+                                                        InitialConfig(),
+                                                        context)
+                                                  },
+                                                if (checkBoxKey
+                                                    .currentState!.checked)
+                                                  {
+                                                    getPrefs().then((value) =>
+                                                        value!.setStringList(
+                                                            'login',
+                                                            [email, password]))
+                                                  },
+                                                setState(
+                                                    () => {loginOK = true}),
+                                                Timer(
+                                                    Duration(milliseconds: 700),
+                                                    () {
+                                                  changePageFade(
+                                                      DashBoard(), context);
+                                                }),
                                               }),
-                                            }
-                                          else
-                                            {
-                                              Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 5000), () {
-                                                setState(() {
-                                                  isVisibleRegister = true;
-                                                });
-                                              }),
-                                              customSnackBar(
-                                                  context,
-                                                  'Usuario o contraseña incorrectos.' +
-                                                      '\nCompruebe los datos o regístrese.',
-                                                  4),
-                                            }
-                                        }),
+                                        }
+                                      else
+                                        {
+                                          Future.delayed(
+                                              const Duration(
+                                                  milliseconds: 5000), () {
+                                            setState(() {
+                                              isVisibleRegister = true;
+                                            });
+                                          }),
+                                          customSnackBar(
+                                              context,
+                                              'Usuario o contraseña incorrectos.' +
+                                                  '\nCompruebe los datos o regístrese.',
+                                              4),
+                                        }
+                                    }),
                               }
                             else
                               {

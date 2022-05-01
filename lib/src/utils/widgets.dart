@@ -13,7 +13,7 @@ Padding getBackButton(Size dimension, Widget screen, BuildContext context) {
       0,
     ),
     child: IconButton(
-      icon: SvgPicture.asset('lib/assets/getBackButton.svg'),
+      icon: SvgPicture.asset(getBackButtonIcon),
       onPressed: () => changePageFade(screen, context),
     ),
   );
@@ -97,13 +97,15 @@ Text TitleWithUnderline(
 /*Las clases con todas los campos como constantes se pueden instanciar como
 objetos const lo cual mejora el rendimiento*/
 class CustomCheckBox extends StatefulWidget {
+  final Color color;
   final Size dimension;
   final double offsetCheck;
   final double offsetText;
   final List<TextSpan> text;
 
   CustomCheckBox(
-      {required this.dimension,
+      {required this.color,
+      required this.dimension,
       required this.offsetCheck,
       required this.offsetText,
       required this.text,
@@ -132,8 +134,8 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
           child: CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.leading,
-              checkColor: blue100,
-              side: BorderSide(color: blue100),
+              checkColor: widget.color,
+              side: BorderSide(color: widget.color),
               title: Transform.translate(
                 offset: Offset(widget.offsetText, 0),
                 child: RichText(
@@ -141,7 +143,7 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
                       style: TextStyle(
                         height: widget.dimension.height * 0.0025,
                         fontSize: 12,
-                        color: blue100,
+                        color: widget.color,
                       ),
                       children: widget.text),
                 ),

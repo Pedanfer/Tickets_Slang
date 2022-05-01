@@ -204,6 +204,7 @@ class _UserRegisterState extends State<UserRegister> {
                           child: Column(
                             children: [
                               CustomCheckBox(
+                                color: blue100,
                                 key: checkBoxKey,
                                 dimension: dimension,
                                 offsetCheck: -36,

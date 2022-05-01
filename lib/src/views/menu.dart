@@ -15,8 +15,6 @@ class Menu extends StatefulWidget {
   State<Menu> createState() => _MenuState();
 }
 
-var driveUserData = ['Ramon Gómez Ruiz', 'ramon.gomez@slanginnovations.com'];
-
 class _MenuState extends State<Menu> {
   @override
   void initState() {
