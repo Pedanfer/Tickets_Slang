@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:exploration_planner/src/functions/communications.dart';
 import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/constants.dart';
-import 'package:exploration_planner/src/views/dashboard.dart';
-import 'package:exploration_planner/src/views/initialConfig.dart';
+import 'package:exploration_planner/src/views/chooseApp.dart';
 import 'package:exploration_planner/src/views/userRegister.dart';
 import 'package:exploration_planner/src/utils/validators.dart' as validators;
 import 'package:exploration_planner/src/utils/widgets.dart';
@@ -155,14 +154,6 @@ class _LoginPageState extends State<LoginPage> {
                                       if (connection)
                                         {
                                           getPrefs().then((value) => {
-                                                if (value!.getBool(
-                                                        'initialConfig') !=
-                                                    true)
-                                                  {
-                                                    changePageFade(
-                                                        InitialConfig(),
-                                                        context)
-                                                  },
                                                 if (checkBoxKey
                                                     .currentState!.checked)
                                                   {
@@ -177,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     Duration(milliseconds: 700),
                                                     () {
                                                   changePageFade(
-                                                      DashBoard(), context);
+                                                      ChooseApp(), context);
                                                 }),
                                               }),
                                         }

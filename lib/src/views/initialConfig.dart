@@ -1,9 +1,12 @@
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
+import 'package:exploration_planner/src/views/configStorage.dart';
+import 'package:exploration_planner/src/views/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';
 
-var driveUserData = ['Ramon Gómez Ruiz', 'ramon.gomez@slanginnovations.com'];
+GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
 
 class InitialConfig extends StatefulWidget {
   @override
@@ -185,7 +188,7 @@ class _InitialConfigState extends State<InitialConfig> {
                           TextFormField(
                             keyboardType: TextInputType.name,
                             autocorrect: false,
-                            onChanged: (value) => {},
+                            onChanged: (value) => {driveUserData[0] = value},
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               isDense: true,
@@ -206,7 +209,7 @@ class _InitialConfigState extends State<InitialConfig> {
                           TextFormField(
                             keyboardType: TextInputType.name,
                             autocorrect: false,
-                            onChanged: (value) => {},
+                            onChanged: (value) => {driveUserData[1] = value},
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               isDense: true,
@@ -226,6 +229,7 @@ class _InitialConfigState extends State<InitialConfig> {
                               dimension: dimension,
                               offsetCheck: -36,
                               offsetText: -18,
+                              key: checkBoxKey,
                               text: [
                                 TextSpan(text: 'Deseo guardar estos datos')
                               ]),
@@ -287,7 +291,19 @@ class _InitialConfigState extends State<InitialConfig> {
                             child: CustomButton(
                                 text: 'Vincular',
                                 width: dimension.width * 0.9,
-                                height: dimension.width * 0.11),
+                                height: dimension.width * 0.11,
+                                onPressed: () => {
+                                      getPrefs().then((value) => {
+                                            if (checkBoxKey
+                                                .currentState!.checked)
+                                              {
+                                                value!.setStringList(
+                                                    'driveUserData',
+                                                    driveUserData)
+                                              }
+                                          }),
+                                      changePageFade(DashBoard(), context)
+                                    }),
                           ),
                         ],
                       ),

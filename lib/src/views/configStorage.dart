@@ -1,10 +1,11 @@
+import 'package:exploration_planner/src/functions/utilidades.dart';
 import 'package:exploration_planner/src/utils/widgets.dart';
 import 'package:exploration_planner/src/views/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';
 
-var driveUserData = ['Ramon Gómez Ruiz', 'ramon.gomez@slanginnovations.com'];
+var driveUserData = ['No hay seleccionada cuenta de Drive', 'Tu email'];
 
 class ConfigStorage extends StatefulWidget {
   @override
@@ -44,9 +45,15 @@ class _ConfigStorageState extends State<ConfigStorage> {
                       dashed: true),
                   SizedBox(height: dimension.height * 0.015),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SvgPicture.asset(iconDrive),
+                      Transform.translate(
+                        offset: Offset(-8, 0),
+                        child: Transform.scale(
+                          scale: 0.9,
+                          child: SvgPicture.asset(iconDrive),
+                        ),
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -55,12 +62,12 @@ class _ConfigStorageState extends State<ConfigStorage> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14),
+                                fontSize: 13),
                           ),
                           SizedBox(height: dimension.height * 0.004),
                           Text(
                             driveUserData[1],
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            style: TextStyle(color: Colors.white, fontSize: 13),
                           )
                         ],
                       ),
@@ -78,6 +85,8 @@ class _ConfigStorageState extends State<ConfigStorage> {
                       width: dimension.width * 0.95,
                       height: dimension.height * 0.05,
                       onPressed: () => setState(() {
+                            getPrefs().then(
+                                (value) => value!.remove('driveUserData'));
                             driveUserData = [
                               'No hay seleccionada cuenta de Drive',
                               'Tu email'

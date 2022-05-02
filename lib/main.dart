@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:exploration_planner/src/functions/utilidades.dart';
-import 'package:exploration_planner/src/utils/constants.dart';
+import 'package:exploration_planner/src/views/chooseApp.dart';
 import 'package:exploration_planner/src/views/dashboard.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
   Future<StatefulWidget> checkLogin() async {
     var prefs = await getPrefs();
     var login = await prefs!.getStringList('login');
-    if (login != null) return DashBoard();
+    if (login != null) return ChooseApp();
     return LoginPage();
   }
 }
