@@ -244,7 +244,6 @@ class AddPhotoState extends State<AddPhoto> {
                                 ),
                                 iconSize: 56,
                                 onPressed: () {
-                                  isVisibleImg = true;
                                   photoFrom('camera')
                                       .then((value) => setState(() {
                                             if (value) {
@@ -253,6 +252,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               isVisibleBorrarAceptar = true;
                                               isVisibleFotoGaleria = false;
                                               isVisibleCategorias = true;
+                                              isVisibleImg = true;
                                             }
                                           }));
                                 },
@@ -276,7 +276,6 @@ class AddPhotoState extends State<AddPhoto> {
                                   ),
                                   iconSize: 56,
                                   onPressed: () {
-                                    isVisibleImg = true;
                                     photoFrom('gallery')
                                         .then((value) => setState(() {
                                               if (value) {
@@ -285,6 +284,7 @@ class AddPhotoState extends State<AddPhoto> {
                                                 isVisibleBorrarAceptar = true;
                                                 isVisibleFotoGaleria = false;
                                                 isVisibleCategorias = true;
+                                                isVisibleImg = true;
                                               }
                                             }));
                                   },
