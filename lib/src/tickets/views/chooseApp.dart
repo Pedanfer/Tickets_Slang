@@ -1,5 +1,4 @@
 import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/utils/widgets.dart';
 import 'package:exploration_planner/src/tickets/views/dashboard.dart';
 import 'package:exploration_planner/src/tickets/views/initialConfig.dart';
 import 'package:flutter/material.dart';
@@ -44,12 +43,13 @@ class _ChooseAppState extends State<ChooseApp> {
                           Text(
                             ' Tickets',
                             style: TextStyle(
-                                fontSize: 26, fontWeight: FontWeight.w700),
+                                fontSize: 22, fontWeight: FontWeight.w700),
                           ),
                           Transform.translate(
-                            offset: Offset(0, 18),
+                            offset: Offset(0, 10 * (dimension.height * 0.0017)),
                             child: Transform.scale(
-                              scaleX: 0.97,
+                              scaleX: 0.84 * (dimension.width * 0.00285),
+                              scaleY: 0.43 * (dimension.height * 0.00285),
                               child: SvgPicture.asset(
                                 'lib/assets/ticketRectangle.svg',
                               ),
@@ -58,11 +58,13 @@ class _ChooseAppState extends State<ChooseApp> {
                         ],
                       ),
                     ),
-                    onTap: () => getPrefs().then((value) => {
-                          value!.getStringList('driveUserData') != null
-                              ? changePageFade(DashBoard(), context)
-                              : changePageFade(InitialConfig(), context)
-                        }),
+                    onTap: () => getPrefs().then(
+                      (value) => {
+                        value!.getStringList('driveUserData') != null
+                            ? changePageFade(DashBoard(), context)
+                            : changePageFade(InitialConfig(), context)
+                      },
+                    ),
                   ),
                   InkWell(
                     child: Container(
@@ -74,12 +76,13 @@ class _ChooseAppState extends State<ChooseApp> {
                           Text(
                             ' Reporte de tiempos',
                             style: TextStyle(
-                                fontSize: 26, fontWeight: FontWeight.w700),
+                                fontSize: 22, fontWeight: FontWeight.w700),
                           ),
                           Transform.translate(
-                            offset: Offset(0, 18),
+                            offset: Offset(0, 10 * (dimension.height * 0.0017)),
                             child: Transform.scale(
-                              scaleX: 0.97,
+                              scaleX: 0.84 * (dimension.width * 0.00285),
+                              scaleY: 0.43 * (dimension.height * 0.00285),
                               child: SvgPicture.asset(
                                 'lib/assets/timeRectangle.svg',
                               ),
@@ -99,12 +102,14 @@ class _ChooseAppState extends State<ChooseApp> {
                             Text(
                               ' La Roboteka',
                               style: TextStyle(
-                                  fontSize: 26, fontWeight: FontWeight.w700),
+                                  fontSize: 22, fontWeight: FontWeight.w700),
                             ),
                             Transform.translate(
-                              offset: Offset(0, 18),
+                              offset:
+                                  Offset(0, 10 * (dimension.height * 0.0017)),
                               child: Transform.scale(
-                                scaleX: 0.97,
+                                scaleX: 0.845 * (dimension.width * 0.00285),
+                                scaleY: 0.435 * (dimension.height * 0.00285),
                                 child: SvgPicture.asset(
                                   'lib/assets/robotekaRectangle.svg',
                                 ),

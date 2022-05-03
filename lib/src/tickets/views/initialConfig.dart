@@ -59,7 +59,7 @@ class _InitialConfigState extends State<InitialConfig> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: 24.0),
+                                  fontSize: 22.0),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: 'Bienvenido/a a la ',
@@ -74,7 +74,7 @@ class _InitialConfigState extends State<InitialConfig> {
                         ),
                         //Con este Widget podemos recortar imágenes
                         AspectRatio(
-                          aspectRatio: 1.4,
+                          aspectRatio: 1.7,
                           child: SvgPicture.asset(
                             'lib/assets/ticketRectangle.svg',
                             fit: BoxFit.cover,
@@ -88,18 +88,14 @@ class _InitialConfigState extends State<InitialConfig> {
                     visible: areIconsVisible,
                     child: Column(
                       children: [
-                        Transform(
-                          transform: Matrix4.identity()..scale(1.1, 1.3),
-                          child: Text(
-                            'Para comenzar a usar la aplicación necesitarás seleccionar dónde almacenar los tickets:',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w200,
-                                color: Colors.white,
-                                fontSize: 14.0),
-                          ),
+                        Text(
+                          'Para comenzar a usar la aplicación necesitarás seleccionar dónde almacenar los tickets:',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              color: Colors.white,
+                              fontSize: 16.0),
                         ),
-                        SizedBox(height: dimension.height * 0.01),
                       ],
                     ),
                   ),
@@ -122,18 +118,21 @@ class _InitialConfigState extends State<InitialConfig> {
                                   areIconsVisible = false;
                                 });
                               },
-                              icon: SvgPicture.asset(
-                                iconDrive,
+                              icon: Transform.scale(
+                                scale: 0.9,
+                                child: SvgPicture.asset(
+                                  iconDrive,
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
-                              height: dimension.height * (0.023 + separator)),
+                              height: dimension.height * (0.013 + separator)),
                           Text(
                             'Google Drive',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 13,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold),
                           )
                         ],
@@ -151,18 +150,21 @@ class _InitialConfigState extends State<InitialConfig> {
                                   areIconsVisible = true;
                                 });
                               },
-                              icon: SvgPicture.asset(
-                                dropBoxIcon,
+                              icon: Transform.scale(
+                                scale: 0.9,
+                                child: SvgPicture.asset(
+                                  dropBoxIcon,
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
-                              height: dimension.height * (0.023 + separator)),
+                              height: dimension.height * (0.013 + separator)),
                           Text(
                             'Dropbox',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 13,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold),
                           )
                         ],
@@ -180,7 +182,8 @@ class _InitialConfigState extends State<InitialConfig> {
                               color: Colors.white,
                               text: '',
                               fontSize: 16,
-                              spaceLength: 85,
+                              spaceLength:
+                                  (98 * (dimension.width * 0.0036).round()),
                               dashed: true),
                           SizedBox(
                             height: dimension.height * (0.02 + separator),
@@ -197,7 +200,7 @@ class _InitialConfigState extends State<InitialConfig> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide.none),
                               contentPadding:
-                                  EdgeInsets.all(dimension.width * 0.024),
+                                  EdgeInsets.all(dimension.width * 0.02),
                               filled: true,
                               fillColor: formBackground,
                               errorStyle: TextStyle(fontSize: 10, height: 1),
@@ -218,30 +221,36 @@ class _InitialConfigState extends State<InitialConfig> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide.none),
                               contentPadding:
-                                  EdgeInsets.all(dimension.width * 0.024),
+                                  EdgeInsets.all(dimension.width * 0.02),
                               filled: true,
                               fillColor: formBackground,
                               errorStyle: TextStyle(fontSize: 10, height: 1),
                             ),
                           ),
-                          CustomCheckBox(
-                              color: Colors.white,
-                              dimension: dimension,
-                              offsetCheck: -36,
-                              offsetText: -18,
-                              key: checkBoxKey,
-                              text: [
-                                TextSpan(text: 'Deseo guardar estos datos')
-                              ]),
                           Transform.translate(
-                            offset: const Offset(4.0, -15.0),
+                            offset: Offset(0, -4 * (dimension.width * 0.0036)),
+                            child: CustomCheckBox(
+                                color: Colors.white,
+                                dimension: dimension,
+                                offsetCheck: -36,
+                                offsetText: -18,
+                                key: checkBoxKey,
+                                text: [
+                                  TextSpan(text: 'Deseo guardar estos datos')
+                                ]),
+                          ),
+                          Transform.translate(
+                            offset:
+                                Offset(4.0, -15.0 * (dimension.width * 0.0036)),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TitleWithUnderline(
                                     text: ' ',
                                     color: Colors.white,
                                     fontSize: 16,
-                                    spaceLength: 36,
+                                    spaceLength:
+                                        36 * (dimension.width * 0.0036).round(),
                                     dashed: false),
                                 Transform.translate(
                                   offset: const Offset(0, 6),
@@ -253,45 +262,40 @@ class _InitialConfigState extends State<InitialConfig> {
                                     text: ' ',
                                     color: Colors.white,
                                     fontSize: 16,
-                                    spaceLength: 36,
+                                    spaceLength:
+                                        36 * (dimension.width * 0.0036).round(),
                                     dashed: false),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: dimension.height * separator,
-                          ),
                           Transform.translate(
                             offset: const Offset(0, -10),
                             child: TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  elevation: 1.0,
-                                  fixedSize: Size(dimension.width * 0.5,
-                                      dimension.height * 0.03),
-                                ),
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'lib/assets/googleLogo.svg'),
-                                    SizedBox(width: dimension.width * 0.015),
-                                    Text(
-                                      'Sign in with Google',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          SizedBox(
-                            height: dimension.height * (0.005 + separator),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                elevation: 1.0,
+                                fixedSize: Size(dimension.width * 0.5,
+                                    dimension.height * 0.03),
+                              ),
+                              onPressed: () {},
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset('lib/assets/googleLogo.svg'),
+                                  SizedBox(width: dimension.width * 0.015),
+                                  Text(
+                                    'Sign in with Google',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           Transform.translate(
                             offset: const Offset(0, -10),
                             child: CustomButton(
                                 text: 'Vincular',
                                 width: dimension.width * 0.9,
-                                height: dimension.width * 0.11,
+                                height: dimension.height * 0.01,
                                 onPressed: () => {
                                       getPrefs().then((value) => {
                                             if (checkBoxKey
