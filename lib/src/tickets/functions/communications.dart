@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'dart:convert';
-import 'package:exploration_planner/src/functions/utilidades.dart';
+import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> loginSlang(String email, String password) async {

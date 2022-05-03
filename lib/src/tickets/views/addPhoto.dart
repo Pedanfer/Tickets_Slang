@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:exploration_planner/src/functions/communications.dart';
-import 'package:exploration_planner/src/utils/constants.dart';
-import 'package:exploration_planner/src/utils/widgets.dart';
-import 'package:exploration_planner/src/views/login_page.dart';
+import 'package:exploration_planner/src/tickets/functions/communications.dart';
+import 'package:exploration_planner/src/tickets/utils/constants.dart';
+import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';

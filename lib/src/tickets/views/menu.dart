@@ -1,8 +1,8 @@
-import 'package:exploration_planner/src/functions/utilidades.dart';
-import 'package:exploration_planner/src/utils/widgets.dart';
-import 'package:exploration_planner/src/views/configStorage.dart';
-import 'package:exploration_planner/src/views/dashboard.dart';
-import 'package:exploration_planner/src/views/login_page.dart';
+import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
+import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:exploration_planner/src/tickets/views/configStorage.dart';
+import 'package:exploration_planner/src/tickets/views/dashboard.dart';
+import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
@@ -14,8 +14,6 @@ class Menu extends StatefulWidget {
   @override
   State<Menu> createState() => _MenuState();
 }
-
-var driveUserData = ['Ramon Gómez Ruiz', 'ramon.gomez@slanginnovations.com'];
 
 class _MenuState extends State<Menu> {
   @override

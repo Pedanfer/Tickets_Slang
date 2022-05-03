@@ -1,4 +1,4 @@
-import 'package:exploration_planner/src/utils/ticket.dart';
+import 'package:exploration_planner/src/tickets/utils/ticket.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
