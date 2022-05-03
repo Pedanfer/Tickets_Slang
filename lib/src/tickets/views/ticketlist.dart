@@ -92,7 +92,7 @@ class TicketlistState extends State<Ticketlist> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        padding: EdgeInsets.fromLTRB(10, 35, 10, 5),
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         color: blue100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -288,6 +288,12 @@ class TicketlistState extends State<Ticketlist> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                       ListTile(
+                                        onTap: () {
+                                          changePageFade(
+                                              TicketView(
+                                                  ticketList[index].toMap()),
+                                              context);
+                                        },
                                         selected: isSelected,
                                         title: Container(
                                             child: Row(
@@ -299,19 +305,69 @@ class TicketlistState extends State<Ticketlist> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(
-                                                  vendor.substring(
-                                                      0,
-                                                      vendor.length > 14
-                                                          ? 14
-                                                          : vendor.length),
-                                                  style:
-                                                      TextStyle(fontSize: 12),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      vendor.substring(
+                                                          0,
+                                                          vendor.length > 14
+                                                              ? 14
+                                                              : vendor.length),
+                                                      style: TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                    Text(ticketList[index]
+                                                            .toMap()['total']
+                                                            .toString() +
+                                                        '€')
+                                                  ],
                                                 ),
-                                                Text(ticketList[index]
-                                                        .toMap()['total']
-                                                        .toString() +
-                                                    '€')
+                                                Column(
+                                                  children: [
+                                                    Text(ticketList[index]
+                                                        .toMap()['date']),
+                                                    Text(ticketList[index]
+                                                        .toMap()['hour'])
+                                                  ],
+                                                ),
+                                                TextButton(
+                                                  child: Text('Ver foto',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline)),
+                                                  onPressed: () {
+                                                    changePageFade(
+                                                        TicketView(
+                                                            ticketList[index]
+                                                                .toMap()),
+                                                        context);
+                                                  },
+                                                ),
+                                                Visibility(
+                                                  visible: isVisibleDelete,
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.delete),
+                                                    iconSize: 28,
+                                                    color: Color.fromARGB(
+                                                        255, 161, 30, 21),
+                                                    onPressed: () {
+                                                      dialogRemoveTicket(
+                                                              context,
+                                                              ticketList[index]
+                                                                      .toMap()[
+                                                                  'id'])
+                                                          .then((value) {
+                                                        if (value) {
+                                                          setState(() {});
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             Column(
@@ -321,18 +377,6 @@ class TicketlistState extends State<Ticketlist> {
                                                 Text(ticketList[index]
                                                     .toMap()['hour'])
                                               ],
-                                            ),
-                                            TextButton(
-                                              child: Text('Ver foto',
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration
-                                                          .underline)),
-                                              onPressed: () {
-                                                changePageFade(
-                                                    TicketView(ticketList[index]
-                                                        .toMap()),
-                                                    context);
-                                              },
                                             ),
                                             Visibility(
                                               visible: isVisibleDelete,

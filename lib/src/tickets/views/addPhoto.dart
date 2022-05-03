@@ -22,8 +22,8 @@ class AddPhotoState extends State<AddPhoto> {
   bool isVisibleFotoGaleria = true;
   bool isVisibleCategorias = false;
   bool isVisibleImg = false;
-  String vista1 = 'Elija categoría';
-  String vista2 = 'Elija categoría';
+  String vista1 = 'Seleccionar categoría';
+  String vista2 = 'Seleccionar categoría';
   var img = Image.asset(
     'lib/assets/ticketRobot.png',
   );
@@ -78,7 +78,9 @@ class AddPhotoState extends State<AddPhoto> {
                       Visibility(
                         visible: isVisibleImg,
                         child: Container(
-                          color: Colors.red,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.blueAccent, width: 3)),
                           child: img,
                           width: dimension.width * 0.5,
                           height: dimension.height * 0.4,
@@ -102,76 +104,131 @@ class AddPhotoState extends State<AddPhoto> {
                           )),
                     ],
                   ),
-                  SizedBox(height: dimension.height * 0.05),
+                  SizedBox(height: dimension.height * 0.02),
                   Visibility(
                     visible: isVisibleCategorias,
-                    child: Column(children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            DropDownCategs((value) => categ1 = value.toString(),
-                                vista1, 'categList1',
-                                key: categs1Key),
-                            Row(children: [
-                              IconButton(
-                                icon: Icon(Icons.add_circle_outline_outlined,
-                                    color: Color(0xff011A58)),
-                                iconSize: 20,
-                                onPressed: () {
-                                  chooseCategNoBug(1);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.remove_circle_outline_outlined,
-                                    color: Color(0xff011A58)),
-                                iconSize: 20,
-                                onPressed: () {
-                                  deleteCateg(context, 1, categs1Key, dimension)
-                                      .then((value) => setState(() {}));
-                                  ;
-                                },
-                              ),
-                            ])
-                          ]),
-                      Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                      child: Column(children: [
+                        Container(
+                          
+                          child: Row(
+                            
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              DropDownCategs(
-                                  (value) => categ2 = value.toString(),
-                                  vista2,
-                                  'categList2',
-                                  key: categs2Key),
-                              Row(children: [
-                                IconButton(
-                                  icon: Icon(Icons.add_circle_outline_outlined,
-                                      color: Color(0xff011A58)),
-                                  iconSize: 20,
-                                  onPressed: () {
-                                    chooseCategNoBug(2);
-                                  },
+                            Text('Nombre:', style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
+                            Container(
+                              height:32,
+                              width: 315,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                  alignLabelWithHint: true,
+                                  border: OutlineInputBorder(),
+                                  hintText: '  Enter a search term',
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                      Icons.remove_circle_outline_outlined,
-                                      color: Color(0xff011A58)),
-                                  iconSize: 20,
-                                  onPressed: () {
-                                    deleteCateg(
-                                            context, 2, categs2Key, dimension)
-                                        .then((value) => setState(() {}));
-                                  },
-                                ),
-                              ])
-                            ]),
-                      )
-                    ]),
+                              ),
+                            )
+                          ]),
+                        ),
+                         Divider(color: Colors.black,
+                            thickness: 1,),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+ Text('Categoría:',  style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
+                        Container(
+                          height: 32,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DropDownCategs(
+                                    (value) => categ1 = value.toString(),
+                                    vista1,
+                                    'categList1',
+                                    key: categs1Key),
+                                Row(children: [
+                                  IconButton(
+                                    icon: Icon(
+                                        Icons.add_circle_outline_outlined,
+                                        color: Color(0xff011A58)),
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      chooseCategNoBug(1);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                        Icons.remove_circle_outline_outlined,
+                                        color: Color(0xff011A58)),
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      deleteCateg(
+                                              context, 1, categs1Key, dimension)
+                                          .then((value) => setState(() {}));
+                                      ;
+                                    },
+                                  ),
+                                ])
+                              ]),
+                        ),
+                        
+                        ]),),
+                       SizedBox(height: 8,),
+                         Container(
+                           padding: EdgeInsets.fromLTRB(77, 0, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [ Container(
+                              child: Text('Subcategoría:', style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
+                        ),Container(
+                          
+                          height: 32,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DropDownCategs(
+                                    (value) => categ2 = value.toString(),
+                                    vista2,
+                                    'categList2',
+                                    key: categs2Key),
+                                Row(children: [
+                                  IconButton(
+                                    icon: Icon(
+                                        Icons.add_circle_outline_outlined,
+                                        color: Color(0xff011A58)),
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      chooseCategNoBug(2);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                        Icons.remove_circle_outline_outlined,
+                                        color: Color(0xff011A58)),
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      deleteCateg(
+                                              context, 2, categs2Key, dimension)
+                                          .then((value) => setState(() {}));
+                                    },
+                                  ),
+                                ])
+                              ]),
+                        ),
+                       ] )),
+                       Divider(color: Colors.black,
+                            thickness: 1,),
+                        
+                      ]),
+                    ),
                   ),
                   Visibility(
                     visible: isVisibleFotoGaleria,
                     child: Container(
                       margin: EdgeInsets.only(bottom: dimension.height * 0.15),
-                      height: dimension.height * 0.6,
+                      height: dimension.height * 0.7,
                       width: dimension.width * 0.9,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -247,61 +304,52 @@ class AddPhotoState extends State<AddPhoto> {
                   Visibility(
                       visible: isVisibleBorrarAceptar,
                       child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        height: 40,
+                        width: 190,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: blue75,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            TextButton(
-                              child: Text(
-                                'ENVIAR',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                isVisibleImg = false;
-                                setState(() {
-                                  var jsonData;
-                                  //Controlar campos vacíos con 'Vacío'
-                                  uploadImageToSlang(imageFile!)
-                                      .then((value) => {
-                                            jsonData = value,
-                                            ticket = Ticket(
-                                                issuer: jsonData['issuer'],
-                                                date: jsonData['date']
-                                                    .split('/')
-                                                    .reversed
-                                                    .join('-'),
-                                                hour: jsonData['hour'],
-                                                total: jsonData['total'] * 1.0,
-                                                photo: imageFile!
-                                                    .readAsBytesSync(),
-                                                categ1: categ1,
-                                                categ2: categ2),
-                                            DB.insert(ticket)
-                                          });
-                                  img = Image.asset(
-                                      'lib/assets/ticketRobot.png',
-                                      scale: 1.5);
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 6),
-                                            () {
-                                          Navigator.pop(context, true);
-                                        });
-                                        return CustomAlertDialog(
-                                            'Extrayendo datos...', dimension);
-                                      });
-                                  isVisibleBorrarAceptar = false;
-                                  isVisibleFotoGaleria = true;
-                                  isVisibleCategorias = false;
-                                });
-                              },
-                            ),
-                          ],
+                            borderRadius: BorderRadius.circular(30),
+                            color: Color(0xFFDC47A9)),
+                        child: TextButton(
+                          child: Text(
+                            'GUARDAR',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            isVisibleImg = false;
+                            setState(() {
+                              var jsonData;
+                              //Controlar campos vacíos con 'Vacío'
+                              uploadImageToSlang(imageFile!).then((value) => {
+                                    jsonData = value,
+                                    ticket = Ticket(
+                                        issuer: jsonData['issuer'],
+                                        date: jsonData['date']
+                                            .split('/')
+                                            .reversed
+                                            .join('-'),
+                                        hour: jsonData['hour'],
+                                        total: jsonData['total'] * 1.0,
+                                        photo: imageFile!.readAsBytesSync(),
+                                        categ1: categ1,
+                                        categ2: categ2),
+                                    DB.insert(ticket)
+                                  });
+                              img = Image.asset('lib/assets/ticketRobot.png',
+                                  scale: 1.5);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    Future.delayed(Duration(seconds: 6), () {
+                                      Navigator.pop(context, true);
+                                    });
+                                    return CustomAlertDialog(
+                                        'Extrayendo datos...', dimension);
+                                  });
+                              isVisibleBorrarAceptar = false;
+                              isVisibleFotoGaleria = true;
+                              isVisibleCategorias = false;
+                            });
+                          },
                         ),
                       ))
                 ],
