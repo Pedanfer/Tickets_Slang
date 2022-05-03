@@ -20,7 +20,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isTitleVisible = true;
   bool loginOK = false;
+  var boxHeight;
   var email;
   var password;
   final _formKey = GlobalKey<FormState>();
@@ -29,8 +31,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     dimension = MediaQuery.of(context).size;
-    var robotWelcome = Image.asset('lib/assets/Logo_slang_horiz.png',
-        width: dimension.width * 0.55);
+    var robotWelcome;
+    if (MediaQuery.of(context).viewInsets.bottom == 0) {
+      robotWelcome = Image.asset('lib/assets/Logo_slang_horiz.png',
+          width: dimension.width * 0.55);
+      isTitleVisible = true;
+      boxHeight = 0.54;
+    } else {
+      robotWelcome = SizedBox();
+      isTitleVisible = false;
+      boxHeight = 0.47;
+    }
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -44,31 +55,34 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            MediaQuery.of(context).viewInsets.bottom == 0
-                ? robotWelcome
-                : SizedBox(),
+            robotWelcome,
             SizedBox(height: dimension.height * 0.015),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 color: Colors.white,
               ),
-              height: dimension.height * 0.54,
+              height: dimension.height * boxHeight,
               margin: EdgeInsets.symmetric(
                   horizontal: dimension.width * 0.05,
                   vertical: dimension.width * 0.05),
-              padding: EdgeInsets.symmetric(
-                  horizontal: dimension.width * 0.06,
-                  vertical: dimension.height * 0.04),
+              padding: EdgeInsets.only(
+                  bottom: dimension.height * 0.01,
+                  top: dimension.height * 0.03,
+                  right: dimension.width * 0.04,
+                  left: dimension.width * 0.04),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TitleWithUnderline(
-                      color: blue100,
-                      text: 'Login',
-                      fontSize: 24,
-                      spaceLength: 40,
-                      dashed: false),
+                  Visibility(
+                    visible: isTitleVisible,
+                    child: TitleWithUnderline(
+                        color: blue100,
+                        text: 'Login',
+                        fontSize: 24,
+                        spaceLength: 40,
+                        dashed: false),
+                  ),
                   SizedBox(height: dimension.height * 0.015),
                   TextFormField(
                     validator: validators.validateEmail,
@@ -200,17 +214,13 @@ class _LoginPageState extends State<LoginPage> {
                                     }),
                               }
                           }),
-                  SizedBox(height: dimension.height * 0.01),
                   TextButton(
                     onPressed: () => {changePageFade(UserRegister(), context)},
-                    child: Transform(
-                      transform: Matrix4.identity()..scale(1.0, 1.1),
-                      child: Text(
-                        '¿Aún no tienes cuenta? Regístrate aquí',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: blue100,
-                        ),
+                    child: Text(
+                      '¿Aún no tienes cuenta? Regístrate aquí',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: blue100,
                       ),
                     ),
                   ),
