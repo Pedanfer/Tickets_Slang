@@ -50,8 +50,6 @@ class AddPhotoState extends State<AddPhoto> {
               ),
             ),
             child: Container(
-              width: double.infinity,
-              height: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -77,6 +75,7 @@ class AddPhotoState extends State<AddPhoto> {
                       SizedBox(width: 20),
                       Visibility(
                         visible: isVisibleImg,
+                        maintainSize: false,
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(
@@ -88,6 +87,7 @@ class AddPhotoState extends State<AddPhoto> {
                       ),
                       Visibility(
                           visible: isVisibleBorrarAceptar,
+                          maintainSize: false,
                           child: IconButton(
                             icon: Icon(Icons.cancel),
                             iconSize: 20,
@@ -107,125 +107,150 @@ class AddPhotoState extends State<AddPhoto> {
                   SizedBox(height: dimension.height * 0.02),
                   Visibility(
                     visible: isVisibleCategorias,
+                    maintainSize: false,
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
                       child: Column(children: [
                         Container(
-                          
                           child: Row(
-                            
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                            Text('Nombre:', style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
-                            Container(
-                              height:32,
-                              width: 315,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.zero,
-                                  alignLabelWithHint: true,
-                                  border: OutlineInputBorder(),
-                                  hintText: '  Enter a search term',
+                              children: [
+                                Text('Nombre:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff011A58))),
+                                Container(
+                                  height: 32,
+                                  width: 315,
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.zero,
+                                      alignLabelWithHint: true,
+                                      border: OutlineInputBorder(),
+                                      hintText: '  Enter a search term',
+                                    ),
+                                  ),
+                                )
+                              ]),
+                        ),
+                        Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                        Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Categoría:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff011A58))),
+                                Container(
+                                  height: 32,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        DropDownCategs(
+                                            (value) =>
+                                                categ1 = value.toString(),
+                                            vista1,
+                                            'categList1',
+                                            key: categs1Key),
+                                        Row(children: [
+                                          IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            iconSize: 20,
+                                            onPressed: () {
+                                              chooseCategNoBug(1);
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .remove_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            iconSize: 20,
+                                            onPressed: () {
+                                              deleteCateg(context, 1,
+                                                      categs1Key, dimension)
+                                                  .then((value) =>
+                                                      setState(() {}));
+                                              ;
+                                            },
+                                          ),
+                                        ])
+                                      ]),
                                 ),
-                              ),
-                            )
-                          ]),
-                        ),
-                         Divider(color: Colors.black,
-                            thickness: 1,),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
- Text('Categoría:',  style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
-                        Container(
-                          height: 32,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DropDownCategs(
-                                    (value) => categ1 = value.toString(),
-                                    vista1,
-                                    'categList1',
-                                    key: categs1Key),
-                                Row(children: [
-                                  IconButton(
-                                    icon: Icon(
-                                        Icons.add_circle_outline_outlined,
-                                        color: Color(0xff011A58)),
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      chooseCategNoBug(1);
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                        Icons.remove_circle_outline_outlined,
-                                        color: Color(0xff011A58)),
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      deleteCateg(
-                                              context, 1, categs1Key, dimension)
-                                          .then((value) => setState(() {}));
-                                      ;
-                                    },
-                                  ),
-                                ])
                               ]),
                         ),
-                        
-                        ]),),
-                       SizedBox(height: 8,),
-                         Container(
-                           padding: EdgeInsets.fromLTRB(77, 0, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [ Container(
-                              child: Text('Subcategoría:', style:TextStyle(fontWeight: FontWeight.bold, color: Color(0xff011A58))),
-                        ),Container(
-                          
-                          height: 32,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DropDownCategs(
-                                    (value) => categ2 = value.toString(),
-                                    vista2,
-                                    'categList2',
-                                    key: categs2Key),
-                                Row(children: [
-                                  IconButton(
-                                    icon: Icon(
-                                        Icons.add_circle_outline_outlined,
-                                        color: Color(0xff011A58)),
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      chooseCategNoBug(2);
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                        Icons.remove_circle_outline_outlined,
-                                        color: Color(0xff011A58)),
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      deleteCateg(
-                                              context, 2, categs2Key, dimension)
-                                          .then((value) => setState(() {}));
-                                    },
-                                  ),
-                                ])
-                              ]),
+                        SizedBox(
+                          height: 8,
                         ),
-                       ] )),
-                       Divider(color: Colors.black,
-                            thickness: 1,),
-                        
+                        Container(
+                            padding: EdgeInsets.fromLTRB(77, 0, 0, 0),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text('Subcategoría:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xff011A58))),
+                                  ),
+                                  Container(
+                                    height: 32,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          DropDownCategs(
+                                              (value) =>
+                                                  categ2 = value.toString(),
+                                              vista2,
+                                              'categList2',
+                                              key: categs2Key),
+                                          Row(children: [
+                                            IconButton(
+                                              icon: Icon(
+                                                  Icons
+                                                      .add_circle_outline_outlined,
+                                                  color: Color(0xff011A58)),
+                                              iconSize: 20,
+                                              onPressed: () {
+                                                chooseCategNoBug(2);
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                  Icons
+                                                      .remove_circle_outline_outlined,
+                                                  color: Color(0xff011A58)),
+                                              iconSize: 20,
+                                              onPressed: () {
+                                                deleteCateg(context, 2,
+                                                        categs2Key, dimension)
+                                                    .then((value) =>
+                                                        setState(() {}));
+                                              },
+                                            ),
+                                          ])
+                                        ]),
+                                  ),
+                                ])),
+                        Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
                       ]),
                     ),
                   ),
                   Visibility(
                     visible: isVisibleFotoGaleria,
+                    maintainSize: false,
                     child: Container(
                       margin: EdgeInsets.only(bottom: dimension.height * 0.15),
                       height: dimension.height * 0.7,
@@ -303,6 +328,7 @@ class AddPhotoState extends State<AddPhoto> {
                   ),
                   Visibility(
                       visible: isVisibleBorrarAceptar,
+                      maintainSize: false,
                       child: Container(
                         height: 40,
                         width: 190,
