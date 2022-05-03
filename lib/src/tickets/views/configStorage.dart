@@ -1,6 +1,6 @@
-import 'package:exploration_planner/src/functions/utilidades.dart';
-import 'package:exploration_planner/src/utils/widgets.dart';
-import 'package:exploration_planner/src/views/menu.dart';
+import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
+import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:exploration_planner/src/tickets/views/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';

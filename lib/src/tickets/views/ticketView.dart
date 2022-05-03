@@ -1,5 +1,5 @@
-import 'package:exploration_planner/src/views/editTicket.dart';
-import 'package:exploration_planner/src/views/login_page.dart';
+import 'package:exploration_planner/src/tickets/views/editTicket.dart';
+import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 
