@@ -35,7 +35,7 @@ class TicketlistState extends State<Ticketlist> {
   bool loading = true;
   DateTimeRange dateRange = DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
-  Color cardColor = Color.fromARGB(255, 209, 228, 243);
+  Color cardColor = Color.fromARGB(255, 255, 255, 255);
 
   @override
   void initState() {
@@ -245,7 +245,7 @@ class TicketlistState extends State<Ticketlist> {
                             itemBuilder: (BuildContext context, int index) {
                               var vendor = ticketList[index].toMap()['issuer'].split('\n')[0].toString();
                               return Card(
-                                color: cardColor,
+                                color: Colors.white,
                                 child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
                                   ListTile(
                                     onTap: ()  {  changePageFade(TicketView(ticketList[index].toMap()), context);},
