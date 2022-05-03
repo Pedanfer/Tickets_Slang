@@ -21,7 +21,7 @@ class _InitialConfigState extends State<InitialConfig> {
   double separator = 0;
   @override
   Widget build(BuildContext context) {
-    var dimension = MediaQuery.of(context).size;
+    var dimension = MediaQuery.of(context).size*0.3;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {
       separator = 0;
       isImgVisible = true;

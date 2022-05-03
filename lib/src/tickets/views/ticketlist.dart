@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
 
-var textoFechaInicio = 'Fecha inicio';
-var textoFechaFin = 'Fecha fin';
+var textoFechaInicio = 'Inicio';
+var textoFechaFin = 'Fin';
 var newDateRange;
 var end;
 bool isVisibleFiltring = false;
 bool isVisibleDelete = false;
 bool isVisibleDriveConection = true;
+bool isVisibleSelectAll = false;
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -44,11 +45,11 @@ class TicketlistState extends State<Ticketlist> {
       loading = false;
       setState(() {});
     });
-    categs1 = DropDownCategs(
-        (value) => auxFilterCateg(1, value), 'Elija categoría', 'categList1',
+    categs1 = DropDownCategs((value) => auxFilterCateg(1, value),
+        'Seleccionar categoria', 'categList1',
         key: categs1Key);
-    categs2 = DropDownCategs(
-        (value) => auxFilterCateg(2, value), 'Elija categoría', 'categList2',
+    categs2 = DropDownCategs((value) => auxFilterCateg(2, value),
+        'Seleccionar subcategoría', 'categList2',
         key: categs2Key);
     super.initState();
   }
@@ -57,8 +58,8 @@ class TicketlistState extends State<Ticketlist> {
   void dispose() {
     categ1 = '';
     categ2 = '';
-    textoFechaInicio = 'Fecha inicio';
-    textoFechaFin = 'Fecha fin';
+    textoFechaInicio = 'Inicio';
+    textoFechaFin = 'Fin';
     super.dispose();
   }
 
@@ -92,181 +93,147 @@ class TicketlistState extends State<Ticketlist> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                        color: blue100,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              child: Text(
-                                'Mis tickets',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                                textScaleFactor: 1.3,
-                              ),
-                            ),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Row(children: [
                             IconButton(
-                              icon: isVisibleDelete
-                                  ? Icon(Icons.delete_forever,
-                                      color: Colors.white, size: 28)
-                                  : Icon(Icons.delete,
-                                      color: Colors.white, size: 28),
+                              icon: isVisibleSelectAll
+                                  ? Icon(Icons.check_box,
+                                      color: Color(0xFF011A58), size: 28)
+                                  : Icon(Icons.indeterminate_check_box,
+                                      color: Color(0xFF011A58), size: 28),
                               onPressed: () {
                                 setState(() {
-                                  isVisibleDelete = !isVisibleDelete;
+                                  isVisibleSelectAll = !isVisibleSelectAll;
                                 });
                               },
                             ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.download,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              onPressed: () async {
-                                var storageDir =
-                                    await getExternalStorageDirectory();
-                                if (!storageDir!.listSync().isEmpty) {
-                                  emptyAppDir();
-                                }
-                                createExcelLista(ticketList)
-                                    .then((result) async {
-                                  await FlutterShare.shareFile(
-                                          title: 'Lista de facturas',
-                                          filePath:
-                                              '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
-                                          text:
-                                              'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
-                                      .then((value) => null);
-                                });
-                              },
-                            ),
-                            IconButton(
-                              icon: isVisibleDriveConection
-                                  ? Icon(Icons.add_to_drive)
-                                  : Icon(Icons.no_cell),
-                              color: Colors.white,
-                              onPressed: () async {
-                                if (isVisibleDriveConection) {
-                                  await signIn().then((result) {
-                                    setState(() {});
-                                  });
-                                } else {
-                                  await signOut().then((result) {
-                                    setState(() {});
-                                  });
-                                }
-
-                                isVisibleDriveConection =
-                                    !isVisibleDriveConection;
-
-                                await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return AlertDialog(
-                                          insetPadding: EdgeInsets.all(
-                                              dimension.width * 0.07),
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Visibility(
-                                                visible:
-                                                    !isVisibleDriveConection,
-                                                child: Text(
-                                                  'Conectado a Drive\n exitosamente',
-                                                  style:
-                                                      TextStyle(fontSize: 18),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible:
-                                                    isVisibleDriveConection,
-                                                child: Text(
-                                                  'Desconectado a Drive\n exitosamente',
-                                                  style:
-                                                      TextStyle(fontSize: 18),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          actions: <Widget>[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                TextButton(
-                                                  child: Text('Aceptar'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(100)),
-                                        );
-                                      });
-                                    });
-                              },
-                            ),
-                            IconButton(
-                              icon: isVisibleFiltring
-                                  ? Icon(Icons.filter_alt_off,
-                                      color: Colors.white, size: 28)
-                                  : Icon(Icons.filter_alt,
-                                      color: Colors.white, size: 28),
-                              onPressed: () {
-                                setState(() {
-                                  isVisibleFiltring = !isVisibleFiltring;
-                                });
-                              },
-                            ),
-                          ],
-                        )),
+                            Text('Seleccionar todos')
+                          ]),
+                        ),
+                        IconButton(
+                          icon: isVisibleFiltring
+                              ? Icon(Icons.filter_alt_off,
+                                  color: Color(0xFF011A58), size: 28)
+                              : Icon(Icons.filter_alt,
+                                  color: Color(0xFF011A58), size: 28),
+                          onPressed: () {
+                            setState(() {
+                              isVisibleFiltring = !isVisibleFiltring;
+                            });
+                          },
+                        ),
+                      ],
+                    )),
                     Visibility(
                       visible: isVisibleFiltring,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary:
-                                          Color.fromARGB(255, 0, 118, 197)),
-                                  onPressed: pickDateRange,
-                                  child: Text(textoFechaInicio,
-                                      textScaleFactor: 1.2),
-                                )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                    child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary:
-                                          Color.fromARGB(255, 18, 86, 189)),
-                                  onPressed: pickDateRange,
-                                  child:
-                                      Text(textoFechaFin, textScaleFactor: 1.2),
-                                ))
-                              ],
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Filtros:',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'IBM Plex Sans',
+                                      color: Color(0xFF011A58),
+                                      decoration: TextDecoration.underline,
+                                      decorationStyle:
+                                          TextDecorationStyle.dashed,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ]),
+                            SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [categs1, categs2],
-                          ),
-                        ],
+                            Container(
+                              height: 24,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Fecha Creación',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58)),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary:
+                                            Color.fromARGB(255, 0, 118, 197)),
+                                    onPressed: pickDateRange,
+                                    child: Text(textoFechaInicio,
+                                        textScaleFactor: 1.2),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary:
+                                            Color.fromARGB(255, 18, 86, 189)),
+                                    onPressed: pickDateRange,
+                                    child: Text(textoFechaFin,
+                                        textScaleFactor: 1.2),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 30,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Categoria',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58)),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  categs1
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Subcategoria',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58)),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  categs2
+                                ],
+                              ),
+                            ),
+                            Divider()
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 5),
@@ -378,26 +345,6 @@ class TicketlistState extends State<Ticketlist> {
                                                     .toMap()['hour'])
                                               ],
                                             ),
-                                            Visibility(
-                                              visible: isVisibleDelete,
-                                              child: IconButton(
-                                                icon: Icon(Icons.delete),
-                                                iconSize: 28,
-                                                color: Color.fromARGB(
-                                                    255, 161, 30, 21),
-                                                onPressed: () {
-                                                  dialogRemoveTicket(
-                                                          context,
-                                                          ticketList[index]
-                                                              .toMap()['id'])
-                                                      .then((value) {
-                                                    if (value) {
-                                                      setState(() {});
-                                                    }
-                                                  });
-                                                },
-                                              ),
-                                            ),
                                           ],
                                         )),
                                       ),
@@ -405,6 +352,81 @@ class TicketlistState extends State<Ticketlist> {
                               );
                             }),
                       ),
+                    ),
+                    Visibility(
+                      visible: isVisibleSelectAll,
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                          color: Color(0xFFECEEF3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                height: 45,
+                                width: 45,
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(Icons.delete_outlined,
+                                          color: Color(0xFF011A58)),
+                                      onPressed: () {
+                                        setState(() {
+                                          isVisibleDelete = !isVisibleDelete;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'Eliminar',
+                                      style: TextStyle(
+                                          fontFamily: 'IBM Plex Sans',
+                                          fontSize: 12,
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(
+                                        Icons.share_outlined,
+                                        color: Color.fromRGBO(1, 26, 88, 1),
+                                      ),
+                                      onPressed: () async {
+                                        var storageDir =
+                                            await getExternalStorageDirectory();
+                                        if (!storageDir!.listSync().isEmpty) {
+                                          emptyAppDir();
+                                        }
+                                        createExcelLista(ticketList)
+                                            .then((result) async {
+                                          await FlutterShare.shareFile(
+                                                  title: 'Lista de facturas',
+                                                  filePath:
+                                                      '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
+                                                  text:
+                                                      'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
+                                              .then((value) => null);
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'Compartir',
+                                      style: TextStyle(
+                                          fontFamily: 'IBM Plex Sans',
+                                          fontSize: 12,
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ],
                 )),
