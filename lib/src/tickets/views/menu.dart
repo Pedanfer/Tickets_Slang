@@ -4,6 +4,7 @@ import 'package:exploration_planner/src/tickets/views/configStorage.dart';
 import 'package:exploration_planner/src/tickets/views/dashboard.dart';
 import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../utils/constants.dart';
 
 class Menu extends StatefulWidget {
@@ -23,6 +24,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    Uri SlangWeb = Uri.parse( 'https://slang.digital/');
     var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -80,7 +82,7 @@ class _MenuState extends State<Menu> {
                     height: dimension.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {launchUrl(SlangWeb);},
                     child: Text(
                       'IR A SLANG DIGITAL',
                       style: TextStyle(color: Colors.white),

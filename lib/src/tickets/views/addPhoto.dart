@@ -56,16 +56,26 @@ class AddPhotoState extends State<AddPhoto> {
                   Opacity(
                     opacity: 0.95,
                     child: Container(
+                      color: Color(0xFF41538280),
                       width: double.infinity,
                       height: 30,
                       alignment: Alignment.centerLeft,
-                      child: Text('\t\tTickets',
+                      child: Row(children: [
+
+                      Text('\t\tTickets > ',
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: 'IBM Plex Sans',
                               color: Colors.white)),
-                      color: Color(0xFF41538280),
-                    ),
+                      Text(
+                          'Nuevo Ticket',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'IBM Plex Sans',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                    ],),),
                   ),
                   SizedBox(height: dimension.height * 0.01),
                   Row(

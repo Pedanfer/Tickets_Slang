@@ -21,7 +21,10 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () => changePageFade(Menu(), context),
+        ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
             child: Image.asset('lib/assets/Logo_slang_horizontalblanco.png')),

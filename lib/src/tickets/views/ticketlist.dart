@@ -92,45 +92,86 @@ class TicketlistState extends State<Ticketlist> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    Opacity(
+                      opacity: 0.95,
+                      child: Container(
+                        color: Color(0xFF415382),
+                        width: double.infinity,
+                        height: 25,
+                        alignment: Alignment.centerLeft,
+                        child: Row(children: [
+                          Text(
+                          '\t\tTickets > ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'IBM Plex Sans',
+                              color: Colors.white),
+                        ),
+                        Text(
+                          'Archivador',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'IBM Plex Sans',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        ],)
+                      ),
+                    ),
                     Container(
+                         padding: EdgeInsets.fromLTRB(12, 5, 10, 5),
+                        height: 40,
                         child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(children: [
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Row(children: [
+                                IconButton(
+                                     padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                  icon: isVisibleSelectAll
+                                      ? Icon(Icons.check_box,
+                                          color: Color(0xFF011A58), size: 25)
+                                      : Icon(Icons.indeterminate_check_box,
+                                          color: Color(0xFF011A58), size: 25),
+                                  onPressed: () {
+                                    setState(() {
+                                      isVisibleSelectAll = !isVisibleSelectAll;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                    width: 10,
+                                ),
+                                Text(
+                                    'Seleccionar todos',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58)),
+                                  ),
+                              ]),
+                            ),
                             IconButton(
-                              icon: isVisibleSelectAll
-                                  ? Icon(Icons.check_box,
-                                      color: Color(0xFF011A58), size: 28)
-                                  : Icon(Icons.indeterminate_check_box,
-                                      color: Color(0xFF011A58), size: 28),
+                                 padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                              icon: isVisibleFiltring
+                                  ? Icon(Icons.filter_alt_off,
+                                      color: Color(0xFF011A58), size: 25)
+                                  : Icon(Icons.filter_alt,
+                                      color: Color(0xFF011A58), size: 25),
                               onPressed: () {
                                 setState(() {
-                                  isVisibleSelectAll = !isVisibleSelectAll;
+                                  isVisibleFiltring = !isVisibleFiltring;
                                 });
                               },
                             ),
-                            Text('Seleccionar todos')
-                          ]),
-                        ),
-                        IconButton(
-                          icon: isVisibleFiltring
-                              ? Icon(Icons.filter_alt_off,
-                                  color: Color(0xFF011A58), size: 28)
-                              : Icon(Icons.filter_alt,
-                                  color: Color(0xFF011A58), size: 28),
-                          onPressed: () {
-                            setState(() {
-                              isVisibleFiltring = !isVisibleFiltring;
-                            });
-                          },
-                        ),
-                      ],
-                    )),
+                          ],
+                        )),
                     Visibility(
                       visible: isVisibleFiltring,
                       child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
