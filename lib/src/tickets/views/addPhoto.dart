@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:exploration_planner/src/tickets/functions/communications.dart';
-import 'package:exploration_planner/src/tickets/utils/constants.dart';
 import 'package:exploration_planner/src/tickets/utils/widgets.dart';
 import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +56,7 @@ class AddPhotoState extends State<AddPhoto> {
                     child: Container(
                       color: Color(0xFF41538280),
                       width: double.infinity,
-                      height: 30,
+                      height: 25,
                       alignment: Alignment.centerLeft,
                       child: Row(children: [
 
@@ -263,7 +261,7 @@ class AddPhotoState extends State<AddPhoto> {
                     maintainSize: false,
                     child: Container(
                       margin: EdgeInsets.only(bottom: dimension.height * 0.15),
-                      height: dimension.height * 0.7,
+                      height: (dimension.height * 0.60 )- 11,
                       width: dimension.width * 0.9,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -293,7 +291,7 @@ class AddPhotoState extends State<AddPhoto> {
                                 },
                               ),
                               Text('Hacer foto a ticket',
-                                  style: TextStyle(color: Colors.white))
+                                  style: TextStyle(color: Colors.white)),
                             ]),
                           ),
                           VerticalDivider(

@@ -1,6 +1,4 @@
-import 'package:exploration_planner/src/tickets/functions/Google.dart';
 import 'package:exploration_planner/src/tickets/functions/sqlite.dart';
-import 'package:exploration_planner/src/tickets/utils/constants.dart';
 import 'package:exploration_planner/src/tickets/views/login_page.dart';
 import 'package:exploration_planner/src/tickets/views/ticketView.dart';
 import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
@@ -37,7 +35,6 @@ class TicketlistState extends State<Ticketlist> {
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
-  Color cardColor = Color.fromARGB(255, 209, 228, 243);
 
   @override
   void initState() {
@@ -65,6 +62,7 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   Widget build(BuildContext context) {
+    final dimension = MediaQuery.of(context).size;
     WidgetsFlutterBinding.ensureInitialized();
     categs1Key = GlobalKey();
     categs2Key = GlobalKey();
@@ -81,7 +79,7 @@ class TicketlistState extends State<Ticketlist> {
                 color: Color(0xffFAFBF8),
                 child: Center(
                     child:
-                        Image.asset('lib/assets/loadSlang.gif', scale: 1.1)));
+                        Image.asset('lib/assets/loadSlang2.gif', scale: 1.1)));
           }
           var ticketList = snapshot.data![1];
           return Scaffold(
@@ -95,40 +93,46 @@ class TicketlistState extends State<Ticketlist> {
                     Opacity(
                       opacity: 0.95,
                       child: Container(
-                        color: Color(0xFF415382),
-                        width: double.infinity,
-                        height: 25,
-                        alignment: Alignment.centerLeft,
-                        child: Row(children: [
-                          Text(
-                          '\t\tTickets > ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'IBM Plex Sans',
-                              color: Colors.white),
-                        ),
-                        Text(
-                          'Archivador',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'IBM Plex Sans',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        ],)
-                      ),
+                          color: Color(0xFF415382),
+                          width: double.infinity,
+                          height: 25,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                '\t\tTickets > ',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'IBM Plex Sans',
+                                    color: Colors.white),
+                              ),
+                              Text(
+                                'Archivador',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'IBM Plex Sans',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )),
                     ),
                     Container(
-                         padding: EdgeInsets.fromLTRB(12, 5, 10, 5),
-                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(width: 0.5, color: Colors.grey),
+                          ),
+                        ),
+                        padding: EdgeInsets.fromLTRB(12, 5, 10, 5),
+                        height: 35,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               child: Row(children: [
                                 IconButton(
-                                     padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
                                   icon: isVisibleSelectAll
                                       ? Icon(Icons.check_box,
                                           color: Color(0xFF011A58), size: 25)
@@ -141,20 +145,20 @@ class TicketlistState extends State<Ticketlist> {
                                   },
                                 ),
                                 SizedBox(
-                                    width: 10,
+                                  width: 10,
                                 ),
                                 Text(
-                                    'Seleccionar todos',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'IBM Plex Sans',
-                                        color: Color(0xFF011A58)),
-                                  ),
+                                  'Seleccionar todos',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'IBM Plex Sans',
+                                      color: Color(0xFF011A58)),
+                                ),
                               ]),
                             ),
                             IconButton(
-                                 padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
                               icon: isVisibleFiltring
                                   ? Icon(Icons.filter_alt_off,
                                       color: Color(0xFF011A58), size: 25)
@@ -170,133 +174,135 @@ class TicketlistState extends State<Ticketlist> {
                         )),
                     Visibility(
                       visible: isVisibleFiltring,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Filtros:',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'IBM Plex Sans',
-                                      color: Color(0xFF011A58),
-                                      decoration: TextDecoration.underline,
-                                      decorationStyle:
-                                          TextDecorationStyle.dashed,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(width: 1, color: Colors.grey),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Filtros:',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58),
+                                        decoration: TextDecoration.underline,
+                                        decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                ]),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: 24,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Fecha Creación',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'IBM Plex Sans',
-                                        color: Color(0xFF011A58)),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Color.fromARGB(255, 0, 118, 197)),
-                                    onPressed: pickDateRange,
-                                    child: Text(textoFechaInicio,
-                                        textScaleFactor: 1.2),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Color.fromARGB(255, 18, 86, 189)),
-                                    onPressed: pickDateRange,
-                                    child: Text(textoFechaFin,
-                                        textScaleFactor: 1.2),
-                                  ),
-                                ],
+                                  ]),
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              height: 30,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Categoria',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'IBM Plex Sans',
-                                        color: Color(0xFF011A58)),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  categs1
-                                ],
+                              Container(
+                                height: 24,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Fecha Creación',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Color.fromARGB(255, 0, 118, 197)),
+                                      onPressed: pickDateRange,
+                                      child: Text(textoFechaInicio,
+                                          textScaleFactor: 1.2),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Color.fromARGB(255, 18, 86, 189)),
+                                      onPressed: pickDateRange,
+                                      child: Text(textoFechaFin,
+                                          textScaleFactor: 1.2),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Container(
-                              height: 30,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Subcategoria',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'IBM Plex Sans',
-                                        color: Color(0xFF011A58)),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  categs2
-                                ],
+                              SizedBox(
+                                height: 5,
                               ),
-                            ),
-                            Divider()
-                          ],
+                              Container(
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Categoria',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                    categs1
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Subcategoria',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                    categs2
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 5),
                     Expanded(
-                      child: MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
+                      child: Container(
+                        color: Colors.grey,
                         child: ListView.builder(
                             controller: scrollController,
                             itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
-                              var vendor = ticketList[index]
+                               var vendor = ticketList[index]
                                   .toMap()['issuer']
                                   .split('\n')[0]
                                   .toString();
                               return Card(
-                                color: cardColor,
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
+                                  margin: EdgeInsets.fromLTRB(0, 0.25, 0, 0.25),
+                                  child: 
                                       ListTile(
-                                        onTap: () {
+                                         onTap: () {
                                           changePageFade(
                                               TicketView(
                                                   ticketList[index].toMap()),
@@ -304,93 +310,98 @@ class TicketlistState extends State<Ticketlist> {
                                         },
                                         selected: isSelected,
                                         title: Container(
-                                            child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      vendor.substring(
-                                                          0,
-                                                          vendor.length > 14
-                                                              ? 14
-                                                              : vendor.length),
-                                                      style: TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                    Text(ticketList[index]
-                                                            .toMap()['total']
-                                                            .toString() +
-                                                        '€')
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(ticketList[index]
-                                                        .toMap()['date']),
-                                                    Text(ticketList[index]
-                                                        .toMap()['hour'])
-                                                  ],
-                                                ),
-                                                TextButton(
-                                                  child: Text('Ver foto',
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline)),
-                                                  onPressed: () {
-                                                    changePageFade(
-                                                        TicketView(
-                                                            ticketList[index]
-                                                                .toMap()),
-                                                        context);
-                                                  },
-                                                ),
-                                                Visibility(
-                                                  visible: isVisibleDelete,
-                                                  child: IconButton(
-                                                    icon: Icon(Icons.delete),
-                                                    iconSize: 28,
-                                                    color: Color.fromARGB(
-                                                        255, 161, 30, 21),
-                                                    onPressed: () {
-                                                      dialogRemoveTicket(
-                                                              context,
-                                                              ticketList[index]
-                                                                      .toMap()[
-                                                                  'id'])
-                                                          .then((value) {
-                                                        if (value) {
-                                                          setState(() {});
-                                                        }
-                                                      });
-                                                    },
+                                      height: 60,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SizedBox(
+                                            width: 0.2,
+                                          ),
+                                          Container(
+                                            width: dimension.width * 0.05,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero,
+                                              constraints: BoxConstraints(),
+                                              icon: isVisibleSelectAll
+                                                  ? Icon(Icons.check_box,
+                                                      color: Color(0xFF011A58))
+                                                  : Icon(
+                                                      Icons
+                                                          .indeterminate_check_box,
+                                                      color: Color(0xFF011A58)),
+                                              onPressed: () {
+                                                setState(() {
+                                                  isVisibleSelectAll =
+                                                      !isVisibleSelectAll;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                              width: dimension.width * 0.45,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+
+                                                  Text(
+                                              vendor.substring(
+                                                  0,
+                                                  vendor.length > 14
+                                                      ? 14
+                                                      : vendor.length),
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'IBM Plex Sans',
+                                                        color:
+                                                            Color(0xFF011A58)),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Text(ticketList[index]
-                                                    .toMap()['date']),
-                                                Text(ticketList[index]
-                                                    .toMap()['hour'])
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                      ),
-                                    ]),
-                              );
+                                                ],
+                                              )),
+                                          Container(
+                                              width: dimension.width * 0.25,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(ticketList[index]
+                                                .toMap()['date'],
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'IBM Plex Sans',
+                                                        color:
+                                                            Color(0xFF011A58)),
+                                                  ),
+                                                ],
+                                              )),
+                                          Container(
+                                              width: dimension.width * 0.15,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+
+                                                  
+                                                   Text(ticketList[index]
+                                                .toMap()['hour'],
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'IBM Plex Sans',
+                                                        color:
+                                                            Color(0xFF011A58)),
+                                                  ),
+                                                ],
+                                              )),
+                                        ],
+                                      ))
+
+                                      ));
+
+
                             }),
                       ),
                     ),
