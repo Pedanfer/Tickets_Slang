@@ -1,5 +1,5 @@
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/utils/constants.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -163,7 +163,7 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
     BuildContext context, String message, int duration) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Color(0xff011A58),
+      backgroundColor: blue75,
       content: Text(message,
           style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
       duration: Duration(seconds: duration)));

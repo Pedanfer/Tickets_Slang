@@ -27,3 +27,6 @@ const getBackButtonIcon = 'lib/assets/getBackButton.svg';
 const iconDrive = 'lib/assets/iconDrive.svg';
 const ticketIconInitial = 'lib/assets/TicketIcon.svg';
 const backgroundRect = 'lib/assets/backTicket.png';
+
+const qAuthId =
+    '492857650905-7ge0m4s68a7p3tbbag9vuko7un0u19hv.apps.googleusercontent.com';

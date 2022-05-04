@@ -1,4 +1,4 @@
-import 'package:exploration_planner/src/tickets/utils/ticket.dart';
+import 'package:slang_mobile/src/tickets/utils/ticket.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -37,9 +37,9 @@ class DB {
       String dateStart, String dateEnd, String categ1, String categ2) async {
     var database = await _openDB();
     List<dynamic>? tickets;
-    var categ1None = RegExp(categ1).hasMatch('|Todas');
-    var categ2None = RegExp(categ2).hasMatch('|Todas');
-    if (dateStart != 'Fecha inicio') {
+    var categ1None = RegExp(categ1).hasMatch('Todas');
+    var categ2None = RegExp(categ2).hasMatch('Todas');
+    if (dateStart != 'Inicio') {
       if (!categ1None) {
         if (categ2None) {
           tickets = await database.query('tickets',

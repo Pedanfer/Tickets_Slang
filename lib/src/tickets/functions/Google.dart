@@ -1,3 +1,39 @@
+import 'dart:io';
+
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
+import 'package:googleapis/drive/v3.dart' as gdrive;
+import 'package:googleapis_auth/auth_io.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class DriveService {
+  List<String> _scopes = [gdrive.DriveApi.driveFileScope];
+
+  uploadFile(String path) async {
+    await DriveService().upload(File(path));
+  }
+
+  getHttpClient() async {
+    return await clientViaUserConsent(ClientId(qAuthId), _scopes, prompt);
+  }
+
+  prompt(String url) {
+    launchUrl(Uri.parse(url));
+  }
+
+  upload(File file) async {
+    var client = await getHttpClient();
+    var drive = gdrive.DriveApi(client);
+    var res = await drive.files.create(
+      gdrive.File(),
+      uploadMedia: gdrive.Media(file.openRead(), file.lengthSync()),
+    );
+
+    print('Response here ${res.toJson()}');
+  }
+}
+
+
+/*
 // ignore_for_file: unused_element
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -48,7 +84,7 @@ Future<void> signOut() async {
   print('Sign out');
 }
 
-/*
+
 // GOOGLE DRIVE
 
 Future<drive.DriveApi?> _getDriveApi() async {

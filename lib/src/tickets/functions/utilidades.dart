@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:archive/archive_io.dart';
-import 'package:exploration_planner/src/tickets/functions/sqlite.dart';
-import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
+import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -418,11 +418,12 @@ Future<bool> requestPermission(Permission permission) async {
 
 void changePageFade(Widget destinyPage, BuildContext context) {
   Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (c, a1, a2) => destinyPage,
-        transitionsBuilder: (c, anim, a2, child) =>
-            FadeTransition(opacity: anim, child: child),
-        transitionDuration: Duration(milliseconds: 400),
-      ),);
+    context,
+    PageRouteBuilder(
+      pageBuilder: (c, a1, a2) => destinyPage,
+      transitionsBuilder: (c, anim, a2, child) =>
+          FadeTransition(opacity: anim, child: child),
+      transitionDuration: Duration(milliseconds: 400),
+    ),
+  );
 }

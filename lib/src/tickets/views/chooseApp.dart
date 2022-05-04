@@ -1,6 +1,6 @@
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/views/dashboard.dart';
-import 'package:exploration_planner/src/tickets/views/initialConfig.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/views/dashboard.dart';
+import 'package:slang_mobile/src/tickets/views/initialConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';
