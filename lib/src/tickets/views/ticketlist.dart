@@ -1,13 +1,12 @@
-import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/login_page.dart';
 import 'package:slang_mobile/src/tickets/views/ticketView.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../functions/Google.dart';
 
 var textoFechaInicio = 'Inicio';
 var textoFechaFin = 'Fin';
@@ -95,31 +94,32 @@ class TicketlistState extends State<Ticketlist> {
                     Opacity(
                       opacity: 0.95,
                       child: Container(
-                        color: Color(0xFF415382),
-                        width: double.infinity,
-                        height: 25,
-                        alignment: Alignment.centerLeft,
-                        child: Row(children: [
-                          Text(
-                          '\t\tTickets > ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'IBM Plex Sans',
-                              color: Colors.white),
-                        ),
-                        Text(
-                          'Archivador',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'IBM Plex Sans',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        ],)
-                      ),
+                          color: Color(0xFF415382),
+                          width: double.infinity,
+                          height: 25,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                '\t\tTickets > ',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'IBM Plex Sans',
+                                    color: Colors.white),
+                              ),
+                              Text(
+                                'Archivador',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'IBM Plex Sans',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )),
                     ),
                     Container(
-                         padding: EdgeInsets.fromLTRB(12, 5, 10, 5),
+                        padding: EdgeInsets.fromLTRB(12, 5, 10, 5),
                         height: 40,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,8 +127,8 @@ class TicketlistState extends State<Ticketlist> {
                             Container(
                               child: Row(children: [
                                 IconButton(
-                                     padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
                                   icon: isVisibleSelectAll
                                       ? Icon(Icons.check_box,
                                           color: Color(0xFF011A58), size: 25)
@@ -141,20 +141,20 @@ class TicketlistState extends State<Ticketlist> {
                                   },
                                 ),
                                 SizedBox(
-                                    width: 10,
+                                  width: 10,
                                 ),
                                 Text(
-                                    'Seleccionar todos',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'IBM Plex Sans',
-                                        color: Color(0xFF011A58)),
-                                  ),
+                                  'Seleccionar todos',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'IBM Plex Sans',
+                                      color: Color(0xFF011A58)),
+                                ),
                               ]),
                             ),
                             IconButton(
-                                 padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
                               icon: isVisibleFiltring
                                   ? Icon(Icons.filter_alt_off,
                                       color: Color(0xFF011A58), size: 25)
@@ -446,6 +446,9 @@ class TicketlistState extends State<Ticketlist> {
                                         }
                                         createExcelLista(ticketList)
                                             .then((result) async {
+                                          /*Aquí estaba intentando probar lo de subir el zip a Drive
+                                          await DriveService().upload(
+                                              '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip');*/
                                           await FlutterShare.shareFile(
                                                   title: 'Lista de facturas',
                                                   filePath:

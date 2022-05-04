@@ -15,7 +15,7 @@ class ConfigStorage extends StatefulWidget {
 class _ConfigStorageState extends State<ConfigStorage> {
   @override
   Widget build(BuildContext context) {
-    var dimension = MediaQuery.of(context).size * 0.5;
+    var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         width: double.infinity,

@@ -163,7 +163,7 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
     BuildContext context, String message, int duration) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Color(0xff011A58),
+      backgroundColor: blue75,
       content: Text(message,
           style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
       duration: Duration(seconds: duration)));
