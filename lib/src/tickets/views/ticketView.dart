@@ -1,5 +1,5 @@
-import 'package:exploration_planner/src/tickets/views/editTicket.dart';
-import 'package:exploration_planner/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/tickets/views/editTicket.dart';
+import 'package:slang_mobile/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 
@@ -56,7 +56,7 @@ class TicketViewState extends State<TicketView> {
                                 await FlutterShare.shareFile(
                                     title: 'Factura detallada',
                                     filePath:
-                                        '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Output.xlsx',
+                                        '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
                                     text:
                                         'Comparto contigo este documento con la informacion del ticket');
                               });

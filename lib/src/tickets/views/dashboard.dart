@@ -1,7 +1,7 @@
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/views/addPhoto.dart';
-import 'package:exploration_planner/src/tickets/views/menu.dart';
-import 'package:exploration_planner/src/tickets/views/ticketlist.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
+import 'package:slang_mobile/src/tickets/views/menu.dart';
+import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
