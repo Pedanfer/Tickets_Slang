@@ -4,6 +4,7 @@ import 'package:slang_mobile/src/tickets/views/configStorage.dart';
 import 'package:slang_mobile/src/tickets/views/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../functions/Google.dart' as Google;
 import '../utils/constants.dart';
 
 GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
@@ -274,17 +275,23 @@ class _InitialConfigState extends State<InitialConfig> {
                                           dimension.height * 0.03),
                                     ),
                                     onPressed: () {},
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'lib/assets/googleLogo.svg'),
-                                        SizedBox(
-                                            width: dimension.width * 0.015),
-                                        Text(
-                                          'Sign in with Google',
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ],
+                                    child: InkWell(
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              'lib/assets/googleLogo.svg'),
+                                          SizedBox(
+                                              width: dimension.width * 0.015),
+                                          Text(
+                                            'Sign in with Google',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () async {
+                                        Google.signInDrive();
+                                      },
                                     )),
                               ),
                               SizedBox(

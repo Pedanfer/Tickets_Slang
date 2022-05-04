@@ -21,6 +21,7 @@ const pink50 = Color(0xffE784C6);
 const pink10 = Color(0xffFAE6F4);
 const pink5 = Color(0xffFDF3F9);
 const formBackground = Color(0xffF2F4F7);
+const gifBackground = Color(0xffFAFBF8);
 
 const dropBoxIcon = 'lib/assets/dropbox_icon.svg';
 const getBackButtonIcon = 'lib/assets/getBackButton.svg';
@@ -29,4 +30,6 @@ const ticketIconInitial = 'lib/assets/TicketIcon.svg';
 const backgroundRect = 'lib/assets/backTicket.png';
 
 const qAuthId =
-    '492857650905-7ge0m4s68a7p3tbbag9vuko7un0u19hv.apps.googleusercontent.com';
+    '492857650905-v69oq844la3bsbse29eftvm4s5pp3oeb.apps.googleusercontent.com';
+const ticketsZipPath =
+    '/storage/emulated/0/Android/data/com.slanginnovations.mobile/files/Tickets.zip';

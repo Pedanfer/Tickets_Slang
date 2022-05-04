@@ -51,9 +51,14 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
     backgroundColor: blue75,
     titlePadding: EdgeInsets.all(dimension.width * 0.03),
     contentPadding: EdgeInsets.all(0),
-    content: Image.asset(
-      'lib/assets/loadSlang2.gif',
-      fit: BoxFit.cover,
+    content: Container(
+      color: gifBackground,
+      child: Transform.scale(
+        scale: 0.75,
+        child: Image.asset(
+          'lib/assets/loadSlang.gif',
+        ),
+      ),
     ),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
   );

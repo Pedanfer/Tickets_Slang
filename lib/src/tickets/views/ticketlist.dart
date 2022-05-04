@@ -1,4 +1,6 @@
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
 import 'package:slang_mobile/src/tickets/views/ticketView.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
@@ -293,114 +295,114 @@ class TicketlistState extends State<Ticketlist> {
                             controller: scrollController,
                             itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
-                               var vendor = ticketList[index]
+                              var vendor = ticketList[index]
                                   .toMap()['issuer']
                                   .split('\n')[0]
                                   .toString();
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.25, 0, 0.25),
-                                  child: 
-                                      ListTile(
-                                         onTap: () {
-                                          changePageFade(
-                                              TicketView(
-                                                  ticketList[index].toMap()),
-                                              context);
-                                        },
-                                        selected: isSelected,
-                                        title: Container(
-                                      height: 60,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SizedBox(
-                                            width: 0.2,
-                                          ),
-                                          Container(
-                                            width: dimension.width * 0.05,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              constraints: BoxConstraints(),
-                                              icon: isVisibleSelectAll
-                                                  ? Icon(Icons.check_box,
-                                                      color: Color(0xFF011A58))
-                                                  : Icon(
-                                                      Icons
-                                                          .indeterminate_check_box,
-                                                      color: Color(0xFF011A58)),
-                                              onPressed: () {
-                                                setState(() {
-                                                  isVisibleSelectAll =
-                                                      !isVisibleSelectAll;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          Container(
-                                              width: dimension.width * 0.45,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-
-                                                  Text(
-                                              vendor.substring(
-                                                  0,
-                                                  vendor.length > 14
-                                                      ? 14
-                                                      : vendor.length),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                          Container(
-                                              width: dimension.width * 0.25,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(ticketList[index]
-                                                .toMap()['date'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                          Container(
-                                              width: dimension.width * 0.15,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-
-                                                  
-                                                   Text(ticketList[index]
-                                                .toMap()['hour'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                        ],
-                                      ))
-
-                                      ));
-
-
+                                  child: ListTile(
+                                      onTap: () {
+                                        changePageFade(
+                                            TicketView(
+                                                ticketList[index].toMap()),
+                                            context);
+                                      },
+                                      selected: isSelected,
+                                      title: Container(
+                                          height: 60,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              SizedBox(
+                                                width: 0.2,
+                                              ),
+                                              Container(
+                                                width: dimension.width * 0.05,
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  constraints: BoxConstraints(),
+                                                  icon: isVisibleSelectAll
+                                                      ? Icon(Icons.check_box,
+                                                          color:
+                                                              Color(0xFF011A58))
+                                                      : Icon(
+                                                          Icons
+                                                              .indeterminate_check_box,
+                                                          color: Color(
+                                                              0xFF011A58)),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      isVisibleSelectAll =
+                                                          !isVisibleSelectAll;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                  width: dimension.width * 0.45,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        vendor.substring(
+                                                            0,
+                                                            vendor.length > 14
+                                                                ? 14
+                                                                : vendor
+                                                                    .length),
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              Container(
+                                                  width: dimension.width * 0.25,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        ticketList[index]
+                                                            .toMap()['date'],
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              Container(
+                                                  width: dimension.width * 0.15,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        ticketList[index]
+                                                            .toMap()['hour'],
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ],
+                                          ))));
                             }),
                       ),
                     ),
@@ -456,13 +458,9 @@ class TicketlistState extends State<Ticketlist> {
                                         }
                                         createExcelLista(ticketList)
                                             .then((result) async {
-                                          /*Aquí estaba intentando probar lo de subir el zip a Drive
-                                          await DriveService().upload(
-                                              '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip');*/
                                           await FlutterShare.shareFile(
                                                   title: 'Lista de facturas',
-                                                  filePath:
-                                                      '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip',
+                                                  filePath: ticketsZipPath,
                                                   text:
                                                       'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
                                               .then((value) => null);
@@ -471,6 +469,33 @@ class TicketlistState extends State<Ticketlist> {
                                     ),
                                     Text(
                                       'Compartir',
+                                      style: TextStyle(
+                                          fontFamily: 'IBM Plex Sans',
+                                          fontSize: 12,
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(
+                                        Icons.add_to_drive_rounded,
+                                        color: Color.fromRGBO(1, 26, 88, 1),
+                                      ),
+                                      onPressed: () async {
+                                        createExcelLista(ticketList)
+                                            .then((result) async {
+                                          uploadFile();
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'Drive backup',
                                       style: TextStyle(
                                           fontFamily: 'IBM Plex Sans',
                                           fontSize: 12,
