@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../functions/Google.dart';
-
 var textoFechaInicio = 'Inicio';
 var textoFechaFin = 'Fin';
 var newDateRange;
