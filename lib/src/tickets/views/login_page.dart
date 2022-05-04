@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:exploration_planner/src/tickets/functions/communications.dart';
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/utils/constants.dart';
-import 'package:exploration_planner/src/tickets/views/chooseApp.dart';
-import 'package:exploration_planner/src/tickets/views/userRegister.dart';
-import 'package:exploration_planner/src/tickets/utils/validators.dart'as validators;
-import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/functions/communications.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
+import 'package:slang_mobile/src/tickets/views/chooseApp.dart';
+import 'package:slang_mobile/src/tickets/views/userRegister.dart';
+import 'package:slang_mobile/src/tickets/utils/validators.dart' as validators;
+import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 var dimension;

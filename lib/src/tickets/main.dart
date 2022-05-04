@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/views/chooseApp.dart';
-import 'package:exploration_planner/src/tickets/views/login_page.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/views/chooseApp.dart';
+import 'package:slang_mobile/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   await loadImage(AssetImage('lib/assets/fondo.png'));
   runApp(MyApp());
 }

@@ -1,4 +1,4 @@
-import 'package:exploration_planner/src/tickets/views/userRegister.dart';
+import 'package:slang_mobile/src/tickets/views/userRegister.dart';
 import 'package:flutter/material.dart';
 import '../functions/utilidades.dart';
 import '../utils/constants.dart';

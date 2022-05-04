@@ -1,10 +1,10 @@
-import 'package:exploration_planner/src/tickets/functions/Google.dart';
-import 'package:exploration_planner/src/tickets/functions/sqlite.dart';
-import 'package:exploration_planner/src/tickets/utils/constants.dart';
-import 'package:exploration_planner/src/tickets/views/login_page.dart';
-import 'package:exploration_planner/src/tickets/views/ticketView.dart';
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
+import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
+import 'package:slang_mobile/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/tickets/views/ticketView.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
@@ -408,7 +408,7 @@ class TicketlistState extends State<Ticketlist> {
                                           await FlutterShare.shareFile(
                                                   title: 'Lista de facturas',
                                                   filePath:
-                                                      '/storage/emulated/0/Android/data/com.example.exploration_planner/files/Tickets.zip',
+                                                      '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip',
                                                   text:
                                                       'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
                                               .then((value) => null);

@@ -1,6 +1,6 @@
-import 'package:exploration_planner/src/tickets/functions/utilidades.dart';
-import 'package:exploration_planner/src/tickets/utils/widgets.dart';
-import 'package:exploration_planner/src/tickets/views/menu.dart';
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/views/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';
@@ -15,7 +15,7 @@ class ConfigStorage extends StatefulWidget {
 class _ConfigStorageState extends State<ConfigStorage> {
   @override
   Widget build(BuildContext context) {
-    var dimension = MediaQuery.of(context).size*0.5;
+    var dimension = MediaQuery.of(context).size * 0.5;
     return Scaffold(
       body: Container(
         width: double.infinity,
