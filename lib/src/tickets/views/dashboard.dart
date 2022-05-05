@@ -1,4 +1,6 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
 import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
 import 'package:slang_mobile/src/tickets/views/menu.dart';
 import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
@@ -22,12 +24,12 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: SvgPicture.asset('lib/assets/icons/Burger_Menu.svg'),
           onPressed: () => changePageFade(Menu(), context),
         ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
-            child: Image.asset('lib/assets/Logo_slang_horizontalblanco.png')),
+            child: Image.asset('lib/assets/Slang/Logo_slang_horizontalblanco.png')),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -37,6 +39,7 @@ class _DashBoardState extends State<DashBoard> {
       ),
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
+        
         backgroundColor: Color(0xFF011A58),
         onTap: (index) {
           setState(() {
@@ -46,16 +49,19 @@ class _DashBoardState extends State<DashBoard> {
         currentIndex: paginaActual,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long), label: 'Nuevo ticket'),
+            
+              icon: (paginaActual == 0) ? SvgPicture.asset('lib/assets/icons/Selected_NuevoTicket.svg', height: 52, width: 64,)
+                  :SvgPicture.asset('lib/assets/icons/NuevoTicket.svg', height: 52, width: 64,),
+               label: 'Nuevo ticket'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder_open_outlined),
+            icon: (paginaActual == 1) ? SvgPicture.asset('lib/assets/icons/Selected_Archivador.svg', height: 52, width: 64,)
+                  :SvgPicture.asset('lib/assets/icons/Archivador.svg', height: 52, width: 64,),
             label: 'Archivador',
           )
         ],
-        selectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
-        unselectedLabelStyle: TextStyle(fontSize: 12, color: Colors.white),
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedFontSize:6,
       ),
     );
   }

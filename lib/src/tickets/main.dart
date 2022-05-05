@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   //await Firebase.initializeApp();
-  await loadImage(AssetImage('lib/assets/fondo.png'));
+  await loadImage(AssetImage('lib/assets/backgrounds/fondo.png'));
   runApp(MyApp());
 }
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               height: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("lib/assets/fondo.png"),
+                  image: AssetImage("lib/assets/backgrounds/fondo.png"),
                   fit: BoxFit.cover,
                 ),
               ),

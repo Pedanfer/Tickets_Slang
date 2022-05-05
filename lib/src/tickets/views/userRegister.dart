@@ -54,7 +54,7 @@ class _UserRegisterState extends State<UserRegister> {
           height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("lib/assets/fondo.png"),
+              image: AssetImage("lib/assets/backgrounds/fondo.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -64,7 +64,7 @@ class _UserRegisterState extends State<UserRegister> {
               SizedBox(height: dimension.height * 0.05),
               Visibility(
                   visible: isRobotVisible,
-                  child: Image.asset('lib/assets/Logo_slang_horiz.png',
+                  child: Image.asset('lib/assets/Slang/Logo_slang_horiz.png',
                       width: dimension.width * 0.55)),
               Container(
                 decoration: BoxDecoration(

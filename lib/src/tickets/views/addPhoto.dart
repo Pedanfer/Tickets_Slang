@@ -23,7 +23,7 @@ class AddPhotoState extends State<AddPhoto> {
   String vista1 = 'Seleccionar categoría';
   String vista2 = 'Seleccionar categoría';
   var img = Image.asset(
-    'lib/assets/ticketRobot.png',
+    'lib/assets/Slang/ticketRobot.png',
   );
   var categ1 = '';
   var categ2 = '';
@@ -42,8 +42,8 @@ class AddPhotoState extends State<AddPhoto> {
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: isVisibleImg
-                    ? new AssetImage("lib/assets/fondo2.png")
-                    : new AssetImage("lib/assets/fondo.png"),
+                    ? new AssetImage("lib/assets/backgrounds/fondo2.png")
+                    : new AssetImage("lib/assets/backgrounds/fondo.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -104,7 +104,7 @@ class AddPhotoState extends State<AddPhoto> {
                             onPressed: () {
                               isVisibleImg = false;
                               setState(() {
-                                img = Image.asset('lib/assets/ticketRobot.png',
+                                img = Image.asset('lib/assets/Slang/ticketRobot.png',
                                     scale: 1.5);
                                 isVisibleBorrarAceptar = false;
                                 isVisibleFotoGaleria = true;
@@ -262,26 +262,31 @@ class AddPhotoState extends State<AddPhoto> {
                     visible: isVisibleFotoGaleria,
                     maintainSize: false,
                     child: Container(
-                      margin: EdgeInsets.only(bottom: dimension.height * 0.15),
-                      height: (dimension.height * 0.60 )- 11,
+                      margin: EdgeInsets.only(
+                        top: dimension.height * 0.13,
+                        bottom: dimension.height * 0.15),
+                      height: (dimension.height * 0.44 - .15),
                       width: dimension.width * 0.9,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            height: dimension.height * 0.2,
-                            child: Column(children: [
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                
+                              Container(
+                                
+                                height: dimension.height*0.35,
+                                width: dimension.width*0.35,
+                                child: 
                               IconButton(
-                                icon: Icon(
-                                  Icons.add_a_photo_outlined,
-                                  color: Colors.white,
-                                ),
-                                iconSize: 56,
+                                icon: Image.asset('lib/assets/icons/Camara.png'),
                                 onPressed: () {
                                   photoFrom('camera')
                                       .then((value) => setState(() {
-                                            if (value) {
+                                           if (value) {
                                               img = Image.file(imageFile!,
                                                   height: 450, width: 380);
                                               isVisibleBorrarAceptar = true;
@@ -290,10 +295,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               isVisibleImg = true;
                                             }
                                           }));
-                                },
-                              ),
-                              Text('Hacer foto a ticket',
-                                  style: TextStyle(color: Colors.white)),
+                                },),),
                             ]),
                           ),
                           VerticalDivider(
@@ -301,15 +303,16 @@ class AddPhotoState extends State<AddPhoto> {
                             thickness: 2,
                           ),
                           Container(
-                            height: dimension.height * 0.2,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Container(
+                                
+                                height: dimension.height*0.35,  
+                                width: dimension.width*0.35,
+                                  child:
                                 IconButton(
-                                  icon: Icon(
-                                    Icons.photo_library_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  iconSize: 56,
+                                  icon: Image.asset('lib/assets/icons/Galeria.png'),
                                   onPressed: () {
                                     photoFrom('gallery')
                                         .then((value) => setState(() {
@@ -323,12 +326,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               }
                                             }));
                                   },
-                                ),
-                                Text(
-                                  'Obtener ticket de \n galería',
-                                  style: TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                )
+                                ),),
                               ],
                             ),
                           ),
@@ -370,7 +368,7 @@ class AddPhotoState extends State<AddPhoto> {
                                         categ2: categ2),
                                     DB.insert(ticket)
                                   });
-                              img = Image.asset('lib/assets/ticketRobot.png',
+                              img = Image.asset('lib/assets/Slang/ticketRobot.png',
                                   scale: 1.5);
                               showDialog(
                                   context: context,

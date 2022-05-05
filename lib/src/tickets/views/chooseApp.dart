@@ -51,7 +51,7 @@ class _ChooseAppState extends State<ChooseApp> {
                               scaleX: 0.84 * (dimension.width * 0.00285),
                               scaleY: 0.43 * (dimension.height * 0.00285),
                               child: SvgPicture.asset(
-                                'lib/assets/ticketRectangle.svg',
+                                'lib/assets/backgrounds/ticketRectangle.svg',
                               ),
                             ),
                           )
@@ -84,7 +84,7 @@ class _ChooseAppState extends State<ChooseApp> {
                               scaleX: 0.84 * (dimension.width * 0.00285),
                               scaleY: 0.43 * (dimension.height * 0.00285),
                               child: SvgPicture.asset(
-                                'lib/assets/timeRectangle.svg',
+                                'lib/assets/backgrounds/timeRectangle.svg',
                               ),
                             ),
                           )
@@ -111,7 +111,7 @@ class _ChooseAppState extends State<ChooseApp> {
                                 scaleX: 0.845 * (dimension.width * 0.00285),
                                 scaleY: 0.435 * (dimension.height * 0.00285),
                                 child: SvgPicture.asset(
-                                  'lib/assets/robotekaRectangle.svg',
+                                  'lib/assets/backgrounds/robotekaRectangle.svg',
                                 ),
                               ),
                             )

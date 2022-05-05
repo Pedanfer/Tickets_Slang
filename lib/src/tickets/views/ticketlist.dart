@@ -23,7 +23,7 @@ class Ticketlist extends StatefulWidget {
 class TicketlistState extends State<Ticketlist> {
   final dateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  var img = Image.asset('lib/assets/ticketRobot.png', scale: 5);
+  var img = Image.asset('lib/assets/Slang/ticketRobot.png', scale: 5);
   var categs1Key;
   var categs2Key;
   var categs1;
@@ -77,8 +77,8 @@ class TicketlistState extends State<Ticketlist> {
                 height: double.infinity,
                 color: Color(0xffFAFBF8),
                 child: Center(
-                    child:
-                        Image.asset('lib/assets/loadSlang2.gif', scale: 1.1)));
+                    child: Image.asset('lib/assets/Slang/loadSlang2.gif',
+                        scale: 1.1)));
           }
           var ticketList = snapshot.data![1];
           return Scaffold(
@@ -293,114 +293,125 @@ class TicketlistState extends State<Ticketlist> {
                             controller: scrollController,
                             itemCount: snapshot.data![1].length,
                             itemBuilder: (BuildContext context, int index) {
-                               var vendor = ticketList[index]
+                              var vendor = ticketList[index]
                                   .toMap()['issuer']
                                   .split('\n')[0]
                                   .toString();
+                              if (vendor == ''){
+                                vendor = '---';
+                              }
+
+var fechor = ticketList[index].toMap()['date'];
+                              if ( fechor == ''){
+                                fechor = 'Sin Fecha';
+                              }
+
+                              var houror = ticketList[index].toMap()['hour'];
+                              if (houror == ''){
+                                houror = '-- : -- : --';
+                              }
+
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.25, 0, 0.25),
-                                  child: 
-                                      ListTile(
-                                         onTap: () {
-                                          changePageFade(
-                                              TicketView(
-                                                  ticketList[index].toMap()),
-                                              context);
-                                        },
-                                        selected: isSelected,
-                                        title: Container(
-                                      height: 60,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SizedBox(
-                                            width: 0.2,
-                                          ),
-                                          Container(
-                                            width: dimension.width * 0.05,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              constraints: BoxConstraints(),
-                                              icon: isVisibleSelectAll
-                                                  ? Icon(Icons.check_box,
-                                                      color: Color(0xFF011A58))
-                                                  : Icon(
-                                                      Icons
-                                                          .indeterminate_check_box,
-                                                      color: Color(0xFF011A58)),
-                                              onPressed: () {
-                                                setState(() {
-                                                  isVisibleSelectAll =
-                                                      !isVisibleSelectAll;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          Container(
-                                              width: dimension.width * 0.45,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-
-                                                  Text(
-                                              vendor.substring(
-                                                  0,
-                                                  vendor.length > 14
-                                                      ? 14
-                                                      : vendor.length),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                          Container(
-                                              width: dimension.width * 0.25,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(ticketList[index]
-                                                .toMap()['date'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                          Container(
-                                              width: dimension.width * 0.15,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-
-                                                  
-                                                   Text(ticketList[index]
-                                                .toMap()['hour'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'IBM Plex Sans',
-                                                        color:
-                                                            Color(0xFF011A58)),
-                                                  ),
-                                                ],
-                                              )),
-                                        ],
-                                      ))
-
-                                      ));
-
-
+                                  child: ListTile(
+                                      onTap: () {
+                                        changePageFade(
+                                            TicketView(
+                                                ticketList[index].toMap()),
+                                            context);
+                                      },
+                                      selected: isSelected,
+                                      title: Container(
+                                          height: 60,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                width: dimension.width * 0.05,
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  constraints: BoxConstraints(),
+                                                  icon: isVisibleSelectAll
+                                                      ? Icon(Icons.check_box,
+                                                          color:
+                                                              Color(0xFF011A58))
+                                                      : Icon(
+                                                          Icons
+                                                              .indeterminate_check_box,
+                                                          color: Color(
+                                                              0xFF011A58)),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      isVisibleSelectAll =
+                                                          !isVisibleSelectAll;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 0.1,
+                                              ),
+                                              Container(
+                                                  width: dimension.width * 0.35,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        vendor.substring(
+                                                                0,
+                                                                vendor.length >
+                                                                        15
+                                                                    ? 15
+                                                                    : vendor
+                                                                        .length)
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              Container(
+                                                  width: dimension.width * 0.25,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(fechor,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              Container(
+                                                  width: dimension.width * 0.20,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(houror,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'IBM Plex Sans',
+                                                            color: Color(
+                                                                0xFF011A58)),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ],
+                                          ))));
                             }),
                       ),
                     ),

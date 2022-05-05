@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     dimension = MediaQuery.of(context).size;
     var robotWelcome;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {
-      robotWelcome = Image.asset('lib/assets/Logo_slang_horiz.png',
+      robotWelcome = Image.asset('lib/assets/Slang/Logo_slang_horiz.png',
           width: dimension.width * 0.55);
       isTitleVisible = true;
       boxHeight = 0.54;
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("lib/assets/fondo.png"),
+              image: AssetImage("lib/assets/backgrounds/fondo.png"),
               fit: BoxFit.cover,
             ),
           ),

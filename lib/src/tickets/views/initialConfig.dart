@@ -80,7 +80,7 @@ class _InitialConfigState extends State<InitialConfig> {
                             AspectRatio(
                               aspectRatio: 1.4,
                               child: SvgPicture.asset(
-                                'lib/assets/ticketRectangle.svg',
+                                'lib/assets/backgrounds/ticketRectangle.svg',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -277,7 +277,7 @@ class _InitialConfigState extends State<InitialConfig> {
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(
-                                            'lib/assets/googleLogo.svg'),
+                                            'lib/assets/icons/googleLogo.svg'),
                                         SizedBox(
                                             width: dimension.width * 0.015),
                                         Text(
