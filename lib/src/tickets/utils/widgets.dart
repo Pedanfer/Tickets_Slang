@@ -223,4 +223,31 @@ class DropDownCategsState extends State<DropDownCategs> {
           underline: SizedBox()),
     );
   }
+  /*Transform.translate(
+                                offset: const Offset(4.0, -15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TitleWithUnderline(
+                                        text: ' ',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        spaceLength: 36,
+                                        dashed: false),
+                                    Transform.translate(
+                                      offset: const Offset(0, 6),
+                                      child: Text('    OR    ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12)),
+                                    ),
+                                    TitleWithUnderline(
+                                        text: ' ',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        spaceLength: 36,
+                                        dashed: false),
+                                  ],
+                                ),
+                              ), */
 }

@@ -495,7 +495,7 @@ class TicketlistState extends State<Ticketlist> {
                                       },
                                     ),
                                     Text(
-                                      'Drive backup',
+                                      'Subir selección a Drive',
                                       style: TextStyle(
                                           fontFamily: 'IBM Plex Sans',
                                           fontSize: 12,

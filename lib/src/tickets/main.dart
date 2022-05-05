@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-//Dentro de MyApp hay una cascada de returns:
-//MaterialApp > Scaffold > AppBar|body: Column > Progress|TaskList
+var prefs;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
   }
 
   Future<StatefulWidget> checkLogin() async {
-    var prefs = await getPrefs();
+    prefs = await getPrefs();
     var login = await prefs!.getStringList('login');
     if (login != null) return ChooseApp();
     return LoginPage();

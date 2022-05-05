@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:slang_mobile/src/tickets/views/configStorage.dart';
@@ -24,7 +28,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    Uri SlangWeb = Uri.parse( 'https://slang.digital/');
+    Uri SlangWeb = Uri.parse('https://slang.digital/');
     var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -51,7 +55,7 @@ class _MenuState extends State<Menu> {
                       Expanded(
                         child: TitleWithUnderline(
                             color: Colors.white,
-                            text: 'Menú',
+                            text: ' Menú',
                             fontSize: 24,
                             spaceLength: 48,
                             dashed: false),
@@ -64,7 +68,7 @@ class _MenuState extends State<Menu> {
                   TextButton(
                     onPressed: () => changePageFade(ConfigStorage(), context),
                     child: Text(
-                      'CONFIGURACIÓN DE ALMACENAMIENTO',
+                      ' CONFIGURACIÓN DE ALMACENAMIENTO',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -74,7 +78,7 @@ class _MenuState extends State<Menu> {
                   TextButton(
                     onPressed: () {},
                     child: Text(
-                      'EDITAR CATEGORÍAS',
+                      ' EDITAR CATEGORÍAS',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -82,9 +86,11 @@ class _MenuState extends State<Menu> {
                     height: dimension.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {launchUrl(SlangWeb);},
+                    onPressed: () {
+                      launchUrl(SlangWeb);
+                    },
                     child: Text(
-                      'IR A SLANG DIGITAL',
+                      ' IR A SLANG DIGITAL',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -95,10 +101,28 @@ class _MenuState extends State<Menu> {
                     onPressed: () async {
                       var prefs = await getPrefs();
                       await prefs!.remove('login');
+                      await prefs.remove('driveUserData');
+                      signOutDrive();
                       changePageFade(LoginPage(), context);
                     },
                     child: Text(
-                      'CERRAR SESIÓN',
+                      ' CAMBIAR DE USUARIO',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(
+                    height: dimension.height * 0.005,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      if (Platform.isAndroid) {
+                        SystemNavigator.pop();
+                      } else if (Platform.isIOS) {
+                        exit(0);
+                      }
+                    },
+                    child: Text(
+                      'SALIR',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

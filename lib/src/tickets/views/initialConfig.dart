@@ -1,6 +1,5 @@
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/configStorage.dart';
 import 'package:slang_mobile/src/tickets/views/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +12,9 @@ class InitialConfig extends StatefulWidget {
   @override
   State<InitialConfig> createState() => _InitialConfigState();
 }
+
+var buttonVisible = false;
+var saveUser = false;
 
 class _InitialConfigState extends State<InitialConfig> {
   var driveFormsVisible = false;
@@ -183,7 +185,8 @@ class _InitialConfigState extends State<InitialConfig> {
                               SizedBox(
                                 height: dimension.height * (0.02 + separator),
                               ),
-                              TextFormField(
+                              /* Quizás útil para DropBox en el futuro 
+                                TextFormField(
                                 keyboardType: TextInputType.name,
                                 autocorrect: false,
                                 onChanged: (value) =>
@@ -225,96 +228,79 @@ class _InitialConfigState extends State<InitialConfig> {
                                   errorStyle:
                                       TextStyle(fontSize: 10, height: 1),
                                 ),
-                              ),
-                              CustomCheckBox(
-                                  color: Colors.white,
-                                  dimension: dimension,
-                                  offsetCheck: -36,
-                                  offsetText: -18,
-                                  key: checkBoxKey,
-                                  text: [
-                                    TextSpan(text: 'Deseo guardar estos datos')
-                                  ]),
-                              Transform.translate(
-                                offset: const Offset(4.0, -15.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TitleWithUnderline(
-                                        text: ' ',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        spaceLength: 36,
-                                        dashed: false),
-                                    Transform.translate(
-                                      offset: const Offset(0, 6),
-                                      child: Text('    OR    ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12)),
-                                    ),
-                                    TitleWithUnderline(
-                                        text: ' ',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        spaceLength: 36,
-                                        dashed: false),
-                                  ],
+                              ),*/
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  elevation: 1.0,
+                                  fixedSize: Size(dimension.width * 0.5,
+                                      dimension.height * 0.03),
+                                ),
+                                onPressed: () {},
+                                child: InkWell(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          'lib/assets/googleLogo.svg'),
+                                      SizedBox(width: dimension.width * 0.015),
+                                      Text(
+                                        'Sign in with Google',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    saveUser =
+                                        checkBoxKey.currentState!.checked;
+                                    Google.signInDrive();
+                                    Future.delayed(const Duration(seconds: 4),
+                                        () {
+                                      setState(() {
+                                        buttonVisible = true;
+                                      });
+                                    });
+                                  },
                                 ),
                               ),
-                              SizedBox(
-                                height: dimension.height * separator,
-                              ),
+                              TitleWithUnderline(
+                                  color: Colors.white,
+                                  text: '',
+                                  fontSize: 16,
+                                  spaceLength: 85,
+                                  dashed: true),
+                              TitleWithUnderline(
+                                  color: Colors.transparent,
+                                  text: '',
+                                  fontSize: 16,
+                                  spaceLength: 1,
+                                  dashed: false),
                               Transform.translate(
-                                offset: const Offset(0, -10),
-                                child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      elevation: 1.0,
-                                      fixedSize: Size(dimension.width * 0.5,
-                                          dimension.height * 0.03),
-                                    ),
-                                    onPressed: () {},
-                                    child: InkWell(
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'lib/assets/googleLogo.svg'),
-                                          SizedBox(
-                                              width: dimension.width * 0.015),
-                                          Text(
-                                            'Sign in with Google',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                      onTap: () async {
-                                        Google.signInDrive();
-                                      },
-                                    )),
-                              ),
-                              SizedBox(
-                                height: dimension.height * (0.005 + separator),
-                              ),
-                              Transform.translate(
-                                offset: const Offset(0, -10),
-                                child: CustomButton(
-                                    text: 'Vincular',
-                                    width: dimension.width * 0.9,
-                                    height: dimension.width * 0.11,
-                                    onPressed: () => {
-                                          getPrefs().then((value) => {
-                                                if (checkBoxKey
-                                                    .currentState!.checked)
-                                                  {
-                                                    value!.setStringList(
-                                                        'driveUserData',
-                                                        driveUserData)
-                                                  }
-                                              }),
+                                offset: Offset(
+                                    0, -20 * (dimension.height * 0.0015)),
+                                child: Column(
+                                  children: [
+                                    CustomCheckBox(
+                                        color: Colors.white,
+                                        dimension: dimension,
+                                        offsetCheck: -36,
+                                        offsetText: -18,
+                                        key: checkBoxKey,
+                                        text: [
+                                          TextSpan(text: 'Mantenerme logueado')
+                                        ]),
+                                    Visibility(
+                                      visible: buttonVisible,
+                                      child: CustomButton(
+                                        text: 'Continuar',
+                                        width: dimension.width * 0.9,
+                                        height: dimension.width * 0.11,
+                                        onPressed: () => {
                                           changePageFade(DashBoard(), context)
-                                        }),
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
