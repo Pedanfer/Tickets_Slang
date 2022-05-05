@@ -1,3 +1,4 @@
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:slang_mobile/src/tickets/views/menu.dart';
@@ -81,17 +82,21 @@ class _ConfigStorageState extends State<ConfigStorage> {
                       dashed: true),
                   SizedBox(height: dimension.height * 0.01),
                   CustomButton(
-                      text: 'Desvincular',
-                      width: dimension.width * 0.95,
-                      height: dimension.height * 0.05,
-                      onPressed: () => setState(() {
-                            getPrefs().then(
-                                (value) => value!.remove('driveUserData'));
-                            driveUserData = [
-                              'No hay seleccionada cuenta de Drive',
-                              'Tu email'
-                            ];
-                          }))
+                    text: 'Desvincular',
+                    width: dimension.width * 0.95,
+                    height: dimension.height * 0.05,
+                    onPressed: () => setState(
+                      () {
+                        signOutDrive();
+                        getPrefs()
+                            .then((value) => value!.remove('driveUserData'));
+                        driveUserData = [
+                          'No hay seleccionada cuenta de Drive',
+                          'Tu email'
+                        ];
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

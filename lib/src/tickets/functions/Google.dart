@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
@@ -20,6 +19,10 @@ class GoogleAuthClient extends http.BaseClient {
 Future<void> signInDrive() async {
   signInData = await signIn.GoogleSignIn.standard(
       scopes: [drive.DriveApi.driveFileScope]).signIn();
+}
+
+Future<void> signOutDrive() async {
+  signInData = await signIn.GoogleSignIn.standard().disconnect();
 }
 
 Future<void> uploadFile() async {
