@@ -1,11 +1,16 @@
+import 'dart:convert';
+
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/views/initialConfig.dart';
 import 'package:slang_mobile/src/tickets/views/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/constants.dart';
 
-var driveUserData = ['No hay seleccionada cuenta de Drive', 'Tu email'];
+var driveNameEmail;
+var option = '';
 
 class ConfigStorage extends StatefulWidget {
   @override
@@ -15,6 +20,14 @@ class ConfigStorage extends StatefulWidget {
 class _ConfigStorageState extends State<ConfigStorage> {
   @override
   Widget build(BuildContext context) {
+    var driveUserData = prefs!.getString('driveUserData');
+    driveNameEmail = driveUserData == null
+        ? googleUserNameMail
+        : [
+            json.decode(driveUserData)['googleUserName'],
+            json.decode(driveUserData)['googleUserMail']
+          ];
+    option = driveUserData == null ? 'temporalmente' : '';
     var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -32,7 +45,10 @@ class _ConfigStorageState extends State<ConfigStorage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Actualmente, Slang Tickets está vinculado a la cuenta:',
+                  Text(
+                      'Actualmente, Slang Tickets está ' +
+                          option +
+                          ' vinculada a la cuenta:',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -58,7 +74,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            driveUserData[0],
+                            driveNameEmail[0],
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -66,7 +82,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                           ),
                           SizedBox(height: dimension.height * 0.004),
                           Text(
-                            driveUserData[1],
+                            driveNameEmail[1],
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           )
                         ],
@@ -81,17 +97,15 @@ class _ConfigStorageState extends State<ConfigStorage> {
                       dashed: true),
                   SizedBox(height: dimension.height * 0.01),
                   CustomButton(
-                      text: 'Desvincular',
-                      width: dimension.width * 0.95,
-                      height: dimension.height * 0.05,
-                      onPressed: () => setState(() {
-                            getPrefs().then(
-                                (value) => value!.remove('driveUserData'));
-                            driveUserData = [
-                              'No hay seleccionada cuenta de Drive',
-                              'Tu email'
-                            ];
-                          }))
+                    text: 'Desvincular',
+                    width: dimension.width * 0.95,
+                    height: dimension.height * 0.05,
+                    onPressed: () {
+                      signOutDrive();
+                      prefs!.remove('driveUserData');
+                      changePageFade(InitialConfig(), context);
+                    },
+                  )
                 ],
               ),
             ),

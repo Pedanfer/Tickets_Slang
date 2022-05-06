@@ -51,9 +51,14 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
     backgroundColor: blue75,
     titlePadding: EdgeInsets.all(dimension.width * 0.03),
     contentPadding: EdgeInsets.all(0),
-    content: Image.asset(
-      'lib/assets/Slang/loadSlang2.gif',
-      fit: BoxFit.cover,
+    content: Container(
+      color: gifBackground,
+      child: Transform.scale(
+        scale: 0.75,
+        child: Image.asset(
+          'lib/assets/loadSlang.gif',
+        ),
+      ),
     ),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
   );
@@ -218,4 +223,31 @@ class DropDownCategsState extends State<DropDownCategs> {
           underline: SizedBox()),
     );
   }
+  /*Transform.translate(
+                                offset: const Offset(4.0, -15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TitleWithUnderline(
+                                        text: ' ',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        spaceLength: 36,
+                                        dashed: false),
+                                    Transform.translate(
+                                      offset: const Offset(0, 6),
+                                      child: Text('    OR    ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12)),
+                                    ),
+                                    TitleWithUnderline(
+                                        text: ' ',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        spaceLength: 36,
+                                        dashed: false),
+                                  ],
+                                ),
+                              ), */
 }

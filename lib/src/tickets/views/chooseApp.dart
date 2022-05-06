@@ -58,13 +58,9 @@ class _ChooseAppState extends State<ChooseApp> {
                         ],
                       ),
                     ),
-                    onTap: () => getPrefs().then(
-                      (value) => {
-                        value!.getStringList('driveUserData') != null
-                            ? changePageFade(DashBoard(), context)
-                            : changePageFade(InitialConfig(), context)
-                      },
-                    ),
+                    onTap: () => prefs!.getString('driveUserData') != null
+                        ? changePageFade(DashBoard(), context)
+                        : changePageFade(InitialConfig(), context),
                   ),
                   InkWell(
                     child: Container(
