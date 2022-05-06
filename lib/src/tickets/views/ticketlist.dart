@@ -1,4 +1,6 @@
+import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
 import 'package:slang_mobile/src/tickets/views/ticketView.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
@@ -297,17 +299,17 @@ class TicketlistState extends State<Ticketlist> {
                                   .toMap()['issuer']
                                   .split('\n')[0]
                                   .toString();
-                              if (vendor == ''){
+                              if (vendor == '') {
                                 vendor = '---';
                               }
 
-var fechor = ticketList[index].toMap()['date'];
-                              if ( fechor == ''){
+                              var fechor = ticketList[index].toMap()['date'];
+                              if (fechor == '') {
                                 fechor = 'Sin Fecha';
                               }
 
                               var houror = ticketList[index].toMap()['hour'];
-                              if (houror == ''){
+                              if (houror == '') {
                                 houror = '-- : -- : --';
                               }
 
@@ -356,10 +358,12 @@ var fechor = ticketList[index].toMap()['date'];
                                                   width: dimension.width * 0.35,
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Text(
-                                                        vendor.substring(
+                                                        vendor
+                                                            .substring(
                                                                 0,
                                                                 vendor.length >
                                                                         15
@@ -383,7 +387,8 @@ var fechor = ticketList[index].toMap()['date'];
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Text(fechor,
+                                                      Text(
+                                                        fechor,
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontFamily:
@@ -400,7 +405,8 @@ var fechor = ticketList[index].toMap()['date'];
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Text(houror,
+                                                      Text(
+                                                        houror,
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontFamily:
@@ -467,13 +473,9 @@ var fechor = ticketList[index].toMap()['date'];
                                         }
                                         createExcelLista(ticketList)
                                             .then((result) async {
-                                          /*Aquí estaba intentando probar lo de subir el zip a Drive
-                                          await DriveService().upload(
-                                              '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip');*/
                                           await FlutterShare.shareFile(
                                                   title: 'Lista de facturas',
-                                                  filePath:
-                                                      '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Tickets.zip',
+                                                  filePath: ticketsZipPath,
                                                   text:
                                                       'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
                                               .then((value) => null);
@@ -482,6 +484,33 @@ var fechor = ticketList[index].toMap()['date'];
                                     ),
                                     Text(
                                       'Compartir',
+                                      style: TextStyle(
+                                          fontFamily: 'IBM Plex Sans',
+                                          fontSize: 12,
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(
+                                        Icons.add_to_drive_rounded,
+                                        color: Color.fromRGBO(1, 26, 88, 1),
+                                      ),
+                                      onPressed: () async {
+                                        createExcelLista(ticketList)
+                                            .then((result) async {
+                                          uploadFile();
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'Subir selección a Drive',
                                       style: TextStyle(
                                           fontFamily: 'IBM Plex Sans',
                                           fontSize: 12,

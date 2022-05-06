@@ -1,141 +1,76 @@
+import 'dart:convert';
 import 'dart:io';
-
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:googleapis/drive/v3.dart' as gdrive;
-import 'package:googleapis_auth/auth_io.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-class DriveService {
-  List<String> _scopes = [gdrive.DriveApi.driveFileScope];
-
-  uploadFile(String path) async {
-    await DriveService().upload(File(path));
-  }
-
-  getHttpClient() async {
-    return await clientViaUserConsent(ClientId(qAuthId), _scopes, prompt);
-  }
-
-  prompt(String url) {
-    launchUrl(Uri.parse(url));
-  }
-
-  upload(File file) async {
-    var client = await getHttpClient();
-    var drive = gdrive.DriveApi(client);
-    var res = await drive.files.create(
-      gdrive.File(),
-      uploadMedia: gdrive.Media(file.openRead(), file.lengthSync()),
-    );
-
-    print('Response here ${res.toJson()}');
-  }
-}
-
-
-/*
-// ignore_for_file: unused_element
-
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
+import 'package:slang_mobile/src/tickets/utils/constants.dart';
 
-bool _loginStatus = false;
-final googleSignIn = GoogleSignIn.standard(scopes: [
-  drive.DriveApi.driveAppdataScope,
-  drive.DriveApi.driveFileScope,
-]);
+import '../views/initialConfig.dart';
 
-Future<void> signIn() async {
-  print('Entra');
-  final googleUser = await googleSignIn.signIn();
-  print('USUARIO' + googleUser.toString());
-  try {
-    if (googleUser != null) {
-      print('No es nulo');
-      final googleAuth = await googleUser.authentication;
-      print('PC1');
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      print('PC2');
-      final loginUser =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      print('PC3');
-      assert(loginUser.user?.uid == FirebaseAuth.instance.currentUser?.uid);
-      print('Sign in');
-      _loginStatus = true;
-    }
-  } catch (e) {
-    print(
-        '----------------------------Error en login----------------------------');
-    print(e);
-    print(
-        '----------------------------------------------------------------------');
-  }
-  print(_loginStatus);
-}
-
-Future<void> signOut() async {
-  await FirebaseAuth.instance.signOut();
-  await googleSignIn.signOut();
-  _loginStatus = false;
-  print('Sign out');
-}
-
-
-// GOOGLE DRIVE
-
-Future<drive.DriveApi?> _getDriveApi() async {
-  final googleUser = await googleSignIn.signIn();
-  final headers = await googleUser?.authHeaders;
-  if (headers == null) {
-    await showMessage(context, 'Sign-in first', 'Error');
-    return null;
-  }
-
-  final client = GoogleAuthClient(headers);
-  final driveApi = drive.DriveApi(client);
-  return driveApi;
-}
+GoogleSignInAccount? signInData;
+var googleUserNameMail;
 
 class GoogleAuthClient extends http.BaseClient {
   final Map<String, String> _headers;
-  final _client = new http.Client();
-
+  final http.Client _client = new http.Client();
   GoogleAuthClient(this._headers);
 
-  @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers.addAll(_headers);
-    return _client.send(request);
+    return _client.send(request..headers.addAll(_headers));
   }
 }
 
-Future<void> _uploadToHidden() async {
-  try {
-    final driveApi = await _getDriveApi();
-    if (driveApi == null) {
-      return;
-    }
-    // Not allow a user to do something else
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: false,
-      transitionDuration: Duration(seconds: 2),
-      barrierColor: Colors.black.withOpacity(0.5),
-      pageBuilder: (context, animation, secondaryAnimation) => Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-    ...
-  } finally {
-    // Remove a dialog
-    Navigator.pop(context);
+Future<void> signInDrive() async {
+  signInData = await signIn.GoogleSignIn.standard(
+      scopes: [drive.DriveApi.driveFileScope]).signIn();
+  if (saveUser) {
+    var headers = await signInData!.authHeaders;
+    getPrefs().then((value) => {
+          value!.setString(
+            'driveUserData',
+            json.encode({
+              'googleUserName': signInData!.displayName,
+              'googleUserMail': signInData!.email,
+              'googleUserId': signInData!.id,
+              'googleUserServerCode': signInData!.serverAuthCode,
+              'googleUserAuthHeaders': headers,
+            }),
+          ),
+        });
+  } else {
+    googleUserNameMail = [signInData!.displayName, signInData!.email];
   }
 }
 
+Future<void> signOutDrive() async {
+  await signIn.GoogleSignIn.standard().disconnect();
+}
+
+Future<void> uploadFile() async {
+  var authHeaders;
+  var userDriveData = prefs!.getString('driveUserData');
+  if (userDriveData != null) {
+    var aux = await json.decode(userDriveData)['googleUserAuthHeaders'];
+    authHeaders = {
+      'Authorization': aux['Authorization'] as String,
+      'X-Goog-AuthUser': aux['X-Goog-AuthUser'] as String
+    };
+  } else {
+    authHeaders = await signInData!.authHeaders;
+  }
+  var authenticateClient = GoogleAuthClient(authHeaders);
+  var driveApi = drive.DriveApi(authenticateClient);
+  var zipFile = File(ticketsZipPath);
+  final Stream<List<int>> mediaStream = await zipFile.openRead();
+  var media = new drive.Media(mediaStream, zipFile.lengthSync());
+  var driveFile = new drive.File();
+  driveFile.name = "Tickets.zip";
+  await driveApi.files.create(driveFile, uploadMedia: media);
+}
+
+/*
 // Create data here instead of loading a file
 final contents = 'Technical Feeder';
 final Stream<List<int>> mediaStream =
@@ -151,58 +86,6 @@ driveFile.parents = ['appDataFolder'];
 
 // Upload
 final response = await driveApi.files.create(driveFile, uploadMedia: media);
-
-
-
-
-// --------------------------------
-// Get file list from hidden folder
-// --------------------------------
-
-Future<void> _showList() async {
-  final driveApi = await _getDriveApi();
-  if (driveApi == null) {
-    return;
-  }
-
-  final fileList = await driveApi.files.list(
-      spaces: 'appDataFolder', $fields: 'files(id, name, modifiedTime)');
-  final files = fileList.files;
-  if (files == null) {
-    return showMessage(context, 'Data not found', '');
-  }
-
-  final alert = AlertDialog(
-    title: Text('Item List'),
-    content: SingleChildScrollView(
-      child: ListBody(
-        children: files.map((e) => Text(e.name ?? 'no-name')).toList(),
-      ),
-    ),
-  );
-
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) => alert,
-  );
-}
-
-// ----------------------------
-// Upload data to normal folder
-// ----------------------------
-
-final googleSignIn = GoogleSignIn.standard(scopes: [
-  drive.DriveApi.driveFileScope,
-]);
-
-//--------If it is not specified there, the following error occurs. ------
-// I/flutter ( 6132): DetailedApiRequestError(status: 403, message: The granted scopes do not give access to all of the requested spaces.)
-
-
-
-// -------------------------------------------------------------
-// Check if a folder exists in Google Drive, otherwise create it
-// -------------------------------------------------------------
 
 Future<String?> _getFolderId(drive.DriveApi driveApi) async {
   final mimeType = 'application/vnd.google-apps.folder';
@@ -238,18 +121,8 @@ Future<String?> _getFolderId(drive.DriveApi driveApi) async {
   }
 }
 
-
-
-
-// ------------------------------------
-// Upload a file to the specific folder
-// ------------------------------------
-
-
 Future<void> _uploadToNormal() async {
-  try {
-    //...
-    
+  try {        
     // Check if the folder exists. If it doesn't exist, create it and return the ID.
     final folderId = await _getFolderId(driveApi);
     if (folderId == null) {
