@@ -137,7 +137,7 @@ class AddPhotoState extends State<AddPhoto> {
                                       contentPadding: EdgeInsets.zero,
                                       alignLabelWithHint: true,
                                       border: OutlineInputBorder(),
-                                      hintText: '  Enter a search term',
+                                      hintText: '  Introduce un nombre',
                                     ),
                                   ),
                                 )
@@ -161,35 +161,22 @@ class AddPhotoState extends State<AddPhoto> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        Expanded(child: 
                                         DropDownCategs(
                                             (value) =>
                                                 categ1 = value.toString(),
                                             vista1,
                                             'categList1',
-                                            key: categs1Key),
+                                            key: categs1Key),),
                                         Row(children: [
                                           IconButton(
                                             icon: Icon(
                                                 Icons
                                                     .add_circle_outline_outlined,
                                                 color: Color(0xff011A58)),
-                                            iconSize: 20,
+                                            padding: EdgeInsets.zero,
                                             onPressed: () {
                                               chooseCategNoBug(1);
-                                            },
-                                          ),
-                                          IconButton(
-                                            icon: Icon(
-                                                Icons
-                                                    .remove_circle_outline_outlined,
-                                                color: Color(0xff011A58)),
-                                            iconSize: 20,
-                                            onPressed: () {
-                                              deleteCateg(context, 1,
-                                                      categs1Key, dimension)
-                                                  .then((value) =>
-                                                      setState(() {}));
-                                              ;
                                             },
                                           ),
                                         ])
@@ -216,35 +203,22 @@ class AddPhotoState extends State<AddPhoto> {
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [
+                                        children: [Expanded(child:
                                           DropDownCategs(
                                               (value) =>
                                                   categ2 = value.toString(),
                                               vista2,
                                               'categList2',
-                                              key: categs2Key),
+                                              key: categs2Key),),
                                           Row(children: [
                                             IconButton(
+                                              padding: EdgeInsets.zero,
                                               icon: Icon(
                                                   Icons
                                                       .add_circle_outline_outlined,
                                                   color: Color(0xff011A58)),
-                                              iconSize: 20,
                                               onPressed: () {
                                                 chooseCategNoBug(2);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                  Icons
-                                                      .remove_circle_outline_outlined,
-                                                  color: Color(0xff011A58)),
-                                              iconSize: 20,
-                                              onPressed: () {
-                                                deleteCateg(context, 2,
-                                                        categs2Key, dimension)
-                                                    .then((value) =>
-                                                        setState(() {}));
                                               },
                                             ),
                                           ])

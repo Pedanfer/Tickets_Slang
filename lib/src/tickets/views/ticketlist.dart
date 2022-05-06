@@ -312,7 +312,7 @@ var fechor = ticketList[index].toMap()['date'];
                               }
 
                               return Card(
-                                  margin: EdgeInsets.fromLTRB(0, 0.25, 0, 0.25),
+                                  margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
                                       onTap: () {
                                         changePageFade(
