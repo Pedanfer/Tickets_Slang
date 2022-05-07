@@ -7,6 +7,7 @@ import 'package:slang_mobile/src/tickets/views/initialConfig.dart';
 import 'package:slang_mobile/src/tickets/views/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../main.dart';
 import '../utils/constants.dart';
 
 var driveNameEmail;

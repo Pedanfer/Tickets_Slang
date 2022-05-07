@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:http/http.dart' as http;
+import '../main.dart';
 
 Future<bool> loginSlang(String email, String password) async {
   var headers = {'clientVersion': '0.1.16'};

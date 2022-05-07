@@ -56,7 +56,7 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
       child: Transform.scale(
         scale: 0.75,
         child: Image.asset(
-          'lib/assets/loadSlang.gif',
+          'lib/assets/Slang/loadSlang.gif',
         ),
       ),
     ),
@@ -177,7 +177,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
 class DropDownCategs extends StatefulWidget {
   final Function func;
   final String hint;
-  final String categList;
+  final List<String> categList;
 
   DropDownCategs(this.func, this.hint, this.categList, {Key? key})
       : super(key: key);
@@ -210,7 +210,7 @@ class DropDownCategsState extends State<DropDownCategs> {
           border: Border.all(color: Colors.black),
           color: Colors.white),
       child: DropdownButton(
-          items: prefs!.getStringList(widget.categList)!.map((String e) {
+          items: widget.categList.map((String e) {
             return DropdownMenuItem(value: e, child: Text(e));
           }).toList(),
           onChanged: (value) => {

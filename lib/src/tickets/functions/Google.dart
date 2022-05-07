@@ -6,8 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/constants.dart';
-
-import '../views/initialConfig.dart';
+import '../main.dart';
 
 GoogleSignInAccount? signInData;
 var googleUserNameMail;
@@ -23,25 +22,28 @@ class GoogleAuthClient extends http.BaseClient {
 }
 
 Future<void> signInDrive() async {
+  /* ¿Guardar con un diccionario los datos de cada usuario? 
+  Al final estarán en la API Rest */
   signInData = await signIn.GoogleSignIn.standard(
       scopes: [drive.DriveApi.driveFileScope]).signIn();
+  var headers = await signInData!.authHeaders;
+  getPrefs().then((value) => {
+        value!.setString(
+          'driveUserData',
+          json.encode({
+            'googleUserName': signInData!.displayName,
+            'googleUserMail': signInData!.email,
+            'googleUserId': signInData!.id,
+            'googleUserServerCode': signInData!.serverAuthCode,
+            'googleUserAuthHeaders': headers,
+          }),
+        ),
+      });
+  /* 
   if (saveUser) {
-    var headers = await signInData!.authHeaders;
-    getPrefs().then((value) => {
-          value!.setString(
-            'driveUserData',
-            json.encode({
-              'googleUserName': signInData!.displayName,
-              'googleUserMail': signInData!.email,
-              'googleUserId': signInData!.id,
-              'googleUserServerCode': signInData!.serverAuthCode,
-              'googleUserAuthHeaders': headers,
-            }),
-          ),
-        });
   } else {
     googleUserNameMail = [signInData!.displayName, signInData!.email];
-  }
+  }*/
 }
 
 Future<void> signOutDrive() async {
@@ -49,6 +51,7 @@ Future<void> signOutDrive() async {
 }
 
 Future<void> uploadFile() async {
+  //Debe ser una carpeta, no un zip
   var authHeaders;
   var userDriveData = prefs!.getString('driveUserData');
   if (userDriveData != null) {

@@ -2,19 +2,18 @@ import 'dart:io';
 import 'dart:async';
 import 'package:archive/archive_io.dart';
 import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsx;
+import '../main.dart';
 import '../utils/ticket.dart';
 
 final imgPicker = ImagePicker();
 List<int>? imgBytes;
 File? imageFile;
-SharedPreferences? prefs;
 
 Future<bool> photoFrom(String source) async {
   if (await requestPermission(Permission.camera) &&
@@ -31,6 +30,7 @@ Future<bool> photoFrom(String source) async {
   return false;
 }
 
+/*
 Future<bool> deleteCateg(BuildContext context, int num,
     GlobalKey<DropDownCategsState> key, Size dimension) async {
   var categList = num == 1 ? 'categList1' : 'categList2';
@@ -76,7 +76,7 @@ Future<bool> deleteCateg(BuildContext context, int num,
         );
       });
   return true;
-}
+}*/
 
 Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 // Create a new Excel document.
@@ -356,12 +356,6 @@ Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
 
 Future<SharedPreferences?> getPrefs() async {
   prefs = await SharedPreferences.getInstance();
-  var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
-  if (!catsLoaded) {
-    await prefs!.setStringList('categList1', ['Todas']);
-    await prefs!.setStringList('categList2', ['Todas']);
-    await prefs!.setBool('categsLoaded', true);
-  }
   return prefs;
 }
 

@@ -1,7 +1,7 @@
 import 'package:slang_mobile/src/tickets/functions/communications.dart';
 import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/tickets/views/loginpage.dart';
 import 'package:slang_mobile/src/tickets/utils/validators.dart' as validators;
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:slang_mobile/src/tickets/views/termsService.dart';

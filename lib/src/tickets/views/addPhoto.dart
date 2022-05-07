@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:slang_mobile/src/tickets/functions/communications.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/tickets/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
+import '../main.dart';
 import '../utils/ticket.dart';
 
 class AddPhoto extends StatefulWidget {
@@ -25,9 +27,18 @@ class AddPhotoState extends State<AddPhoto> {
   var img = Image.asset(
     'lib/assets/Slang/ticketRobot.png',
   );
-  var categ1 = '';
-  var categ2 = '';
+  String categ1 = '';
+  String categ2 = '';
   var ticket;
+  var dropCategs2;
+
+  @override
+  void initState() {
+    dropCategs2 = DropDownCategs(
+        (value) => categ2 = value.toString(), vista2, [],
+        key: categs2Key);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,39 +181,14 @@ class AddPhotoState extends State<AddPhoto> {
                                             children: [
                                               DropDownCategs(
                                                   (value) =>
-                                                      categ1 = value.toString(),
+                                                      {auxDropDownDict(value)},
                                                   vista1,
-                                                  'categList1',
+                                                  json
+                                                      .decode(prefs!
+                                                          .getString('categs')!)
+                                                      .keys
+                                                      .toList(),
                                                   key: categs1Key),
-                                              Row(children: [
-                                                IconButton(
-                                                  icon: Icon(
-                                                      Icons
-                                                          .add_circle_outline_outlined,
-                                                      color: Color(0xff011A58)),
-                                                  iconSize: 20,
-                                                  onPressed: () {
-                                                    chooseCategNoBug(1);
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      Icons
-                                                          .remove_circle_outline_outlined,
-                                                      color: Color(0xff011A58)),
-                                                  iconSize: 20,
-                                                  onPressed: () {
-                                                    deleteCateg(
-                                                            context,
-                                                            1,
-                                                            categs1Key,
-                                                            dimension)
-                                                        .then((value) =>
-                                                            setState(() {}));
-                                                    ;
-                                                  },
-                                                ),
-                                              ])
                                             ]),
                                       ),
                                     ]),
@@ -228,44 +214,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
-                                              children: [
-                                                DropDownCategs(
-                                                    (value) => categ2 =
-                                                        value.toString(),
-                                                    vista2,
-                                                    'categList2',
-                                                    key: categs2Key),
-                                                Row(children: [
-                                                  IconButton(
-                                                    icon: Icon(
-                                                        Icons
-                                                            .add_circle_outline_outlined,
-                                                        color:
-                                                            Color(0xff011A58)),
-                                                    iconSize: 20,
-                                                    onPressed: () {
-                                                      chooseCategNoBug(2);
-                                                    },
-                                                  ),
-                                                  IconButton(
-                                                    icon: Icon(
-                                                        Icons
-                                                            .remove_circle_outline_outlined,
-                                                        color:
-                                                            Color(0xff011A58)),
-                                                    iconSize: 20,
-                                                    onPressed: () {
-                                                      deleteCateg(
-                                                              context,
-                                                              2,
-                                                              categs2Key,
-                                                              dimension)
-                                                          .then((value) =>
-                                                              setState(() {}));
-                                                    },
-                                                  ),
-                                                ])
-                                              ]),
+                                              children: [dropCategs2]),
                                         ),
                                       ])),
                               Divider(
@@ -297,20 +246,20 @@ class AddPhotoState extends State<AddPhoto> {
                                       ),
                                       iconSize: 56,
                                       onPressed: () {
-                                        photoFrom('camera')
-                                            .then((value) => setState(() {
-                                                  if (value) {
-                                                    img = Image.file(imageFile!,
-                                                        height: 450,
-                                                        width: 380);
-                                                    isVisibleBorrarAceptar =
-                                                        true;
-                                                    isVisibleFotoGaleria =
-                                                        false;
-                                                    isVisibleCategorias = true;
-                                                    isVisibleImg = true;
-                                                  }
-                                                }));
+                                        photoFrom('camera').then(
+                                          (value) => setState(
+                                            () {
+                                              if (value) {
+                                                img = Image.file(imageFile!,
+                                                    height: 450, width: 380);
+                                                isVisibleBorrarAceptar = true;
+                                                isVisibleFotoGaleria = false;
+                                                isVisibleCategorias = true;
+                                                isVisibleImg = true;
+                                              }
+                                            },
+                                          ),
+                                        );
                                       },
                                     ),
                                     Text('Hacer foto a ticket',
@@ -399,7 +348,7 @@ class AddPhotoState extends State<AddPhoto> {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 6),
+                                        Future.delayed(Duration(seconds: 2),
                                             () {
                                           Navigator.pop(context, true);
                                         });
@@ -424,6 +373,15 @@ class AddPhotoState extends State<AddPhoto> {
         );
       },
     );
+  }
+
+  void auxDropDownDict(dynamic value) {
+    setState(() {
+      dropCategs2 = DropDownCategs((value) => categ2 = value.toString(), vista2,
+          List<String>.from(json.decode(prefs!.getString('categs'))[value]),
+          key: categs2Key);
+    });
+    categ1 = value.toString();
   }
 
   void chooseCategNoBug(int num) {

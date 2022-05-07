@@ -6,16 +6,12 @@ import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:slang_mobile/src/tickets/views/configStorage.dart';
 import 'package:slang_mobile/src/tickets/views/dashboard.dart';
-import 'package:slang_mobile/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/tickets/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/constants.dart';
 
 class Menu extends StatefulWidget {
-  /*todo: get back to previous screen from menu
-  final Widget previousScreen;
-  Menu({required this.previousScreen});*/
-
   @override
   State<Menu> createState() => _MenuState();
 }

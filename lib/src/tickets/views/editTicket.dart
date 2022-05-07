@@ -109,7 +109,7 @@ class EditTicketState extends State<EditTicket> {
                         child: DropDownCategs(
                             (value) => categs += '.' + value.toString() + '|',
                             vista,
-                            'categList1',
+                            [],
                             key: categsKey),
                       ),
                       Visibility(
@@ -158,7 +158,7 @@ class EditTicketState extends State<EditTicket> {
                         child: DropDownCategs(
                             (value) => categs += '.' + value.toString() + '|',
                             vista,
-                            'categList2',
+                            [],
                             key: categsKey2),
                       ),
                       Visibility(

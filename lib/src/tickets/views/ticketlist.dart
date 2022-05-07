@@ -43,11 +43,11 @@ class TicketlistState extends State<Ticketlist> {
       loading = false;
       setState(() {});
     });
-    categs1 = DropDownCategs((value) => auxFilterCateg(1, value),
-        'Seleccionar categoria', 'categList1',
+    categs1 = DropDownCategs(
+        (value) => auxFilterCateg(1, value), 'Seleccionar categoria', [],
         key: categs1Key);
-    categs2 = DropDownCategs((value) => auxFilterCateg(2, value),
-        'Seleccionar subcategoría', 'categList2',
+    categs2 = DropDownCategs(
+        (value) => auxFilterCateg(2, value), 'Seleccionar subcategoría', [],
         key: categs2Key);
     super.initState();
   }
