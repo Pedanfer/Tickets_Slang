@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/tickets/utils/widgets.dart';
 import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
-import 'package:slang_mobile/src/tickets/views/editTicket.dart';
+import 'package:slang_mobile/src/tickets/views/dashboard.dart';
 import 'package:slang_mobile/src/tickets/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -100,7 +100,8 @@ class TicketViewState extends State<TicketView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(dimension.width*0.076, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(
+                              dimension.width * 0.076, 0, 0, 0),
                           width: dimension.width * 0.55,
                           height: dimension.height * 0.39,
                           decoration: BoxDecoration(
@@ -244,14 +245,14 @@ class TicketViewState extends State<TicketView> {
                       ]),
                     ),
                     Container(
-                      height:dimension.height*0.062,
+                      height: dimension.height * 0.062,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            height: dimension.height*0.043,
-                            width: dimension.width*0.205,
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   'lib/assets/icons/Eliminar.svg'),
@@ -270,8 +271,8 @@ class TicketViewState extends State<TicketView> {
                             ),
                           ),
                           Container(
-                            height: dimension.height*0.043,
-                            width: dimension.width*0.205,
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   'lib/assets/icons/Guardar.svg'),
@@ -291,8 +292,8 @@ class TicketViewState extends State<TicketView> {
                           ),
                           Container(
                             alignment: end,
-                            height: dimension.height*0.043,
-                            width: dimension.width*0.205,
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   'lib/assets/icons/Compartir.svg'),
@@ -318,7 +319,18 @@ class TicketViewState extends State<TicketView> {
         backgroundColor: Color(0xFF011A58),
         onTap: (index) {
           setState(() {
-            Navigator.pop(context);
+            index == 0
+                ? {
+                  Navigator.pop(context),
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (c, a1, a2) => DashBoard(),
+                      transitionsBuilder: (c, anim, a2, child) =>
+                          FadeTransition(opacity: anim, child: child),
+                      transitionDuration: Duration(milliseconds: 400),
+                    ))
+                 } : Navigator.pop(context);
           });
         },
         currentIndex: paginaActual,
