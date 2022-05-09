@@ -1,9 +1,8 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
-import 'package:slang_mobile/src/tickets/views/menu.dart';
-import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/views/addPhoto.dart';
+import 'package:slang_mobile/src/views/menu.dart';
+import 'package:slang_mobile/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
@@ -29,7 +28,8 @@ class _DashBoardState extends State<DashBoard> {
         ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
-            child: Image.asset('lib/assets/Slang/Logo_slang_horizontalblanco.png')),
+            child: Image.asset(
+                'lib/assets/Slang/Logo_slang_horizontalblanco.png')),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -39,7 +39,6 @@ class _DashBoardState extends State<DashBoard> {
       ),
       body: paginas[paginaActual],
       bottomNavigationBar: BottomNavigationBar(
-        
         backgroundColor: Color(0xFF011A58),
         onTap: (index) {
           setState(() {
@@ -49,19 +48,36 @@ class _DashBoardState extends State<DashBoard> {
         currentIndex: paginaActual,
         items: [
           BottomNavigationBarItem(
-            
-              icon: (paginaActual == 0) ? SvgPicture.asset('lib/assets/icons/Selected_NuevoTicket.svg', height: 52, width: 64,)
-                  :SvgPicture.asset('lib/assets/icons/NuevoTicket.svg', height: 52, width: 64,),
-               label: 'Nuevo ticket'),
+              icon: (paginaActual == 0)
+                  ? SvgPicture.asset(
+                      'lib/assets/icons/Selected_NuevoTicket.svg',
+                      height: 52,
+                      width: 64,
+                    )
+                  : SvgPicture.asset(
+                      'lib/assets/icons/NuevoTicket.svg',
+                      height: 52,
+                      width: 64,
+                    ),
+              label: 'Nuevo ticket'),
           BottomNavigationBarItem(
-            icon: (paginaActual == 1) ? SvgPicture.asset('lib/assets/icons/Selected_Archivador.svg', height: 52, width: 64,)
-                  :SvgPicture.asset('lib/assets/icons/Archivador.svg', height: 52, width: 64,),
+            icon: (paginaActual == 1)
+                ? SvgPicture.asset(
+                    'lib/assets/icons/Selected_Archivador.svg',
+                    height: 52,
+                    width: 64,
+                  )
+                : SvgPicture.asset(
+                    'lib/assets/icons/Archivador.svg',
+                    height: 52,
+                    width: 64,
+                  ),
             label: 'Archivador',
           )
         ],
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedFontSize:6,
+        selectedFontSize: 6,
       ),
     );
   }

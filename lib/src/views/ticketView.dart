@@ -1,12 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
-import 'package:slang_mobile/src/tickets/views/dashboard.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
+import 'package:slang_mobile/src/views/addPhoto.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
-import 'package:slang_mobile/src/tickets/views/menu.dart';
-import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
+import 'package:slang_mobile/src/views/menu.dart';
+import 'package:slang_mobile/src/views/ticketlist.dart';
 
 import '../functions/utilidades.dart';
 

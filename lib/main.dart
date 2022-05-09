@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/views/chooseApp.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/views/chooseApp.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,7 +71,8 @@ class MyApp extends StatelessWidget {
 }
 
 /*Código copiado de Internet, el fondo tarda en cargar por alguna razón,
-falta implementar para iOS*/
+falta implementar para iOS, quizás se puede usar con todas las imágenes
+al principio con un for*/
 Future<void> loadImage(ImageProvider provider) {
   final config = ImageConfiguration(
     bundle: rootBundle,

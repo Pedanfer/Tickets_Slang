@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:slang_mobile/src/tickets/functions/communications.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:slang_mobile/src/functions/communications.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
-import '../main.dart';
+import 'package:slang_mobile/main.dart';
 import '../utils/ticket.dart';
 
 class AddPhoto extends StatefulWidget {
@@ -28,14 +28,14 @@ class AddPhotoState extends State<AddPhoto> {
     'lib/assets/Slang/ticketRobot.png',
   );
   String categ1 = '';
-  String categ2 = '';
+  String subCateg = '';
   var ticket;
-  var dropCategs2;
+  var subCategs;
 
   @override
   void initState() {
-    dropCategs2 = DropDownCategs(
-        (value) => categ2 = value.toString(), vista2, [],
+    subCategs = DropDownCategs(
+        (value) => subCateg = value.toString(), vista2, [],
         key: categs2Key);
     super.initState();
   }
@@ -214,7 +214,7 @@ class AddPhotoState extends State<AddPhoto> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
-                                              children: [dropCategs2]),
+                                              children: [subCategs]),
                                         ),
                                       ])),
                               Divider(
@@ -330,6 +330,7 @@ class AddPhotoState extends State<AddPhoto> {
                                             jsonData = value,
                                             ticket = Ticket(
                                                 issuer: jsonData['issuer'],
+                                                synchronized: 0,
                                                 date: jsonData['date']
                                                     .split('/')
                                                     .reversed
@@ -339,7 +340,7 @@ class AddPhotoState extends State<AddPhoto> {
                                                 photo: imageFile!
                                                     .readAsBytesSync(),
                                                 categ1: categ1,
-                                                categ2: categ2),
+                                                categ2: subCateg),
                                             DB.insert(ticket)
                                           });
                                   img = Image.asset(
@@ -377,7 +378,7 @@ class AddPhotoState extends State<AddPhoto> {
 
   void auxDropDownDict(dynamic value) {
     setState(() {
-      dropCategs2 = DropDownCategs((value) => categ2 = value.toString(), vista2,
+      subCategs = DropDownCategs((value) => subCateg = value.toString(), vista2,
           List<String>.from(json.decode(prefs!.getString('categs'))[value]),
           key: categs2Key);
     });

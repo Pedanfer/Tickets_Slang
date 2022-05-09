@@ -1,10 +1,10 @@
-import 'package:slang_mobile/src/tickets/functions/communications.dart';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
-import 'package:slang_mobile/src/tickets/utils/validators.dart' as validators;
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/termsService.dart';
+import 'package:slang_mobile/src/functions/communications.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
+import 'package:slang_mobile/src/utils/validators.dart' as validators;
+import 'package:slang_mobile/src/utils/widgets.dart';
+import 'package:slang_mobile/src/views/termsService.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
