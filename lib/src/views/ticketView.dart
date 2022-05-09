@@ -1,12 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
-import 'package:slang_mobile/src/tickets/views/dashboard.dart';
-import 'package:slang_mobile/src/tickets/views/login_page.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
+import 'package:slang_mobile/src/views/addPhoto.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:slang_mobile/src/tickets/views/menu.dart';
-import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
+import 'package:slang_mobile/src/views/menu.dart';
+import 'package:slang_mobile/src/views/ticketlist.dart';
 
 import '../functions/utilidades.dart';
 
@@ -179,7 +179,7 @@ class TicketViewState extends State<TicketView> {
                                               (value) =>
                                                   categ1 = value.toString(),
                                               vista1,
-                                              'categList1',
+                                              [],
                                               key: categs1Key),
                                         ),
                                         Row(children: [
@@ -223,7 +223,7 @@ class TicketViewState extends State<TicketView> {
                                               (value) =>
                                                   categ2 = value.toString(),
                                               vista2,
-                                              'categList2',
+                                              [],
                                               key: categs2Key),
                                         ),
                                         Row(children: [
@@ -321,16 +321,17 @@ class TicketViewState extends State<TicketView> {
           setState(() {
             index == 0
                 ? {
-                  Navigator.pop(context),
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (c, a1, a2) => DashBoard(),
-                      transitionsBuilder: (c, anim, a2, child) =>
-                          FadeTransition(opacity: anim, child: child),
-                      transitionDuration: Duration(milliseconds: 400),
-                    ))
-                 } : Navigator.pop(context);
+                    Navigator.pop(context),
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (c, a1, a2) => DashBoard(),
+                          transitionsBuilder: (c, anim, a2, child) =>
+                              FadeTransition(opacity: anim, child: child),
+                          transitionDuration: Duration(milliseconds: 400),
+                        ))
+                  }
+                : Navigator.pop(context);
           });
         },
         currentIndex: paginaActual,

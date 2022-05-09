@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:archive/archive_io.dart';
-import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/main.dart';
+import 'package:slang_mobile/src/functions/sqlite.dart' as sqlite;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +14,6 @@ import '../utils/ticket.dart';
 final imgPicker = ImagePicker();
 List<int>? imgBytes;
 File? imageFile;
-SharedPreferences? prefs;
 
 Future<bool> photoFrom(String source) async {
   if (await requestPermission(Permission.camera) &&
@@ -29,53 +28,6 @@ Future<bool> photoFrom(String source) async {
     }
   }
   return false;
-}
-
-Future<bool> deleteCateg(BuildContext context, int num,
-    GlobalKey<DropDownCategsState> key, Size dimension) async {
-  var categList = num == 1 ? 'categList1' : 'categList2';
-  var categToRemove;
-  await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          insetPadding: EdgeInsets.all(dimension.width * 0.07),
-          title: Text(
-            '¿Qué categoría quieres eliminar?',
-            style: TextStyle(fontSize: 16),
-          ),
-          content: DropDownCategs((value) {
-            categToRemove = value.toString();
-          }, 'Elija categoría', categList),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                  child: Text('Cancelar'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                TextButton(
-                  child: Text('Aceptar'),
-                  onPressed: () {
-                    getPrefs().then((value) => {
-                          addRemoveCategToPrefs(
-                              categ: categToRemove, num: num, add: false),
-                          key.currentState!.changeHint('Elija categoría')
-                        });
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            )
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        );
-      });
-  return true;
 }
 
 Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
@@ -174,6 +126,7 @@ Future<void> createExcelLista(List<Ticket> listaTickets) async {
     for (var i = 0; i < listaTickets.length; i++) {
       // Set value to cell.
       var ticketData = listaTickets[i].toMap();
+      sqlite.DB.updateSynchronized(listaTickets);
 
       // CONTENIDO
       sheet
@@ -342,7 +295,7 @@ Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
             TextButton(
                 child: Text('Aceptar'),
                 onPressed: () {
-                  DB
+                  sqlite.DB
                       .delete(id)
                       .then((value) => {Navigator.pop(context), accept = true});
                 }),
@@ -356,12 +309,6 @@ Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
 
 Future<SharedPreferences?> getPrefs() async {
   prefs = await SharedPreferences.getInstance();
-  var catsLoaded = prefs!.getBool('categsLoaded') ?? false;
-  if (!catsLoaded) {
-    await prefs!.setStringList('categList1', ['Todas']);
-    await prefs!.setStringList('categList2', ['Todas']);
-    await prefs!.setBool('categsLoaded', true);
-  }
   return prefs;
 }
 

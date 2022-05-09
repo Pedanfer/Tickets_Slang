@@ -1,10 +1,9 @@
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/tickets/functions/Google.dart';
-import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/ticketView.dart';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/functions/Google.dart';
+import 'package:slang_mobile/src/functions/sqlite.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/ticketView.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,11 +43,11 @@ class TicketlistState extends State<Ticketlist> {
       loading = false;
       setState(() {});
     });
-    categs1 = DropDownCategs((value) => auxFilterCateg(1, value),
-        'Seleccionar categoria', 'categList1',
+    categs1 = DropDownCategs(
+        (value) => auxFilterCateg(1, value), 'Seleccionar categoria', [],
         key: categs1Key);
-    categs2 = DropDownCategs((value) => auxFilterCateg(2, value),
-        'Seleccionar subcategoría', 'categList2',
+    categs2 = DropDownCategs(
+        (value) => auxFilterCateg(2, value), 'Seleccionar subcategoría', [],
         key: categs2Key);
     super.initState();
   }
