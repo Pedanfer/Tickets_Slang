@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/tickets/functions/Google.dart';
 import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
 import 'package:slang_mobile/src/tickets/utils/constants.dart';
@@ -13,9 +14,9 @@ var textoFechaFin = 'Fin';
 var newDateRange;
 var end;
 bool isVisibleFiltring = false;
-bool isVisibleDelete = false;
-bool isVisibleDriveConection = true;
 bool isVisibleSelectAll = false;
+bool isVisibleOffline = true;
+bool isVisibleOnline = true;
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -282,7 +283,62 @@ class TicketlistState extends State<Ticketlist> {
                                     categs2
                                   ],
                                 ),
-                              )
+                              ),
+                              Container(
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Estado',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+
+                                    
+                                    Text(
+                                      'Offline',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    Checkbox(
+                                      value: isVisibleOffline,
+                                      onChanged: (value) => {
+                                        setState(() =>
+                                            isVisibleOffline = !isVisibleOffline
+                                        )
+                                      },
+                                    ),
+
+                                    Container(
+                                      child: Row(children: [
+                                    Text(
+                                      'Online',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'IBM Plex Sans',
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                    Checkbox(
+                                      value: isVisibleOnline,
+                                      onChanged: (value) => {
+                                        setState(() =>
+                                            isVisibleOnline = !isVisibleOnline
+                                        )
+                                      },
+                                    ),
+                                      ]),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -303,16 +359,20 @@ class TicketlistState extends State<Ticketlist> {
                                 vendor = '---';
                               }
 
-                              var fechor = ticketList[index].toMap()['date'];
+                              var fechor = ticketList[index].toMap()['date'].toString();
                               if (fechor == '') {
                                 fechor = 'Sin Fecha';
                               }
 
-                              var houror = ticketList[index].toMap()['hour'];
+                              var houror = ticketList[index].toMap()['hour'].toString();
                               if (houror == '') {
                                 houror = '-- : -- : --';
                               }
-
+/*
+                              var Updator = ticketList[index]
+                                  .toMap()['update']
+                                  .toString();
+*/
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
@@ -337,12 +397,14 @@ class TicketlistState extends State<Ticketlist> {
                                                   icon: isVisibleSelectAll
                                                       ? Icon(Icons.check_box,
                                                           color:
-                                                              Color(0xFF011A58))
+                                                              Color(0xFF011A58),
+                                                          size: 20)
                                                       : Icon(
                                                           Icons
                                                               .indeterminate_check_box,
-                                                          color: Color(
-                                                              0xFF011A58)),
+                                                          color:
+                                                              Color(0xFF011A58),
+                                                          size: 20),
                                                   onPressed: () {
                                                     setState(() {
                                                       isVisibleSelectAll =
@@ -416,6 +478,35 @@ class TicketlistState extends State<Ticketlist> {
                                                       ),
                                                     ],
                                                   )),
+                                              SizedBox(
+                                                width: 0.2,
+                                              ),
+                                              Container(
+                                                width: dimension.width * 0.05,
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  constraints: BoxConstraints(),
+                                                  icon: isVisibleSelectAll
+                                                      ? Icon(
+                                                          Icons.cloud_rounded,
+                                                          color:
+                                                              Color(0xFF011A58),
+                                                          size: 20,
+                                                        )
+                                                      : Icon(
+                                                          Icons
+                                                              .cloud_off_rounded,
+                                                          color:
+                                                              Color(0xFF011A58),
+                                                          size: 20),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      isVisibleSelectAll =
+                                                          !isVisibleSelectAll;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
                                             ],
                                           ))));
                             }),
@@ -424,99 +515,52 @@ class TicketlistState extends State<Ticketlist> {
                     Visibility(
                       visible: isVisibleSelectAll,
                       child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                          height: dimension.height * 0.062,
+                          padding: EdgeInsets.fromLTRB(
+                              dimension.width * 0.21,
+                              dimension.height * 0.008,
+                              dimension.width * 0.21,
+                              dimension.height * 0.008),
                           color: Color(0xFFECEEF3),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                height: 45,
-                                width: 45,
-                                child: Column(
-                                  children: [
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
-                                      icon: Icon(Icons.delete_outlined,
-                                          color: Color(0xFF011A58)),
-                                      onPressed: () {
-                                        setState(() {
-                                          isVisibleDelete = !isVisibleDelete;
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      'Eliminar',
-                                      style: TextStyle(
-                                          fontFamily: 'IBM Plex Sans',
-                                          fontSize: 12,
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                  ],
+                                height: dimension.height * 0.086,
+                                width: dimension.width * 0.205,
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                      'lib/assets/icons/Eliminar.svg'),
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
                                 ),
                               ),
                               Container(
-                                child: Column(
-                                  children: [
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
-                                      icon: Icon(
-                                        Icons.share_outlined,
-                                        color: Color.fromRGBO(1, 26, 88, 1),
-                                      ),
-                                      onPressed: () async {
-                                        var storageDir =
-                                            await getExternalStorageDirectory();
-                                        if (!storageDir!.listSync().isEmpty) {
-                                          emptyAppDir();
-                                        }
-                                        createExcelLista(ticketList)
-                                            .then((result) async {
-                                          await FlutterShare.shareFile(
-                                                  title: 'Lista de facturas',
-                                                  filePath: ticketsZipPath,
-                                                  text:
-                                                      'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
-                                              .then((value) => null);
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      'Compartir',
-                                      style: TextStyle(
-                                          fontFamily: 'IBM Plex Sans',
-                                          fontSize: 12,
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
-                                      icon: Icon(
-                                        Icons.add_to_drive_rounded,
-                                        color: Color.fromRGBO(1, 26, 88, 1),
-                                      ),
-                                      onPressed: () async {
-                                        createExcelLista(ticketList)
-                                            .then((result) async {
-                                          uploadFile();
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      'Subir selección a Drive',
-                                      style: TextStyle(
-                                          fontFamily: 'IBM Plex Sans',
-                                          fontSize: 12,
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                  ],
+                                alignment: end,
+                                height: dimension.height * 0.043,
+                                width: dimension.width * 0.205,
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                      'lib/assets/icons/Compartir.svg'),
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () async {
+                                    var storageDir =
+                                        await getExternalStorageDirectory();
+                                    if (!storageDir!.listSync().isEmpty) {
+                                      emptyAppDir();
+                                    }
+                                    createExcelLista(ticketList)
+                                        .then((result) async {
+                                      await FlutterShare.shareFile(
+                                              title: 'Lista de facturas',
+                                              filePath: ticketsZipPath,
+                                              text:
+                                                  'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
+                                          .then((value) => null);
+                                    });
+                                  },
                                 ),
                               ),
                             ],

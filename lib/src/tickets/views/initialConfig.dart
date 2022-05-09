@@ -241,7 +241,7 @@ class _InitialConfigState extends State<InitialConfig> {
                                   child: Row(
                                     children: [
                                       SvgPicture.asset(
-                                          'lib/assets/googleLogo.svg'),
+                                          'lib/assets/icons/googleLogo.svg'),
                                       SizedBox(width: dimension.width * 0.015),
                                       Text(
                                         'Sign in with Google',
