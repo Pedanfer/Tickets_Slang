@@ -14,7 +14,7 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'tickets.db'),
         onCreate: (db, version) {
       return db.execute(
-          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, issuer TEXT,  date TEXT, hour TEXT, total REAL, photo BLOB, categ1 TEXT, categ2 TEXT)''');
+          '''CREATE TABLE tickets(id INTEGER PRIMARY KEY, synchronized INTEGER, issuer TEXT,  date TEXT, hour TEXT, total REAL, photo BLOB, categ1 TEXT, categ2 TEXT)''');
     }, version: 1);
   }
 
@@ -28,9 +28,10 @@ class DB {
     return database.delete('tickets', where: 'id = ?', whereArgs: [id]);
   }
 
-  static Future<int> update(Ticket ticket) async {
+  static Future<int> updateSynchronized(List<Ticket> tickets) async {
     var database = await _openDB();
-    return database.update('tickets', ticket.toMap(), whereArgs: [ticket.id]);
+    return database.rawUpdate(
+        'UPDATE tickets SET synchronized = 1 WHERE id = ?', tickets);
   }
 
   static Future<List<Ticket>> filter(

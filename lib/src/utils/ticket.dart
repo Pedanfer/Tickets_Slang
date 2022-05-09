@@ -1,6 +1,6 @@
 class Ticket {
   int? id;
-  bool synchronized;
+  int? synchronized;
   String issuer;
   String date;
   String hour;
@@ -11,7 +11,7 @@ class Ticket {
 
   Ticket(
       {this.id,
-      this.synchronized = false,
+      this.synchronized,
       required this.issuer,
       required this.date,
       required this.hour,
