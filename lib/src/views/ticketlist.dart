@@ -1,9 +1,9 @@
-import 'package:slang_mobile/src/tickets/functions/Google.dart';
-import 'package:slang_mobile/src/tickets/functions/sqlite.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/ticketView.dart';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/functions/Google.dart';
+import 'package:slang_mobile/src/functions/sqlite.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/ticketView.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';

@@ -1,8 +1,8 @@
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/tickets/views/defineCategs.dart';
+import 'package:slang_mobile/src/views/defineCategs.dart';
 import '../functions/Google.dart' as Google;
 import '../utils/constants.dart';
 

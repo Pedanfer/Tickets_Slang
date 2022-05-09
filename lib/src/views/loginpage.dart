@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:slang_mobile/src/tickets/functions/communications.dart';
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import 'package:slang_mobile/src/tickets/views/chooseApp.dart';
-import 'package:slang_mobile/src/tickets/views/userRegister.dart';
-import 'package:slang_mobile/src/tickets/utils/validators.dart' as validators;
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/functions/communications.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/chooseApp.dart';
+import 'package:slang_mobile/src/views/userRegister.dart';
+import 'package:slang_mobile/src/utils/validators.dart' as validators;
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 var dimension;
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                         dimension: dimension,
                         offsetCheck: -8,
                         offsetText: -20,
-                        text: [TextSpan(text: 'Remember me')],
+                        text: [TextSpan(text: 'Recuérdame')],
                       )),
                       Expanded(
                           child: TextButton(

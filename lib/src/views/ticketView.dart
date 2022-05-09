@@ -1,5 +1,5 @@
-import 'package:slang_mobile/src/tickets/views/editTicket.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:slang_mobile/src/views/editTicket.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 

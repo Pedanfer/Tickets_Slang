@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:slang_mobile/src/tickets/views/dashboard.dart';
-import '../main.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
+import 'package:slang_mobile/main.dart';
 import '../utils/constants.dart';
 
 GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();

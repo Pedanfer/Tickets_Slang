@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:slang_mobile/src/tickets/functions/communications.dart';
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:slang_mobile/src/functions/communications.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
+import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
-import '../main.dart';
+import 'package:slang_mobile/main.dart';
 import '../utils/ticket.dart';
 
 class AddPhoto extends StatefulWidget {

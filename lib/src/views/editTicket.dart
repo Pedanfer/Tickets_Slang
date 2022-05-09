@@ -1,4 +1,4 @@
-import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 
 class EditTicket extends StatefulWidget {

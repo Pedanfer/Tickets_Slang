@@ -1,4 +1,4 @@
-import 'package:slang_mobile/src/tickets/utils/ticket.dart';
+import 'package:slang_mobile/src/utils/ticket.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

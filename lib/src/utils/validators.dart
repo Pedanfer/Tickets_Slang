@@ -1,4 +1,4 @@
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
 
 String? validateEmail(dynamic value) {
   if (value.length == 0) return 'Campo vacío';

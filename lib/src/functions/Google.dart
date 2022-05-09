@@ -4,9 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:slang_mobile/src/tickets/functions/utilidades.dart';
-import 'package:slang_mobile/src/tickets/utils/constants.dart';
-import '../main.dart';
+import 'package:slang_mobile/src/functions/utilidades.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/main.dart';
 
 GoogleSignInAccount? signInData;
 var googleUserNameMail;
