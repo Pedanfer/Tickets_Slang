@@ -314,7 +314,7 @@ class TicketlistState extends State<Ticketlist> {
                               }
 
                               return Card(
-                                  margin: EdgeInsets.fromLTRB(0, 0.25, 0, 0.25),
+                                  margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
                                       onTap: () {
                                         changePageFade(

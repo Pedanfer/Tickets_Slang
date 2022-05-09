@@ -1,7 +1,12 @@
-import 'package:slang_mobile/src/tickets/views/editTicket.dart';
-import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:slang_mobile/src/tickets/utils/widgets.dart';
+import 'package:slang_mobile/src/tickets/views/addPhoto.dart';
+import 'package:slang_mobile/src/tickets/views/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:slang_mobile/src/tickets/views/loginpage.dart';
+import 'package:slang_mobile/src/tickets/views/menu.dart';
+import 'package:slang_mobile/src/tickets/views/ticketlist.dart';
 
 import '../functions/utilidades.dart';
 
@@ -15,156 +20,354 @@ class TicketView extends StatefulWidget {
 Border border = Border.all(color: Colors.white);
 
 class TicketViewState extends State<TicketView> {
+  GlobalKey<DropDownCategsState> categs1Key = GlobalKey();
+  GlobalKey<DropDownCategsState> categs2Key = GlobalKey();
+  var categ1 = '';
+  var categ2 = '';
+  String vista1 = 'Seleccionar categoría';
+  String vista2 = 'Seleccionar categoría';
   TransformationController controllerTransform = TransformationController();
   var initialControllerValue;
-
+  int paginaActual = 1;
+  List<Widget> paginas = [
+    AddPhoto(),
+    Ticketlist(),
+  ];
   @override
   Widget build(BuildContext context) {
     dimension = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-          padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xff011A58),
-                Color(0xffECEEF3),
-              ],
-            ),
-          ),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                    child: Column(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: SvgPicture.asset('lib/assets/icons/Burger_Menu.svg'),
+          onPressed: () => changePageFade(Menu(), context),
+        ),
+        title: Container(
+            padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
+            child: Image.asset(
+                'lib/assets/Slang/Logo_slang_horizontalblanco.png')),
+        actions: [
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.person)),
+        ],
+        backgroundColor: Color(0xFF011A58),
+      ),
+      body:
+
+          ///paginaActual < 2 ? paginas[paginaActual] :
+
+          Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: new BoxDecoration(
+                image: new DecorationImage(
+                  image: new AssetImage("lib/assets/backgrounds/fondo2.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(height: dimension.height * 0.01),
+                    Opacity(
+                      opacity: 0.50,
+                      child: Container(
+                        color: Color(0xFF415382),
+                        width: double.infinity,
+                        height: 25,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          children: [
+                            Text('\t\tTickets > Archivador > ',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'IBM Plex Sans',
+                                    color: Colors.white)),
+                            Text(
+                              'Ticket',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'IBM Plex Sans',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          child: IconButton(
-                            icon: Icon(Icons.share, color: Colors.white),
-                            iconSize: 40,
-                            onPressed: () {
-                              createExcelFicha(widget.ticketData)
-                                  .then((result) async {
-                                await FlutterShare.shareFile(
-                                    title: 'Factura detallada',
-                                    filePath:
-                                        '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
-                                    text:
-                                        'Comparto contigo este documento con la informacion del ticket');
-                              });
+                          margin: EdgeInsets.fromLTRB(
+                              dimension.width * 0.076, 0, 0, 0),
+                          width: dimension.width * 0.55,
+                          height: dimension.height * 0.39,
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Color(0xFF011A58), width: 4),
+                          ),
+                          child: InteractiveViewer(
+                            clipBehavior: Clip.hardEdge,
+                            panEnabled: false,
+                            minScale: 1,
+                            maxScale: 6,
+                            transformationController: controllerTransform,
+                            onInteractionStart: (details) {
+                              initialControllerValue =
+                                  controllerTransform.value;
                             },
+                            onInteractionEnd: (details) {
+                              controllerTransform.value =
+                                  initialControllerValue;
+                            },
+                            child: ClipRRect(
+                              child: Image.memory(
+                                widget.ticketData['photo'],
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ),
                           ),
                         ),
                         Container(
-                          child: Text(
-                            widget.ticketData['date'],
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 30, color: Color(0xffECEEF3)),
-                          ),
-                        ),
-                        Container(
+                          width: dimension.width * 0.076,
                           child: IconButton(
-                            icon: Icon(Icons.edit_note, color: Colors.white),
-                            iconSize: 40,
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                builder: (context) =>
-                                    EditTicket(widget.ticketData),
-                              ))
-                                  .then((result) {
-                                if (result != null) {
-                                  setState(() {
-                                    /* LE DAMOS EL NUEVO VALOR QUE DEVOLVEMOS */
-                                  });
-                                }
-                              });
-                            },
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.cancel),
+                            padding: EdgeInsets.zero,
                           ),
-                        ),
+                        )
                       ],
                     ),
-                    SizedBox(height: dimension.height * 0.03),
                     Container(
-                      width: dimension.width * 0.9,
-                      decoration: BoxDecoration(border: border),
-                      child: Text(
-                        widget.ticketData['hour'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
-                    ),
-                  ],
-                )),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: dimension.width * 0.9,
-                  decoration: BoxDecoration(border: border),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.ticketData['categ1'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                        textScaleFactor: 1.3,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: dimension.width * 0.9,
-                  decoration: BoxDecoration(border: border),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.ticketData['categ2'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                      child: Column(children: [
+                        Container(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('Nombre:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff011A58))),
+                                SizedBox(width: 20),
+                                Text('Manolo el de la pradera',
+                                    style: TextStyle(color: Color(0xff011A58))),
+                              ]),
                         ),
-                        textScaleFactor: 1.3,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: dimension.width * 0.9,
-                  height: dimension.height * 0.55,
-                  child: InteractiveViewer(
-                    clipBehavior: Clip.hardEdge,
-                    panEnabled: false,
-                    minScale: 1,
-                    maxScale: 6,
-                    transformationController: controllerTransform,
-                    onInteractionStart: (details) {
-                      initialControllerValue = controllerTransform.value;
-                    },
-                    onInteractionEnd: (details) {
-                      controllerTransform.value = initialControllerValue;
-                    },
-                    child: ClipRRect(
-                      child: Image.memory(
-                        widget.ticketData['photo'],
-                        fit: BoxFit.scaleDown,
+                        Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                        Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Categoría:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff011A58))),
+                                Container(
+                                  height: 32,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: DropDownCategs(
+                                              (value) =>
+                                                  categ1 = value.toString(),
+                                              vista1,
+                                              [],
+                                              key: categs1Key),
+                                        ),
+                                        Row(children: [
+                                          IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () {
+                                              //chooseCategNoBug(1);
+                                            },
+                                          ),
+                                        ])
+                                      ]),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(77, 0, 0, 0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Text('Subcategoría:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff011A58))),
+                                ),
+                                Container(
+                                  height: 32,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: DropDownCategs(
+                                              (value) =>
+                                                  categ2 = value.toString(),
+                                              vista2,
+                                              [],
+                                              key: categs2Key),
+                                        ),
+                                        Row(children: [
+                                          IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            onPressed: () {
+                                              //chooseCategNoBug(2);
+                                            },
+                                          ),
+                                        ])
+                                      ]),
+                                ),
+                              ]),
+                        ),
+                      ]),
+                    ),
+                    Container(
+                      height: dimension.height * 0.062,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
+                            child: IconButton(
+                              icon: SvgPicture.asset(
+                                  'lib/assets/icons/Eliminar.svg'),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                createExcelFicha(widget.ticketData)
+                                    .then((result) async {
+                                  await FlutterShare.shareFile(
+                                      title: 'Factura detallada',
+                                      filePath:
+                                          '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
+                                      text:
+                                          'Comparto contigo este documento con la informacion del ticket');
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
+                            child: IconButton(
+                              icon: SvgPicture.asset(
+                                  'lib/assets/icons/Guardar.svg'),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                createExcelFicha(widget.ticketData)
+                                    .then((result) async {
+                                  await FlutterShare.shareFile(
+                                      title: 'Factura detallada',
+                                      filePath:
+                                          '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
+                                      text:
+                                          'Comparto contigo este documento con la informacion del ticket');
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            alignment: end,
+                            height: dimension.height * 0.043,
+                            width: dimension.width * 0.205,
+                            child: IconButton(
+                              icon: SvgPicture.asset(
+                                  'lib/assets/icons/Compartir.svg'),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                createExcelFicha(widget.ticketData)
+                                    .then((result) async {
+                                  await FlutterShare.shareFile(
+                                      title: 'Factura detallada',
+                                      filePath:
+                                          '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
+                                      text:
+                                          'Comparto contigo este documento con la informacion del ticket');
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                  ])),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF011A58),
+        onTap: (index) {
+          setState(() {
+            index == 0
+                ? {
+                    Navigator.pop(context),
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (c, a1, a2) => DashBoard(),
+                          transitionsBuilder: (c, anim, a2, child) =>
+                              FadeTransition(opacity: anim, child: child),
+                          transitionDuration: Duration(milliseconds: 400),
+                        ))
+                  }
+                : Navigator.pop(context);
+          });
+        },
+        currentIndex: paginaActual,
+        items: [
+          BottomNavigationBarItem(
+              icon: (paginaActual == 0)
+                  ? SvgPicture.asset(
+                      'lib/assets/icons/Selected_NuevoTicket.svg',
+                      height: 52,
+                      width: 64,
+                    )
+                  : SvgPicture.asset(
+                      'lib/assets/icons/NuevoTicket.svg',
+                      height: 52,
+                      width: 64,
+                    ),
+              label: 'Nuevo ticket'),
+          BottomNavigationBarItem(
+            icon: (paginaActual != 0)
+                ? SvgPicture.asset(
+                    'lib/assets/icons/Selected_Archivador.svg',
+                    height: 52,
+                    width: 64,
+                  )
+                : SvgPicture.asset(
+                    'lib/assets/icons/Archivador.svg',
+                    height: 52,
+                    width: 64,
                   ),
-                ),
-                Icon(Icons.pinch_rounded, size: 45)
-              ])),
+            label: 'Archivador',
+          )
+        ],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedFontSize: 6,
+      ),
     );
   }
 }
