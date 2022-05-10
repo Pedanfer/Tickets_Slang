@@ -29,10 +29,12 @@ class DB {
   }
 
   static Future<int> updateSynchronized(List<Ticket> tickets) async {
-    var ticketsId = List<int?>.generate(tickets.length, (i) => tickets[i].id);
+    var ticketsId =
+        List<String>.generate(tickets.length, (i) => tickets[i].id.toString())
+            .reduce((value, element) => value + ',' + element);
     var database = await _openDB();
     return database.rawUpdate(
-        'UPDATE tickets SET synchronized = 1 WHERE id = ?', ticketsId);
+        'UPDATE tickets SET synchronized = 1 WHERE id IN(' + ticketsId + ');');
   }
 
   static Future<List<Ticket>> filter(

@@ -100,7 +100,11 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   return file;
 }
 
-Future<void> createZipWithExcel(List<Ticket> listaTickets) async {
+Future<void> createZipWithExcel(List<Ticket> listaTickets,
+    {required bool storedDrive}) async {
+  if (storedDrive) {
+    sqlite.DB.updateSynchronized(listaTickets);
+  }
   if (await requestPermission(Permission.storage)) {
     await emptyAppDir();
     var dirToCompress;
@@ -127,7 +131,6 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets) async {
     for (var i = 0; i < listaTickets.length; i++) {
       // Set value to cell.
       var ticketData = listaTickets[i].toMap();
-      sqlite.DB.updateSynchronized(listaTickets);
 
       // CONTENIDO
       sheet

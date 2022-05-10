@@ -12,7 +12,7 @@ class Ticket {
 
   Ticket(
       {this.id,
-      this.synchronized,
+      this.synchronized = 0,
       required this.issuer,
       required this.ticketName,
       required this.date,
@@ -37,7 +37,7 @@ class Ticket {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      ' synchronized': synchronized,
+      'synchronized': synchronized,
       'ticketName': ticketName,
       'issuer': issuer,
       'date': date,
