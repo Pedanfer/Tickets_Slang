@@ -43,8 +43,8 @@ class TicketViewState extends State<TicketView> {
         ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
-            child: Image.asset(
-                'lib/assets/Slang/Logo_slang_horizontalblanco.png')),
+            child: SvgPicture.asset(
+                'lib/assets/Slang/IconHorizontal.svg')),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),

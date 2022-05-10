@@ -137,52 +137,57 @@ class TicketlistState extends State<Ticketlist> {
                             Container(
                               child: Row(children: [
                                 Container(
-                                width:dimension.width*0.028,
-                                height: dimension.height*0.01296,
-                                child: 
-
-                                IconButton(
-                                  padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(),
-                                  icon: isVisibleSelectAll
-                                      ? SvgPicture.asset('lib/assets/icons/checked-selected.svg')
-                                      : SvgPicture.asset('lib/assets/icons/checked.svg'),
-                                  onPressed: () {
-                                    setState(() {
-                                      isVisibleSelectAll = !isVisibleSelectAll;
-                                    });
-                                  },
-                                ),),
+                                  width: dimension.width * 0.028,
+                                  height: dimension.height * 0.01296,
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(),
+                                    icon: isVisibleSelectAll
+                                        ? SvgPicture.asset(
+                                            'lib/assets/icons/checked-selected.svg')
+                                        : SvgPicture.asset(
+                                            'lib/assets/icons/checked.svg'),
+                                    onPressed: () {
+                                      setState(() {
+                                        isVisibleSelectAll =
+                                            !isVisibleSelectAll;
+                                      });
+                                    },
+                                  ),
+                                ),
                                 SizedBox(
-                                  width: dimension.width*0.02336,
-                                ),Container(
-                                  height: dimension.height*0.026,
-                                   width: dimension.width*0.2827,
-                                  child: 
-                                Text(
-                                  'Seleccionar todos',
-                                  style: TextStyle(
-                                      fontFamily: 'IBM Plex Sans',
-                                      color: Color(0xFF011A58)),
-                                ),),
+                                  width: dimension.width * 0.02336,
+                                ),
+                                Container(
+                                  height: dimension.height * 0.026,
+                                  width: dimension.width * 0.2827,
+                                  child: Text(
+                                    'Seleccionar todos',
+                                    style: TextStyle(
+                                        fontFamily: 'IBM Plex Sans',
+                                        color: Color(0xFF011A58)),
+                                  ),
+                                ),
                               ]),
-                            ),Container(
-                              width: dimension.width*0.0467,
-                              height: dimension.height*0.0216,
-                              child: 
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              icon: isVisibleFiltring
-                                  ? SvgPicture.asset('lib/assets/icons/filter-relleno.svg')
-                                  : SvgPicture.asset('lib/assets/icons/filter-hueco.svg'),
-                                     
-                              onPressed: () {
-                                setState(() {
-                                  isVisibleFiltring = !isVisibleFiltring;
-                                });
-                              },
-                            ),),
+                            ),
+                            Container(
+                              width: dimension.width * 0.0467,
+                              height: dimension.height * 0.0216,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                                icon: isVisibleFiltring
+                                    ? SvgPicture.asset(
+                                        'lib/assets/icons/filter-relleno.svg')
+                                    : SvgPicture.asset(
+                                        'lib/assets/icons/filter-hueco.svg'),
+                                onPressed: () {
+                                  setState(() {
+                                    isVisibleFiltring = !isVisibleFiltring;
+                                  });
+                                },
+                              ),
+                            ),
                           ],
                         )),
                     Visibility(
@@ -364,6 +369,9 @@ class TicketlistState extends State<Ticketlist> {
                               if (vendor == '') {
                                 vendor = '---';
                               }
+                              var vendor2 = vendor.split(' ')[0];
+
+                              
                               var fechor =
                                   ticketList[index].toMap()['date'].toString();
                               if (fechor == '') {
@@ -377,6 +385,10 @@ class TicketlistState extends State<Ticketlist> {
                               var synchronizor = ticketList[index]
                                   .toMap()['synchronized']
                                   .toString();
+                              if (synchronizor == '') {
+                                synchronizor = '-- SIN NOMBRE --';
+                              }
+
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
@@ -394,21 +406,15 @@ class TicketlistState extends State<Ticketlist> {
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               Container(
-                                                width: dimension.width * 0.05,
+                                                width: dimension.width * 0.03,
                                                 child: IconButton(
                                                   padding: EdgeInsets.zero,
                                                   constraints: BoxConstraints(),
                                                   icon: isVisibleSelectAll
-                                                      ? Icon(Icons.check_box,
-                                                          color:
-                                                              Color(0xFF011A58),
-                                                          size: 20)
-                                                      : Icon(
-                                                          Icons
-                                                              .indeterminate_check_box,
-                                                          color:
-                                                              Color(0xFF011A58),
-                                                          size: 20),
+                                                      ? SvgPicture.asset(
+                                                          'lib/assets/icons/checked-selected.svg')
+                                                      : SvgPicture.asset(
+                                                          'lib/assets/icons/checked.svg'),
                                                   onPressed: () {
                                                     setState(() {
                                                       isVisibleSelectAll =
@@ -417,26 +423,16 @@ class TicketlistState extends State<Ticketlist> {
                                                   },
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 0.1,
-                                              ),
                                               Container(
-                                                  width: dimension.width * 0.25,
+                                                  width: dimension.width * 0.30,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Text(
-                                                        vendor
-                                                            .substring(
-                                                                0,
-                                                                vendor.length >
-                                                                        10
-                                                                    ? 10
-                                                                    : vendor
-                                                                        .length)
-                                                            .toUpperCase(),
+                                                      Text(vendor2.length > 10
+                                                                    ? vendor2.substring(0, 10).toUpperCase()
+                                                                    : vendor2.toUpperCase(),
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontFamily:
@@ -447,7 +443,7 @@ class TicketlistState extends State<Ticketlist> {
                                                     ],
                                                   )),
                                               Container(
-                                                  width: dimension.width * 0.25,
+                                                  width: dimension.width * 0.20,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -482,24 +478,20 @@ class TicketlistState extends State<Ticketlist> {
                                                       ),
                                                     ],
                                                   )),
-                                              SizedBox(
-                                                width: 0.2,
-                                              ),
                                               Container(
-                                                width: dimension.width * 0.05,
+                                                width: dimension.width * 0.03,
                                                 child: synchronizor == 1
-                                                      ? Icon(
-                                                          Icons.cloud_rounded,
-                                                          color:
-                                                              Color(0xFF011A58),
-                                                          size: 20,
-                                                        )
-                                                      : Icon(
-                                                          Icons
-                                                              .cloud_off_rounded,
-                                                          color:
-                                                              Color(0xFF011A58),
-                                                          size: 20),
+                                                    ? Icon(
+                                                        Icons.cloud_rounded,
+                                                        color:
+                                                            Color(0xFF011A58),
+                                                        size: 20,
+                                                      )
+                                                    : Icon(
+                                                        Icons.cloud_off_rounded,
+                                                        color:
+                                                            Color(0xFF011A58),
+                                                        size: 20),
                                               ),
                                             ],
                                           ))));
@@ -558,24 +550,21 @@ class TicketlistState extends State<Ticketlist> {
                                 ),
                               ),
                               Container(
-                                
                                 height: dimension.height * 0.043,
                                 width: dimension.width * 0.205,
-                                child:
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: BoxConstraints(),
-                                      icon: Icon(
-                                        Icons.add_to_drive_outlined,
-                                        color: Color.fromRGBO(1, 26, 88, 1),
-                                      ),
-                                      onPressed: () async {
-                                        createZipWithExcel(ticketList)
-                                            .then((result) async {
-                                          uploadFile();
-                                        });
-                                      },
-                                 
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
+                                  icon: Icon(
+                                    Icons.add_to_drive_outlined,
+                                    color: Color.fromRGBO(1, 26, 88, 1),
+                                  ),
+                                  onPressed: () async {
+                                    createZipWithExcel(ticketList)
+                                        .then((result) async {
+                                      uploadFile();
+                                    });
+                                  },
                                 ),
                               ),
                             ],

@@ -31,7 +31,7 @@ class AddPhotoState extends State<AddPhoto> {
   String subCateg = '';
   var ticket;
   var subCategs;
-  var ticketName;
+  var ticketName = '';
 
   @override
   void initState() {
@@ -156,7 +156,7 @@ class AddPhotoState extends State<AddPhoto> {
                                       border: OutlineInputBorder(),
                                       hintText: 'Introduce un nombre',
                                     ),
-                                    onChanged: (value) => ticketName = value,
+                                    onChanged: (value) => ticketName = value.toString(),
                                   ),
                                 )
                               ]),
