@@ -27,6 +27,7 @@ class Ticketlist extends StatefulWidget {
 }
 
 class TicketlistState extends State<Ticketlist> {
+  GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
   final dateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   var img = Image.asset('lib/assets/Slang/ticketRobot.png', scale: 5);
@@ -135,46 +136,53 @@ class TicketlistState extends State<Ticketlist> {
                           children: [
                             Container(
                               child: Row(children: [
+                                Container(
+                                width:dimension.width*0.028,
+                                height: dimension.height*0.01296,
+                                child: 
+
                                 IconButton(
                                   padding: EdgeInsets.zero,
                                   constraints: BoxConstraints(),
                                   icon: isVisibleSelectAll
-                                      ? Icon(Icons.check_box,
-                                          color: Color(0xFF011A58), size: 25)
-                                      : Icon(Icons.indeterminate_check_box,
-                                          color: Color(0xFF011A58), size: 25),
+                                      ? SvgPicture.asset('lib/assets/icons/checked-selected.svg')
+                                      : SvgPicture.asset('lib/assets/icons/checked.svg'),
                                   onPressed: () {
                                     setState(() {
                                       isVisibleSelectAll = !isVisibleSelectAll;
                                     });
                                   },
-                                ),
+                                ),),
                                 SizedBox(
-                                  width: 10,
-                                ),
+                                  width: dimension.width*0.02336,
+                                ),Container(
+                                  height: dimension.height*0.026,
+                                   width: dimension.width*0.2827,
+                                  child: 
                                 Text(
                                   'Seleccionar todos',
                                   style: TextStyle(
-                                      fontSize: 16,
                                       fontFamily: 'IBM Plex Sans',
                                       color: Color(0xFF011A58)),
-                                ),
+                                ),),
                               ]),
-                            ),
+                            ),Container(
+                              width: dimension.width*0.0467,
+                              height: dimension.height*0.0216,
+                              child: 
                             IconButton(
                               padding: EdgeInsets.zero,
                               constraints: BoxConstraints(),
                               icon: isVisibleFiltring
-                                  ? Icon(Icons.filter_alt_off,
-                                      color: Color(0xFF011A58), size: 25)
-                                  : Icon(Icons.filter_alt,
-                                      color: Color(0xFF011A58), size: 25),
+                                  ? SvgPicture.asset('lib/assets/icons/filter-relleno.svg')
+                                  : SvgPicture.asset('lib/assets/icons/filter-hueco.svg'),
+                                     
                               onPressed: () {
                                 setState(() {
                                   isVisibleFiltring = !isVisibleFiltring;
                                 });
                               },
-                            ),
+                            ),),
                           ],
                         )),
                     Visibility(
@@ -366,7 +374,7 @@ class TicketlistState extends State<Ticketlist> {
                               if (houror == '') {
                                 houror = '-- : -- : --';
                               }
-                              var Updator = ticketList[index]
+                              var synchronizor = ticketList[index]
                                   .toMap()['synchronized']
                                   .toString();
                               return Card(
@@ -413,7 +421,7 @@ class TicketlistState extends State<Ticketlist> {
                                                 width: 0.1,
                                               ),
                                               Container(
-                                                  width: dimension.width * 0.35,
+                                                  width: dimension.width * 0.25,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -424,8 +432,8 @@ class TicketlistState extends State<Ticketlist> {
                                                             .substring(
                                                                 0,
                                                                 vendor.length >
-                                                                        15
-                                                                    ? 15
+                                                                        10
+                                                                    ? 10
                                                                     : vendor
                                                                         .length)
                                                             .toUpperCase(),
@@ -479,10 +487,7 @@ class TicketlistState extends State<Ticketlist> {
                                               ),
                                               Container(
                                                 width: dimension.width * 0.05,
-                                                child: IconButton(
-                                                  padding: EdgeInsets.zero,
-                                                  constraints: BoxConstraints(),
-                                                  icon: isVisibleSelectAll
+                                                child: synchronizor == 1
                                                       ? Icon(
                                                           Icons.cloud_rounded,
                                                           color:
@@ -495,13 +500,6 @@ class TicketlistState extends State<Ticketlist> {
                                                           color:
                                                               Color(0xFF011A58),
                                                           size: 20),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      isVisibleSelectAll =
-                                                          !isVisibleSelectAll;
-                                                    });
-                                                  },
-                                                ),
                                               ),
                                             ],
                                           ))));
@@ -513,9 +511,9 @@ class TicketlistState extends State<Ticketlist> {
                       child: Container(
                           height: dimension.height * 0.062,
                           padding: EdgeInsets.fromLTRB(
-                              dimension.width * 0.21,
+                              dimension.width * 0.15,
                               dimension.height * 0.008,
-                              dimension.width * 0.21,
+                              dimension.width * 0.15,
                               dimension.height * 0.008),
                           color: Color(0xFFECEEF3),
                           child: Row(
@@ -560,13 +558,15 @@ class TicketlistState extends State<Ticketlist> {
                                 ),
                               ),
                               Container(
-                                child: Column(
-                                  children: [
+                                
+                                height: dimension.height * 0.043,
+                                width: dimension.width * 0.205,
+                                child:
                                     IconButton(
                                       padding: EdgeInsets.zero,
                                       constraints: BoxConstraints(),
                                       icon: Icon(
-                                        Icons.add_to_drive_rounded,
+                                        Icons.add_to_drive_outlined,
                                         color: Color.fromRGBO(1, 26, 88, 1),
                                       ),
                                       onPressed: () async {
@@ -575,15 +575,7 @@ class TicketlistState extends State<Ticketlist> {
                                           uploadFile();
                                         });
                                       },
-                                    ),
-                                    Text(
-                                      'Subir selección a Drive',
-                                      style: TextStyle(
-                                          fontFamily: 'IBM Plex Sans',
-                                          fontSize: 12,
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                  ],
+                                 
                                 ),
                               ),
                             ],

@@ -244,6 +244,7 @@ class TicketViewState extends State<TicketView> {
                       ]),
                     ),
                     Container(
+                      color: Color(0xFFECEEF3),
                       height: dimension.height * 0.062,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

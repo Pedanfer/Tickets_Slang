@@ -138,19 +138,23 @@ class AddPhotoState extends State<AddPhoto> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Container(
+                                  height: dimension.height*0.0227,
+                                  width: dimension.width*0.15,
+                                  child:
                                 Text('Nombre:',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xff011A58))),
+                                        color: Color(0xff011A58),),),),
                                 Container(
-                                  height: 32,
-                                  width: 315,
+                                  height: dimension.height*0.03456,
+                                  width: dimension.width*0.75,
                                   child: TextFormField(
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.zero,
+                                      contentPadding: EdgeInsets.fromLTRB(dimension.width*0.028, 0, 0, 0),
                                       alignLabelWithHint: true,
                                       border: OutlineInputBorder(),
-                                      hintText: '  Introduce un nombre',
+                                      hintText: 'Introduce un nombre',
                                     ),
                                     onChanged: (value) => ticketName = value,
                                   ),
@@ -174,7 +178,7 @@ class AddPhotoState extends State<AddPhoto> {
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [
+                                      children: [Expanded(child: Container(child: 
                                         DropDownCategs(
                                             (value) => {auxDropDownDict(value)},
                                             vista1,
@@ -183,7 +187,18 @@ class AddPhotoState extends State<AddPhoto> {
                                                     prefs!.getString('categs')!)
                                                 .keys
                                                 .toList(),
-                                            key: categs1Key)
+                                            key: categs1Key),
+                                            ),),
+                                          IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () {
+                                              //chooseCategNoBug(1);
+                                            },
+                                          ),
                                       ]),
                                 ),
                               ]),
@@ -207,7 +222,18 @@ class AddPhotoState extends State<AddPhoto> {
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [subCategs]),
+                                        children: [Expanded(child: Container(child: subCategs),),
+                                        
+                                          IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: Color(0xff011A58)),
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () {
+                                              //chooseCategNoBug(1);
+                                            },
+                                          ),]),
                                   ),
                                 ])),
                         Divider(
