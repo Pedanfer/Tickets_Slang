@@ -1,12 +1,16 @@
-import 'package:slang_mobile/src/functions/Google.dart';
-import 'package:slang_mobile/src/functions/sqlite.dart';
-import 'package:slang_mobile/src/utils/constants.dart';
-import 'package:slang_mobile/src/views/ticketView.dart';
-import 'package:slang_mobile/src/functions/utilidades.dart';
-import 'package:slang_mobile/src/utils/widgets.dart';
+import 'dart:convert';
+
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:slang_mobile/main.dart';
+import 'package:slang_mobile/src/functions/sqlite.dart';
+import 'package:slang_mobile/src/views/ticketView.dart';
+import '../functions/Google.dart';
+import '../functions/utilidades.dart';
+import '../utils/constants.dart';
+import '../utils/widgets.dart';
 
 var textoFechaInicio = 'Inicio';
 var textoFechaFin = 'Fin';
@@ -28,10 +32,10 @@ class TicketlistState extends State<Ticketlist> {
   var img = Image.asset('lib/assets/Slang/ticketRobot.png', scale: 5);
   var categs1Key;
   var categs2Key;
-  var categs1;
-  var categs2;
-  var categ1 = '';
-  var categ2 = '';
+  var categs;
+  var subCategs;
+  var categ = '';
+  var subCateg = '';
   bool loading = true;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
@@ -43,19 +47,19 @@ class TicketlistState extends State<Ticketlist> {
       loading = false;
       setState(() {});
     });
-    categs1 = DropDownCategs(
-        (value) => auxFilterCateg(1, value), 'Seleccionar categoria', [],
+    categs = DropDownCategs((value) => {auxDropDownDict(value)}, 'Seleccionar',
+        json.decode(prefs!.getString('categs')!).keys.toList(),
         key: categs1Key);
-    categs2 = DropDownCategs(
-        (value) => auxFilterCateg(2, value), 'Seleccionar subcategoría', [],
+    subCategs = DropDownCategs(
+        (value) => subCateg = value.toString(), 'Seleccionar', [],
         key: categs2Key);
     super.initState();
   }
 
   @override
   void dispose() {
-    categ1 = '';
-    categ2 = '';
+    categ = '';
+    subCateg = '';
     textoFechaInicio = 'Inicio';
     textoFechaFin = 'Fin';
     super.dispose();
@@ -70,7 +74,7 @@ class TicketlistState extends State<Ticketlist> {
     return FutureBuilder(
         future: Future.wait([
           getPrefs(),
-          DB.filter(textoFechaInicio, textoFechaFin, categ1, categ2)
+          DB.filter(textoFechaInicio, textoFechaFin, categ, subCateg)
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (loading) {
@@ -260,7 +264,7 @@ class TicketlistState extends State<Ticketlist> {
                                     SizedBox(
                                       width: 16,
                                     ),
-                                    categs1
+                                    categs,
                                   ],
                                 ),
                               ),
@@ -279,7 +283,7 @@ class TicketlistState extends State<Ticketlist> {
                                     SizedBox(
                                       width: 16,
                                     ),
-                                    categs2
+                                    subCategs
                                   ],
                                 ),
                               ),
@@ -298,8 +302,6 @@ class TicketlistState extends State<Ticketlist> {
                                     SizedBox(
                                       width: 16,
                                     ),
-
-                                    
                                     Text(
                                       'Offline',
                                       style: TextStyle(
@@ -310,29 +312,26 @@ class TicketlistState extends State<Ticketlist> {
                                     Checkbox(
                                       value: isVisibleOffline,
                                       onChanged: (value) => {
-                                        setState(() =>
-                                            isVisibleOffline = !isVisibleOffline
-                                        )
+                                        setState(() => isVisibleOffline =
+                                            !isVisibleOffline)
                                       },
                                     ),
-
                                     Container(
                                       child: Row(children: [
-                                    Text(
-                                      'Online',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'IBM Plex Sans',
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                    Checkbox(
-                                      value: isVisibleOnline,
-                                      onChanged: (value) => {
-                                        setState(() =>
-                                            isVisibleOnline = !isVisibleOnline
-                                        )
-                                      },
-                                    ),
+                                        Text(
+                                          'Online',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'IBM Plex Sans',
+                                              color: Color(0xFF011A58)),
+                                        ),
+                                        Checkbox(
+                                          value: isVisibleOnline,
+                                          onChanged: (value) => {
+                                            setState(() => isVisibleOnline =
+                                                !isVisibleOnline)
+                                          },
+                                        ),
                                       ]),
                                     )
                                   ],
@@ -357,21 +356,19 @@ class TicketlistState extends State<Ticketlist> {
                               if (vendor == '') {
                                 vendor = '---';
                               }
-
-                              var fechor = ticketList[index].toMap()['date'].toString();
+                              var fechor =
+                                  ticketList[index].toMap()['date'].toString();
                               if (fechor == '') {
                                 fechor = 'Sin Fecha';
                               }
-
-                              var houror = ticketList[index].toMap()['hour'].toString();
+                              var houror =
+                                  ticketList[index].toMap()['hour'].toString();
                               if (houror == '') {
                                 houror = '-- : -- : --';
                               }
-/*
                               var Updator = ticketList[index]
-                                  .toMap()['update']
+                                  .toMap()['synchronized']
                                   .toString();
-*/
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
@@ -550,7 +547,7 @@ class TicketlistState extends State<Ticketlist> {
                                     if (!storageDir!.listSync().isEmpty) {
                                       emptyAppDir();
                                     }
-                                    createExcelLista(ticketList)
+                                    createZipWithExcel(ticketList)
                                         .then((result) async {
                                       await FlutterShare.shareFile(
                                               title: 'Lista de facturas',
@@ -562,6 +559,33 @@ class TicketlistState extends State<Ticketlist> {
                                   },
                                 ),
                               ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      icon: Icon(
+                                        Icons.add_to_drive_rounded,
+                                        color: Color.fromRGBO(1, 26, 88, 1),
+                                      ),
+                                      onPressed: () async {
+                                        createZipWithExcel(ticketList)
+                                            .then((result) async {
+                                          uploadFile();
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'Subir selección a Drive',
+                                      style: TextStyle(
+                                          fontFamily: 'IBM Plex Sans',
+                                          fontSize: 12,
+                                          color: Color(0xFF011A58)),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           )),
                     ),
@@ -569,6 +593,17 @@ class TicketlistState extends State<Ticketlist> {
                 )),
           );
         });
+  }
+
+  void auxDropDownDict(dynamic value) {
+    setState(() {
+      subCategs = DropDownCategs(
+          (value) => subCateg = value.toString(),
+          subCateg,
+          List<String>.from(json.decode(prefs!.getString('categs'))[value]),
+          key: categs2Key);
+    });
+    categ = value.toString();
   }
 
   Future pickDateRange() async {
@@ -589,9 +624,9 @@ class TicketlistState extends State<Ticketlist> {
   void auxFilterCateg(int num, String value) {
     setState(() {
       if (num == 1) {
-        categ1 = value;
+        categ = value;
       } else {
-        categ2 = value;
+        subCateg = value;
       }
     });
   }

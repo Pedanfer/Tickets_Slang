@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
@@ -8,7 +7,6 @@ import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
 import 'package:slang_mobile/main.dart';
 
-GoogleSignInAccount? signInData;
 var googleUserNameMail;
 
 class GoogleAuthClient extends http.BaseClient {
@@ -24,19 +22,12 @@ class GoogleAuthClient extends http.BaseClient {
 Future<void> signInDrive() async {
   /* ¿Guardar con un diccionario los datos de cada usuario? 
   Al final estarán en la API Rest */
-  signInData = await signIn.GoogleSignIn.standard(
+  var signInData = await signIn.GoogleSignIn.standard(
       scopes: [drive.DriveApi.driveFileScope]).signIn();
-  var headers = await signInData!.authHeaders;
   getPrefs().then((value) => {
         value!.setString(
           'driveUserData',
-          json.encode({
-            'googleUserName': signInData!.displayName,
-            'googleUserMail': signInData!.email,
-            'googleUserId': signInData!.id,
-            'googleUserServerCode': signInData!.serverAuthCode,
-            'googleUserAuthHeaders': headers,
-          }),
+          json.encode(signInData),
         ),
       });
   /* 
@@ -52,17 +43,10 @@ Future<void> signOutDrive() async {
 
 Future<void> uploadFile() async {
   //Debe ser una carpeta, no un zip
-  var authHeaders;
-  var userDriveData = prefs!.getString('driveUserData');
-  if (userDriveData != null) {
-    var aux = await json.decode(userDriveData)['googleUserAuthHeaders'];
-    authHeaders = {
-      'Authorization': aux['Authorization'] as String,
-      'X-Goog-AuthUser': aux['X-Goog-AuthUser'] as String
-    };
-  } else {
-    authHeaders = await signInData!.authHeaders;
-  }
+  var signInData = json.decode(prefs!.getString('driveUserData'));
+  print(signInData);
+  signInData!.clearAuthCache();
+  var authHeaders = await signInData!.authHeaders;
   var authenticateClient = GoogleAuthClient(authHeaders);
   var driveApi = drive.DriveApi(authenticateClient);
   var zipFile = File(ticketsZipPath);

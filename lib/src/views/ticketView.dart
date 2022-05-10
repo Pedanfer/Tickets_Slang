@@ -1,14 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:slang_mobile/src/utils/widgets.dart';
-import 'package:slang_mobile/src/views/addPhoto.dart';
-import 'package:slang_mobile/src/views/dashboard.dart';
-import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:slang_mobile/src/views/addPhoto.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/src/views/menu.dart';
 import 'package:slang_mobile/src/views/ticketlist.dart';
-
 import '../functions/utilidades.dart';
+import '../utils/widgets.dart';
 
 class TicketView extends StatefulWidget {
   final Map<String, dynamic> ticketData;
@@ -28,6 +26,7 @@ class TicketViewState extends State<TicketView> {
   String vista2 = 'Seleccionar categoría';
   TransformationController controllerTransform = TransformationController();
   var initialControllerValue;
+
   int paginaActual = 1;
   List<Widget> paginas = [
     AddPhoto(),
@@ -35,7 +34,7 @@ class TicketViewState extends State<TicketView> {
   ];
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size;
+    var dimension = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -152,7 +151,7 @@ class TicketViewState extends State<TicketView> {
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xff011A58))),
                                 SizedBox(width: 20),
-                                Text('Manolo el de la pradera',
+                                Text(widget.ticketData['ticketName'].toString(),
                                     style: TextStyle(color: Color(0xff011A58))),
                               ]),
                         ),

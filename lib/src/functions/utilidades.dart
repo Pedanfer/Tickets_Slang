@@ -100,8 +100,9 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   return file;
 }
 
-Future<void> createExcelLista(List<Ticket> listaTickets) async {
+Future<void> createZipWithExcel(List<Ticket> listaTickets) async {
   if (await requestPermission(Permission.storage)) {
+    await emptyAppDir();
     var dirToCompress;
     await getExternalStorageDirectory()
         .then((value) => dirToCompress = value!.path);
@@ -192,21 +193,20 @@ Future<void> createExcelLista(List<Ticket> listaTickets) async {
 // Save and dispose the document.
     final bytes = workbook.saveAsStream();
     workbook.dispose();
-
     await encoder.addFile(await File(dirToCompress + '/Tickets.xlsx')
         .writeAsBytes(bytes, flush: true));
     encoder.close();
   }
-  ;
 }
 
-void emptyAppDir() async {
+Future<bool> emptyAppDir() async {
   if (Platform.isAndroid) {
     var dir = await getExternalStorageDirectory();
     for (var file in dir!.listSync()) {
       await file.delete();
     }
   }
+  return true;
 }
 
 Future<bool> insertNewCateg(

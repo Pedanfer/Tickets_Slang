@@ -1,6 +1,7 @@
 class Ticket {
   int? id;
   int? synchronized;
+  String ticketName;
   String issuer;
   String date;
   String hour;
@@ -13,6 +14,7 @@ class Ticket {
       {this.id,
       this.synchronized,
       required this.issuer,
+      required this.ticketName,
       required this.date,
       required this.hour,
       required this.total,
@@ -23,6 +25,7 @@ class Ticket {
   factory Ticket.fromMap(Map<String, dynamic> json) => Ticket(
       id: json['id'],
       synchronized: json['synchronized'],
+      ticketName: json['ticketName'],
       issuer: json['issuer'],
       date: json['date'],
       hour: json['hour'],
@@ -35,6 +38,7 @@ class Ticket {
     return {
       'id': id,
       ' synchronized': synchronized,
+      'ticketName': ticketName,
       'issuer': issuer,
       'date': date,
       'hour': hour,
