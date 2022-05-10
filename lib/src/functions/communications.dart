@@ -41,7 +41,6 @@ Future<Map<String, dynamic>> uploadImageToSlang(File image) async {
         request!.headers.addAll(headers)
       });
   var response = await http.Response.fromStream(await request!.send());
-  print(response.body);
   jsonData = await json.decode(response.body);
   return jsonData;
 }

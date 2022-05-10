@@ -290,15 +290,15 @@ class AddPhotoState extends State<AddPhoto> {
                     ),
                   ),
                   Visibility(
-                      visible: isVisibleBorrarAceptar,
-                      maintainSize: false,
-                      child: Container(
-                        height: 40,
-                        width: 190,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Color(0xFFDC47A9)),
-                        child: TextButton(
+                    visible: isVisibleBorrarAceptar,
+                    maintainSize: false,
+                    child: Container(
+                      height: 40,
+                      width: 190,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Color(0xFFDC47A9)),
+                      child: TextButton(
                           child: Text(
                             'GUARDAR',
                             style: TextStyle(color: Colors.white),
@@ -306,10 +306,35 @@ class AddPhotoState extends State<AddPhoto> {
                           onPressed: () {
                             isVisibleImg = false;
                             setState(() {
-                              var jsonData;
-                              //Controlar campos vacíos con 'Vacío'
-                              uploadImageToSlang(imageFile!).then((value) => {
-                                    jsonData = value,
+                              isVisibleBorrarAceptar = false;
+                              isVisibleFotoGaleria = true;
+                              isVisibleCategorias = false;
+                              customSnackBar(
+                                  context, 'Enviando la imagen...', 3);
+                            });
+                            var jsonData;
+                            //Controlar campos vacíos con 'Vacío'
+                            uploadImageToSlang(imageFile!).then(
+                              (value) => {
+                                jsonData = value,
+                                if (!jsonData
+                                    .toString()
+                                    .contains('error - textract'))
+                                  {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          Future.delayed(Duration(seconds: 4),
+                                              () {
+                                            Navigator.pop(context, true);
+                                            customSnackBar(
+                                                context,
+                                                'Ticket introducido en la base de datos.',
+                                                3);
+                                          });
+                                          return CustomAlertDialog(
+                                              'Extrayendo datos...', dimension);
+                                        }),
                                     ticket = Ticket(
                                         issuer: jsonData['issuer'],
                                         ticketName: ticketName,
@@ -322,27 +347,20 @@ class AddPhotoState extends State<AddPhoto> {
                                         photo: imageFile!.readAsBytesSync(),
                                         categ1: categ1,
                                         categ2: subCateg),
-                                    DB.insert(ticket)
-                                  });
-                              img = Image.asset(
-                                  'lib/assets/Slang/ticketRobot.png',
-                                  scale: 1.5);
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    Future.delayed(Duration(seconds: 2), () {
-                                      Navigator.pop(context, true);
-                                    });
-                                    return CustomAlertDialog(
-                                        'Extrayendo datos...', dimension);
-                                  });
-                              isVisibleBorrarAceptar = false;
-                              isVisibleFotoGaleria = true;
-                              isVisibleCategorias = false;
-                            });
-                          },
-                        ),
-                      ))
+                                    DB.insert(ticket),
+                                  }
+                                else
+                                  {
+                                    customSnackBar(
+                                        context,
+                                        'No se han podido extraer datos, ¿seguro que es un ticket?',
+                                        4)
+                                  },
+                              },
+                            );
+                          }),
+                    ),
+                  )
                 ],
               ),
             ),
