@@ -570,6 +570,17 @@ class TicketlistState extends State<Ticketlist> {
                                               storedDrive: true)
                                           .then((result) async {
                                         uploadFiles();
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              Future.delayed(
+                                                  Duration(seconds: 4), () {
+                                                Navigator.pop(context, true);
+                                              });
+                                              return CustomAlertDialog(
+                                                  'Almancenando datos en Google Drive...',
+                                                  dimension);
+                                            });
                                       });
                                     });
                                   },

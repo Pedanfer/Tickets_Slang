@@ -35,24 +35,26 @@ Future<void> signOutDrive() async {
 }
 
 Future<void> uploadFiles() async {
-  var driveApi = await refreshAuthetication();
+  var driveApi = await refreshAuthentication();
   createFolder(driveApi).then((value) async {
     var dir = await getExternalStorageDirectory();
     var entities = await dir!.list().toList();
     var dirFiles = List<File>.from(entities);
-
     for (File file in dirFiles) {
-      final Stream<List<int>> mediaStream = await file.openRead();
-      var media = new drive.Media(mediaStream, file.lengthSync());
-      var driveFile = new drive.File();
-      driveFile.name = 'Tickets.' + file.path.split('.').last;
-      driveFile.parents = [folderID];
-      await driveApi.files.create(driveFile, uploadMedia: media);
+      var extension = file.path.split('.').last;
+      if (extension != 'zip') {
+        final Stream<List<int>> mediaStream = await file.openRead();
+        var media = new drive.Media(mediaStream, file.lengthSync());
+        var driveFile = new drive.File();
+        driveFile.name = 'Tickets.' + extension;
+        driveFile.parents = [folderID];
+        await driveApi.files.create(driveFile, uploadMedia: media);
+      }
     }
   });
 }
 
-Future<drive.DriveApi> refreshAuthetication() async {
+Future<drive.DriveApi> refreshAuthentication() async {
   var signInGoogle = signIn.GoogleSignIn(
       signInOption: signIn.SignInOption.standard,
       scopes: [drive.DriveApi.driveFileScope],
