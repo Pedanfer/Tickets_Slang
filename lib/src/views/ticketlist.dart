@@ -569,7 +569,7 @@ class TicketlistState extends State<Ticketlist> {
                                       createZipWithExcel(ticketList,
                                               storedDrive: true)
                                           .then((result) async {
-                                        uploadFile();
+                                        uploadFiles();
                                       });
                                     });
                                   },
