@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/views/userRegister.dart';
 import 'package:flutter/material.dart';
 import '../functions/utilidades.dart';
@@ -43,7 +44,7 @@ class _TermsServiceState extends State<TermsService> {
             children: [
               SizedBox(height: dimension.height * 0.02),
               Visibility(
-                  child: Image.asset('lib/assets/Slang/Logo_slang_horiz.png',
+                  child: SvgPicture.asset('lib/assets/Slang/IconHorizontal.svg',
                       width: dimension.width * 0.55)),
               Container(
                 decoration: BoxDecoration(

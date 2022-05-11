@@ -45,10 +45,10 @@ class AddPhotoState extends State<AddPhoto> {
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
     return FutureBuilder(
-        future: getPrefs(),
-        builder: (context, snapshot) {
-          return Scaffold(
-              body: Container(
+      future: getPrefs(),
+      builder: (context, snapshot) {
+        return Scaffold(
+          body: Container(
             width: double.infinity,
             height: double.infinity,
             decoration: new BoxDecoration(
@@ -336,73 +336,75 @@ class AddPhotoState extends State<AddPhoto> {
                           borderRadius: BorderRadius.circular(30),
                           color: Color(0xFFDC47A9)),
                       child: TextButton(
-                          child: Text(
-                            'GUARDAR',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            isVisibleImg = false;
-                            setState(() {
-                              isVisibleBorrarAceptar = false;
-                              isVisibleFotoGaleria = true;
-                              isVisibleCategorias = false;
-                              customSnackBar(
-                                  context, 'Enviando la imagen...', 4);
-                            });
-                            var jsonData;
-                            //Controlar campos vacíos con 'Vacío'
-                            uploadImageToSlang(imageFile!).then(
-                              (value) => {
-                                jsonData = value,
-                                if (!jsonData
-                                    .toString()
-                                    .contains('error - textract'))
-                                  {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          Future.delayed(Duration(seconds: 4),
-                                              () {
-                                            Navigator.pop(context, true);
-                                            customSnackBar(
-                                                context,
-                                                'Ticket introducido en la base de datos.',
-                                                3);
-                                          });
-                                          return CustomAlertDialog(
-                                              'Extrayendo datos...', dimension);
-                                        }),
-                                    ticket = Ticket(
-                                        issuer: jsonData['issuer'],
-                                        ticketName: ticketName,
-                                        date: jsonData['date']
-                                            .split('/')
-                                            .reversed
-                                            .join('-'),
-                                        hour: jsonData['hour'],
-                                        total: jsonData['total'] * 1.0,
-                                        photo: imageFile!.readAsBytesSync(),
-                                        categ1: categ1,
-                                        categ2: subCateg),
-                                    DB.insert(ticket),
-                                  }
-                                else
-                                  {
-                                    customSnackBar(
-                                        context,
-                                        'No se han podido extraer datos, ¿seguro que es un ticket?',
-                                        4)
-                                  },
-                              },
-                            );
-                          }),
+                        child: Text(
+                          'GUARDAR',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          isVisibleImg = false;
+                          setState(() {
+                            isVisibleBorrarAceptar = false;
+                            isVisibleFotoGaleria = true;
+                            isVisibleCategorias = false;
+                            customSnackBar(context, 'Enviando la imagen...', 4);
+                          });
+                          var jsonData;
+                          //Controlar campos vacíos con 'Vacío'
+                          uploadImageToSlang(imageFile!).then(
+                            (value) => {
+                              jsonData = value,
+                              if (!jsonData
+                                  .toString()
+                                  .contains('error - textract'))
+                                {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        Future.delayed(Duration(seconds: 4),
+                                            () {
+                                          Navigator.pop(context, true);
+                                          customSnackBar(
+                                              context,
+                                              'Ticket introducido en la base de datos.',
+                                              3);
+                                        });
+                                        return CustomAlertDialog(
+                                            'Extrayendo datos...', dimension);
+                                      }),
+                                  ticket = Ticket(
+                                      issuer: jsonData['issuer'],
+                                      ticketName: ticketName,
+                                      date: jsonData['date']
+                                          .split('/')
+                                          .reversed
+                                          .join('-'),
+                                      hour: jsonData['hour'],
+                                      total: jsonData['total'] * 1.0,
+                                      photo: imageFile!.readAsBytesSync(),
+                                      categ1: categ1,
+                                      categ2: subCateg),
+                                  DB.insert(ticket),
+                                }
+                              else
+                                {
+                                  customSnackBar(
+                                      context,
+                                      'No se han podido extraer datos, ¿seguro que es un ticket?',
+                                      4)
+                                },
+                            },
+                          );
+                        },
+                      ),
                     ),
                   )
                 ],
               ),
             ),
-          ));
-        });
+          ),
+        );
+      },
+    );
   }
 
   void auxDropDownDict(dynamic value) {

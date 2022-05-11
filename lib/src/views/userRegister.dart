@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/functions/communications.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
@@ -64,7 +65,7 @@ class _UserRegisterState extends State<UserRegister> {
               SizedBox(height: dimension.height * 0.05),
               Visibility(
                   visible: isRobotVisible,
-                  child: Image.asset('lib/assets/Slang/Logo_slang_horiz.png',
+                  child: SvgPicture.asset('lib/assets/Slang/IconHorizontal.svg',
                       width: dimension.width * 0.55)),
               Container(
                 decoration: BoxDecoration(
@@ -207,7 +208,7 @@ class _UserRegisterState extends State<UserRegister> {
                                 color: blue100,
                                 key: checkBoxKey,
                                 dimension: dimension,
-                                offsetCheck: -36,
+                                offsetCheck: -10,
                                 offsetText: -20,
                                 text: [
                                   TextSpan(

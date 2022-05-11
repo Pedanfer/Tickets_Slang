@@ -25,7 +25,8 @@ class DB {
 
   static Future<int> delete(int id) async {
     var database = await _openDB();
-    return database.delete('tickets', where: 'id = ?', whereArgs: [id]);
+    return database.delete('tickets',
+        where: 'id = ? AND synchronized = ?', whereArgs: [id]);
   }
 
   static Future<int> updateSynchronized(List<Ticket> tickets) async {
@@ -37,45 +38,52 @@ class DB {
         'UPDATE tickets SET synchronized = 1 WHERE id IN(' + ticketsId + ');');
   }
 
-  static Future<List<Ticket>> filter(
-      String dateStart, String dateEnd, String categ1, String categ2) async {
+  static Future<List<Ticket>> filter(String dateStart, String dateEnd,
+      String categ1, String categ2, bool synchronizor) async {
     var database = await _openDB();
     List<dynamic>? tickets;
-    var categ1None = RegExp(categ1).hasMatch('Todas');
+    var categ1None = categ1.isEmpty;
     var categ2None = RegExp(categ2).hasMatch('Todas');
+    var synchronized = synchronizor ? '1' : '0';
     if (dateStart != 'Inicio') {
       if (!categ1None) {
         if (categ2None) {
           tickets = await database.query('tickets',
-              where: 'date BETWEEN ? AND ? AND categ1 = ?',
-              whereArgs: [dateStart, dateEnd, categ1]);
+              where: 'date BETWEEN ? AND ? AND categ1 = ? AND synchronized = ?',
+              whereArgs: [dateStart, dateEnd, categ1, synchronized]);
         } else {
           tickets = await database.query('tickets',
-              where: 'date BETWEEN ? AND ? AND categ1 = ? AND categ2 = ?',
-              whereArgs: [dateStart, dateEnd, categ1, categ2]);
+              where:
+                  'date BETWEEN ? AND ? AND categ1 = ? AND categ2 = ? AND synchronized = ?',
+              whereArgs: [dateStart, dateEnd, categ1, categ2, synchronized]);
         }
       } else if (!categ2None) {
         tickets = await database.query('tickets',
-            where: 'date BETWEEN ? AND ? AND categ2 = ?',
-            whereArgs: [dateStart, dateEnd, categ2]);
+            where: 'date BETWEEN ? AND ? AND categ2 = ? AND synchronized = ?',
+            whereArgs: [dateStart, dateEnd, categ2, synchronized]);
       } else {
         tickets = await database.query('tickets',
-            where: 'date BETWEEN ? AND ?', whereArgs: [dateStart, dateEnd]);
+            where: 'date BETWEEN ? AND ? AND synchronized = ?',
+            whereArgs: [dateStart, dateEnd, synchronized]);
       }
     } else {
       if (!categ1None) {
         if (categ2None) {
-          tickets = await database
-              .query('tickets', where: 'categ1 = ?', whereArgs: [categ1]);
+          tickets = await database.query('tickets',
+              where: 'categ1 = ? AND synchronized = ?',
+              whereArgs: [categ1, synchronized]);
         } else {
           tickets = await database.query('tickets',
-              where: 'categ1 = ? AND categ2 = ?', whereArgs: [categ1, categ2]);
+              where: 'categ1 = ? AND categ2 = ? AND synchronized = ?',
+              whereArgs: [categ1, categ2, synchronized]);
         }
       } else if (!categ2None) {
-        tickets = await database
-            .query('tickets', where: 'categ2 = ?', whereArgs: [categ2]);
+        tickets = await database.query('tickets',
+            where: 'categ2 = ? AND synchronized = ?',
+            whereArgs: [categ2, synchronized]);
       } else {
-        tickets = await database.query('tickets');
+        tickets = await database.query('tickets',
+            where: 'synchronized = ?', whereArgs: [synchronized]);
       }
     }
     return tickets.isNotEmpty

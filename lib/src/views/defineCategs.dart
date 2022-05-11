@@ -7,8 +7,6 @@ import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/main.dart';
 import '../utils/constants.dart';
 
-GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
-
 class DefineCategs extends StatefulWidget {
   @override
   State<DefineCategs> createState() => DefineCategsState();
@@ -255,10 +253,7 @@ class DefineCategsState extends State<DefineCategs> {
                                 ),
                                 onTap: () {
                                   formKey.currentState!.validate();
-                                  categsSubCategsDict.putIfAbsent(
-                                      categsNames[0],
-                                      () => categsNames.sublist(
-                                          1, categsNames.length));
+                                  auxSaveCategs();
                                   setState(() {
                                     categsForms = [];
                                     categsNames = [];
@@ -280,12 +275,7 @@ class DefineCategsState extends State<DefineCategs> {
                                   height: dimension.height * 0.06,
                                   onPressed: () {
                                     formKey.currentState!.validate();
-                                    if (categsNames[0] != '') {
-                                      categsSubCategsDict.putIfAbsent(
-                                          categsNames[0],
-                                          () => categsNames.sublist(
-                                              1, categsNames.length));
-                                    }
+                                    auxSaveCategs();
                                     prefs.setString('categs',
                                         json.encode(categsSubCategsDict));
                                     changePageFade(DashBoard(), context);
@@ -302,5 +292,12 @@ class DefineCategsState extends State<DefineCategs> {
         ),
       ),
     );
+  }
+
+  auxSaveCategs() {
+    if (categsNames[0] != '') {
+      var categList = categsNames.sublist(1, categsNames.length);
+      categsSubCategsDict.putIfAbsent(categsNames[0], () => categList);
+    }
   }
 }

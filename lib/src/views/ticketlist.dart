@@ -27,7 +27,6 @@ class Ticketlist extends StatefulWidget {
 }
 
 class TicketlistState extends State<Ticketlist> {
-  GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
   final dateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   var img = Image.asset('lib/assets/Slang/ticketRobot.png', scale: 5);
@@ -35,9 +34,10 @@ class TicketlistState extends State<Ticketlist> {
   var categs2Key;
   var categs;
   var subCategs;
-  var categ = '';
+  var categName = '';
   var subCateg = '';
   bool loading = true;
+  bool checkedDrive = false;
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -59,7 +59,7 @@ class TicketlistState extends State<Ticketlist> {
 
   @override
   void dispose() {
-    categ = '';
+    categName = '';
     subCateg = '';
     textoFechaInicio = 'Inicio';
     textoFechaFin = 'Fin';
@@ -75,7 +75,8 @@ class TicketlistState extends State<Ticketlist> {
     return FutureBuilder(
         future: Future.wait([
           getPrefs(),
-          DB.filter(textoFechaInicio, textoFechaFin, categ, subCateg)
+          DB.filter(textoFechaInicio, textoFechaFin, categName, subCateg,
+              checkedDrive)
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (loading) {
@@ -306,7 +307,7 @@ class TicketlistState extends State<Ticketlist> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Estado',
+                                      'Almacenado en Drive',
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontFamily: 'IBM Plex Sans',
@@ -315,37 +316,23 @@ class TicketlistState extends State<Ticketlist> {
                                     SizedBox(
                                       width: 16,
                                     ),
-                                    Text(
-                                      'Offline',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'IBM Plex Sans',
-                                          color: Color(0xFF011A58)),
-                                    ),
-                                    Checkbox(
-                                      value: isVisibleOffline,
-                                      onChanged: (value) => {
-                                        setState(() => isVisibleOffline =
-                                            !isVisibleOffline)
-                                      },
-                                    ),
-                                    Container(
-                                      child: Row(children: [
-                                        Text(
-                                          'Online',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'IBM Plex Sans',
-                                              color: Color(0xFF011A58)),
-                                        ),
-                                        Checkbox(
-                                          value: isVisibleOnline,
-                                          onChanged: (value) => {
-                                            setState(() => isVisibleOnline =
-                                                !isVisibleOnline)
+                                    Expanded(
+                                      child: Transform.translate(
+                                        offset: Offset(
+                                            0, -2 * (dimension.height * 0.008)),
+                                        child: CustomCheckBox(
+                                          color: blue100,
+                                          dimension: dimension,
+                                          offsetCheck: 0,
+                                          offsetText: 0,
+                                          text: [TextSpan(text: '')],
+                                          func: (value) {
+                                            setState(() {
+                                              checkedDrive = value;
+                                            });
                                           },
                                         ),
-                                      ]),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -381,13 +368,8 @@ class TicketlistState extends State<Ticketlist> {
                               if (houror == '') {
                                 houror = '-- : -- : --';
                               }
-                              var synchronizor = ticketList[index]
-                                  .toMap()['synchronized']
-                                  .toString();
-                              if (synchronizor == '') {
-                                synchronizor = '-- SIN NOMBRE --';
-                              }
-
+                              var synchronizor =
+                                  ticketList[index].toMap()['synchronized'];
                               return Card(
                                   margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
                                   child: ListTile(
@@ -484,7 +466,7 @@ class TicketlistState extends State<Ticketlist> {
                                                   )),
                                               Container(
                                                 width: dimension.width * 0.05,
-                                                child: synchronizor == '1'
+                                                child: synchronizor == 1
                                                     ? Icon(
                                                         Icons.cloud_rounded,
                                                         color:
@@ -574,7 +556,7 @@ class TicketlistState extends State<Ticketlist> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               Future.delayed(
-                                                  Duration(seconds: 4), () {
+                                                  Duration(seconds: 5), () {
                                                 Navigator.pop(context, true);
                                               });
                                               return CustomAlertDialog(
@@ -597,13 +579,18 @@ class TicketlistState extends State<Ticketlist> {
 
   void auxDropDownDict(dynamic value) {
     setState(() {
+      subCateg = 'Seleccionar';
       subCategs = DropDownCategs(
-          (value) => subCateg = value.toString(),
+          (value) => setState(() {
+                subCateg = value.toString();
+              }),
           subCateg,
-          List<String>.from(json.decode(prefs!.getString('categs'))[value]),
+          List<String>.from(json.decode(prefs!.getString('categs'))[value])
+            ..add('Todas'),
           key: categs2Key);
     });
-    categ = value.toString();
+
+    categName = value.toString();
   }
 
   Future pickDateRange() async {
@@ -624,7 +611,7 @@ class TicketlistState extends State<Ticketlist> {
   void auxFilterCateg(int num, String value) {
     setState(() {
       if (num == 1) {
-        categ = value;
+        categName = value;
       } else {
         subCateg = value;
       }

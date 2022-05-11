@@ -107,6 +107,7 @@ class CustomCheckBox extends StatefulWidget {
   final double offsetCheck;
   final double offsetText;
   final List<TextSpan> text;
+  final Function? func;
 
   CustomCheckBox(
       {required this.color,
@@ -114,6 +115,7 @@ class CustomCheckBox extends StatefulWidget {
       required this.offsetCheck,
       required this.offsetText,
       required this.text,
+      this.func,
       Key? key})
       : super(key: key);
   @override
@@ -128,38 +130,39 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-          checkboxTheme: CheckboxThemeData(
-              fillColor: MaterialStateProperty.all(Colors.transparent),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)))),
-      child: Transform.scale(
-        scale: 0.85,
-        child: Transform.translate(
-          offset: Offset(widget.offsetCheck, 0),
-          child: CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.leading,
-              checkColor: widget.color,
-              side: BorderSide(color: widget.color),
-              title: Transform.translate(
-                offset: Offset(widget.offsetText, 0),
-                child: RichText(
-                  text: TextSpan(
-                      style: TextStyle(
-                        height: widget.dimension.height * 0.0025,
-                        fontSize: 12,
-                        color: widget.color,
-                      ),
-                      children: widget.text),
-                ),
-              ),
-              value: checked,
-              onChanged: (bool? newValue) {
-                setState(() {
-                  checked = newValue!;
-                });
-              }),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.all(Colors.transparent),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
+      ),
+      child: Transform.translate(
+        offset: Offset(widget.offsetCheck, 0),
+        child: CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            checkColor: widget.color,
+            side: BorderSide(color: widget.color),
+            title: Transform.translate(
+              offset: Offset(widget.offsetText, 0),
+              child: RichText(
+                text: TextSpan(
+                    style: TextStyle(
+                      height: widget.dimension.height * 0.0025,
+                      fontSize: 12,
+                      color: widget.color,
+                    ),
+                    children: widget.text),
+              ),
+            ),
+            value: checked,
+            onChanged: (bool? newValue) {
+              setState(() {
+                checked = newValue!;
+                widget.func!(checked);
+              });
+            }),
       ),
     );
   }
