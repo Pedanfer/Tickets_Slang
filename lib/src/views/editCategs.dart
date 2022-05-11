@@ -1,27 +1,55 @@
 import 'dart:convert';
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/main.dart';
+import 'package:slang_mobile/src/views/menu.dart';
 import '../utils/constants.dart';
 
-class DefineCategs extends StatefulWidget {
+GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
+
+class editCategs extends StatefulWidget {
   @override
-  State<DefineCategs> createState() => DefineCategsState();
+  State<editCategs> createState() => editCategsState();
 }
 
-class DefineCategsState extends State<DefineCategs> {
+class editCategsState extends State<editCategs> {
   Map<String, List<String>> categsSubCategsDict = {};
   List<String> categsNames = [];
   List<Widget> categsForms = [];
+
+  final List<String> entries = <String>['A', 'B', 'C'];
+final List<int> colorCodes = <int>[600, 500, 100];
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final ScrollController scrollController = ScrollController();
+  bool isVisibleAddCategory = false;
 
   @override
   Widget build(BuildContext context) {
     var dimension = MediaQuery.of(context).size;
+    
     return Scaffold(
+appBar: AppBar(
+        leading: IconButton(
+          icon: SvgPicture.asset('lib/assets/icons/Burger_Menu.svg'),
+          onPressed: () => changePageFade(Menu(), context),
+        ),
+        title: Container(
+            padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
+            child: SvgPicture.asset(
+                'lib/assets/Slang/IconHorizontal.svg')),
+        actions: [
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.person)),
+        ],
+        backgroundColor: Color(0xFF011A58),
+      ),
+
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -52,7 +80,7 @@ class DefineCategsState extends State<DefineCategs> {
                               fontSize: 20.0),
                           children: <TextSpan>[
                             TextSpan(
-                                text: 'Define las ',
+                                text: 'Edita las ',
                                 style: TextStyle(fontWeight: FontWeight.w200)),
                             TextSpan(
                               text: 'categorías y subcategorías',
@@ -63,9 +91,7 @@ class DefineCategsState extends State<DefineCategs> {
                           ],
                         ),
                       ),
-                      Form(
-                          key: formKey,
-                          child: Column(
+                      Column(
                             children: [
                               TitleWithUnderline(
                                   color: Colors.white,
@@ -78,14 +104,92 @@ class DefineCategsState extends State<DefineCategs> {
                                 height: dimension.height * 0.015,
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Categoría:',
+                                    'Categorías:',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
+                                  IconButton(onPressed: () {setState(() {isVisibleAddCategory = !isVisibleAddCategory;});}, icon: isVisibleAddCategory ? Icon(Icons.check, color: Colors.white,) :SvgPicture.asset('lib/assets/icons/PlusIcon.svg'))
                                 ],
                               ),
+                              TitleWithUnderline(
+                                  color: Colors.white,
+                                  text: '',
+                                  fontSize: 16,
+                                  spaceLength:
+                                      (49 * (dimension.width * 0.005)).round(),
+                                  dashed: true),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Container(child: 
+ListView.builder(
+  itemCount: entries.length,
+  itemBuilder: (BuildContext context, int index) {
+    return Container(
+      height: 50,
+      color: Colors.amber[colorCodes[index]],
+      child: Center(child: Text('Entry ${entries[index]}')),
+    );
+  }
+),),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              Visibility(
+                                visible: isVisibleAddCategory,
+                                child: Container(child: Column(children: [
+                                  TitleWithUnderline(
+                                  color: Colors.white,
+                                  text: '',
+                                  fontSize: 16,
+                                  spaceLength:
+                                      (49 * (dimension.width * 0.005)).round(),
+                                  dashed: true),
+                              
                               SizedBox(
                                 height: dimension.height * 0.015,
                               ),
@@ -231,7 +335,7 @@ class DefineCategsState extends State<DefineCategs> {
                               SizedBox(
                                 height: dimension.height * 0.02,
                               ),
-                              TitleWithUnderline(
+                              ]),),),TitleWithUnderline(
                                   color: Colors.white,
                                   text: '',
                                   fontSize: 16,
@@ -253,7 +357,10 @@ class DefineCategsState extends State<DefineCategs> {
                                 ),
                                 onTap: () {
                                   formKey.currentState!.validate();
-                                  auxSaveCategs();
+                                  categsSubCategsDict.putIfAbsent(
+                                      categsNames[0],
+                                      () => categsNames.sublist(
+                                          1, categsNames.length));
                                   setState(() {
                                     categsForms = [];
                                     categsNames = [];
@@ -270,19 +377,24 @@ class DefineCategsState extends State<DefineCategs> {
                                   dashed: true),
                               SizedBox(height: dimension.height * 0.02),
                               CustomButton(
-                                  text: 'Guardar todo y continuar',
+                                  text: 'Guardar y salir',
                                   width: double.infinity,
                                   height: dimension.height * 0.06,
                                   onPressed: () {
                                     formKey.currentState!.validate();
-                                    auxSaveCategs();
+                                    if (categsNames[0] != '') {
+                                      categsSubCategsDict.putIfAbsent(
+                                          categsNames[0],
+                                          () => categsNames.sublist(
+                                              1, categsNames.length));
+                                    }
                                     prefs.setString('categs',
                                         json.encode(categsSubCategsDict));
-                                    changePageFadeRemoveUntil(DashBoard(), context);
+                                   Navigator.pop(context);
                                   }),
                               SizedBox(height: dimension.height * 0.02),
                             ],
-                          )),
+                          ),
                     ],
                   ),
                 ),
@@ -292,12 +404,5 @@ class DefineCategsState extends State<DefineCategs> {
         ),
       ),
     );
-  }
-
-  auxSaveCategs() {
-    if (categsNames[0] != '') {
-      var categList = categsNames.sublist(1, categsNames.length);
-      categsSubCategsDict.putIfAbsent(categsNames[0], () => categList);
-    }
   }
 }

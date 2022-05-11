@@ -101,7 +101,7 @@ class AddPhotoState extends State<AddPhoto> {
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Colors.blueAccent, width: 3)),
+                                  color: Color(0xFF011A58), width: 3)),
                           child: img,
                           width: dimension.width * 0.5,
                           height: dimension.height * 0.4,

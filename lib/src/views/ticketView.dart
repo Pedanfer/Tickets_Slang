@@ -322,14 +322,7 @@ class TicketViewState extends State<TicketView> {
             index == 0
                 ? {
                     Navigator.pop(context),
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (c, a1, a2) => DashBoard(),
-                          transitionsBuilder: (c, anim, a2, child) =>
-                              FadeTransition(opacity: anim, child: child),
-                          transitionDuration: Duration(milliseconds: 400),
-                        ))
+                    changePageFadeRemoveUntil(DashBoard(),context)
                   }
                 : Navigator.pop(context);
           });

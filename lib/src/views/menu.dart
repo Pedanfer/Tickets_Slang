@@ -6,6 +6,7 @@ import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:slang_mobile/src/views/configStorage.dart';
 import 'package:slang_mobile/src/views/dashboard.dart';
+import 'package:slang_mobile/src/views/editCategs.dart';
 import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -72,7 +73,7 @@ class _MenuState extends State<Menu> {
                     height: dimension.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => changePageFade(editCategs(), context),
                     child: Text(
                       ' EDITAR CATEGORÍAS',
                       style: TextStyle(color: Colors.white),
@@ -82,9 +83,7 @@ class _MenuState extends State<Menu> {
                     height: dimension.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {
-                      launchUrl(SlangWeb);
-                    },
+                    onPressed: () {launchUrl(SlangWeb);},
                     child: Text(
                       ' IR A SLANG DIGITAL',
                       style: TextStyle(color: Colors.white),
