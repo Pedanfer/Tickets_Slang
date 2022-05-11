@@ -24,12 +24,13 @@ Future<void> signInDrive() async {
   Al final estarán en la API Rest */
   var signInData = await signIn.GoogleSignIn.standard(
       scopes: [drive.DriveApi.driveFileScope]).signIn();
-  getPrefs().then((value) async => {
-        value!.setString(
+  getPrefs().then((value) => {
+        value!.setStringList(
           'driveUserData',
-          signInData!.id,
+          [signInData!.displayName!, signInData.email, signInData.id],
         ),
       });
+  print(await signIn.GoogleSignIn.standard().isSignedIn());
   /* 
   if (saveUser) {
   } else {
@@ -43,11 +44,11 @@ Future<void> signOutDrive() async {
 
 Future<void> uploadFile() async {
   //Carpeta en commit anterior
+  var clientId = await signIn.GoogleSignIn.standard().clientId;
   var signInGoogle = GoogleSignIn(
       signInOption: SignInOption.standard,
       scopes: [drive.DriveApi.driveFileScope],
-      clientId: signIn.GoogleSignIn.standard().currentUser!.id);
-  await signIn.GoogleSignIn.standard().currentUser!.clearAuthCache();
+      clientId: clientId);
   var authHeaders = await signInGoogle.signInSilently() as Map<String, String>;
   var authenticateClient = GoogleAuthClient(authHeaders);
   var driveApi = drive.DriveApi(authenticateClient);

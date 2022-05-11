@@ -1,7 +1,9 @@
+import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/src/views/defineCategs.dart';
 import '../functions/Google.dart' as Google;
 import '../utils/constants.dart';
@@ -240,24 +242,31 @@ class _InitialConfigState extends State<InitialConfig> {
                                   ),
                                   onPressed: () {},
                                   child: InkWell(
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'lib/assets/icons/googleLogo.svg'),
-                                        SizedBox(
-                                            width: dimension.width * 0.015),
-                                        Text(
-                                          'Sign in with Google',
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      Google.signInDrive().then((value) =>
-                                          changePageFade(
-                                              DefineCategs(), context));
-                                    },
-                                  ),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              'lib/assets/icons/googleLogo.svg'),
+                                          SizedBox(
+                                              width: dimension.width * 0.015),
+                                          Text(
+                                            'Sign in with Google',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        Google.signInDrive().then(
+                                          (value) {
+                                            var screen =
+                                                prefs.getString('categs') !=
+                                                        null
+                                                    ? DashBoard()
+                                                    : DefineCategs();
+                                            changePageFade(screen, context);
+                                          },
+                                        );
+                                      }),
                                 ),
                                 TitleWithUnderline(
                                     color: Colors.white,

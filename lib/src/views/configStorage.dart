@@ -10,8 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/main.dart';
 import '../utils/constants.dart';
 
-var driveNameEmail;
 var option = '';
+var driveNameMail;
 
 class ConfigStorage extends StatefulWidget {
   @override
@@ -21,14 +21,7 @@ class ConfigStorage extends StatefulWidget {
 class _ConfigStorageState extends State<ConfigStorage> {
   @override
   Widget build(BuildContext context) {
-    var driveUserData = prefs!.getString('driveUserData');
-    driveNameEmail = driveUserData == null
-        ? googleUserNameMail
-        : [
-            json.decode(driveUserData)['googleUserName'],
-            json.decode(driveUserData)['googleUserMail']
-          ];
-    option = driveUserData == null ? 'temporalmente' : '';
+    driveNameMail = prefs!.getStringList('driveUserData');
     var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -75,7 +68,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            driveNameEmail[0],
+                            driveNameMail[0],
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -83,7 +76,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                           ),
                           SizedBox(height: dimension.height * 0.004),
                           Text(
-                            driveNameEmail[1],
+                            driveNameMail[1],
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           )
                         ],
@@ -103,7 +96,6 @@ class _ConfigStorageState extends State<ConfigStorage> {
                     height: dimension.height * 0.05,
                     onPressed: () {
                       signOutDrive();
-                      prefs!.remove('driveUserData');
                       changePageFade(InitialConfig(), context);
                     },
                   )
