@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
-import 'package:slang_mobile/main.dart';
 
 var googleUserNameMail;
 
@@ -24,10 +23,10 @@ Future<void> signInDrive() async {
   Al final estarán en la API Rest */
   var signInData = await signIn.GoogleSignIn.standard(
       scopes: [drive.DriveApi.driveFileScope]).signIn();
-  getPrefs().then((value) => {
+  getPrefs().then((value) async => {
         value!.setString(
           'driveUserData',
-          json.encode(signInData),
+          signInData!.id,
         ),
       });
   /* 
@@ -42,11 +41,13 @@ Future<void> signOutDrive() async {
 }
 
 Future<void> uploadFile() async {
-  //Debe ser una carpeta, no un zip
-  var signInData = json.decode(prefs!.getString('driveUserData'));
-  print(signInData);
-  signInData!.clearAuthCache();
-  var authHeaders = await signInData!.authHeaders;
+  //Carpeta en commit anterior
+  var signInGoogle = GoogleSignIn(
+      signInOption: SignInOption.standard,
+      scopes: [drive.DriveApi.driveFileScope],
+      clientId: signIn.GoogleSignIn.standard().currentUser!.id);
+  await signIn.GoogleSignIn.standard().currentUser!.clearAuthCache();
+  var authHeaders = await signInGoogle.signInSilently() as Map<String, String>;
   var authenticateClient = GoogleAuthClient(authHeaders);
   var driveApi = drive.DriveApi(authenticateClient);
   var zipFile = File(ticketsZipPath);

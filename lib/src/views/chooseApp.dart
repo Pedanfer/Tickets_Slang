@@ -35,34 +35,36 @@ class _ChooseAppState extends State<ChooseApp> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    child: Container(
-                      color: Colors.white,
-                      height: dimension.height * 0.39,
-                      width: dimension.width * 0.9,
-                      child: Stack(
-                        children: [
-                          Text(
-                            ' Tickets',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w700),
-                          ),
-                          Transform.translate(
-                            offset: Offset(0, 10 * (dimension.height * 0.0017)),
-                            child: Transform.scale(
-                              scaleX: 0.84 * (dimension.width * 0.00285),
-                              scaleY: 0.43 * (dimension.height * 0.00285),
-                              child: SvgPicture.asset(
-                                'lib/assets/backgrounds/ticketRectangle.svg',
-                              ),
+                      child: Container(
+                        color: Colors.white,
+                        height: dimension.height * 0.39,
+                        width: dimension.width * 0.9,
+                        child: Stack(
+                          children: [
+                            Text(
+                              ' Tickets',
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w700),
                             ),
-                          )
-                        ],
+                            Transform.translate(
+                              offset:
+                                  Offset(0, 10 * (dimension.height * 0.0017)),
+                              child: Transform.scale(
+                                scaleX: 0.84 * (dimension.width * 0.00285),
+                                scaleY: 0.43 * (dimension.height * 0.00285),
+                                child: SvgPicture.asset(
+                                  'lib/assets/backgrounds/ticketRectangle.svg',
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    onTap: () => prefs!.getString('driveUserData') != null
-                        ? changePageFade(DashBoard(), context)
-                        : changePageFade(InitialConfig(), context),
-                  ),
+                      onTap: () => {
+                            prefs!.getString('driveUserData') != null
+                                ? changePageFade(DashBoard(), context)
+                                : changePageFade(InitialConfig(), context)
+                          }),
                   InkWell(
                     child: Container(
                       color: Colors.white,

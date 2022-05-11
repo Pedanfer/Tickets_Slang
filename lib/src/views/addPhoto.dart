@@ -139,24 +139,29 @@ class AddPhotoState extends State<AddPhoto> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  height: dimension.height*0.0227,
-                                  width: dimension.width*0.15,
-                                  child:
-                                Text('Nombre:',
+                                  height: dimension.height * 0.0227,
+                                  width: dimension.width * 0.15,
+                                  child: Text(
+                                    'Nombre:',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff011A58),),),),
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff011A58),
+                                    ),
+                                  ),
+                                ),
                                 Container(
-                                  height: dimension.height*0.03456,
-                                  width: dimension.width*0.75,
+                                  height: dimension.height * 0.03456,
+                                  width: dimension.width * 0.75,
                                   child: TextFormField(
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.fromLTRB(dimension.width*0.028, 0, 0, 0),
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          dimension.width * 0.028, 0, 0, 0),
                                       alignLabelWithHint: true,
                                       border: OutlineInputBorder(),
                                       hintText: 'Introduce un nombre',
                                     ),
-                                    onChanged: (value) => ticketName = value.toString(),
+                                    onChanged: (value) =>
+                                        ticketName = value.toString(),
                                   ),
                                 )
                               ]),
@@ -178,27 +183,30 @@ class AddPhotoState extends State<AddPhoto> {
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [Expanded(child: Container(child: 
-                                        DropDownCategs(
-                                            (value) => {auxDropDownDict(value)},
-                                            vista1,
-                                            json
-                                                .decode(
-                                                    prefs!.getString('categs')!)
-                                                .keys
-                                                .toList(),
-                                            key: categs1Key),
-                                            ),),
-                                          IconButton(
-                                            icon: Icon(
-                                                Icons
-                                                    .add_circle_outline_outlined,
-                                                color: Color(0xff011A58)),
-                                            padding: EdgeInsets.zero,
-                                            onPressed: () {
-                                              //chooseCategNoBug(1);
-                                            },
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            child: DropDownCategs(
+                                                (value) =>
+                                                    {auxDropDownDict(value)},
+                                                vista1,
+                                                json
+                                                    .decode(prefs!
+                                                        .getString('categs')!)
+                                                    .keys
+                                                    .toList(),
+                                                key: categs1Key),
                                           ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                              Icons.add_circle_outline_outlined,
+                                              color: Color(0xff011A58)),
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {
+                                            //chooseCategNoBug(1);
+                                          },
+                                        ),
                                       ]),
                                 ),
                               ]),
@@ -222,8 +230,10 @@ class AddPhotoState extends State<AddPhoto> {
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [Expanded(child: Container(child: subCategs),),
-                                        
+                                        children: [
+                                          Expanded(
+                                            child: Container(child: subCategs),
+                                          ),
                                           IconButton(
                                             icon: Icon(
                                                 Icons
@@ -233,7 +243,8 @@ class AddPhotoState extends State<AddPhoto> {
                                             onPressed: () {
                                               //chooseCategNoBug(1);
                                             },
-                                          ),]),
+                                          ),
+                                        ]),
                                   ),
                                 ])),
                         Divider(
@@ -336,7 +347,7 @@ class AddPhotoState extends State<AddPhoto> {
                               isVisibleFotoGaleria = true;
                               isVisibleCategorias = false;
                               customSnackBar(
-                                  context, 'Enviando la imagen...', 3);
+                                  context, 'Enviando la imagen...', 4);
                             });
                             var jsonData;
                             //Controlar campos vacíos con 'Vacío'

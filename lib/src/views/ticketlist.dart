@@ -565,10 +565,12 @@ class TicketlistState extends State<Ticketlist> {
                                     color: Color.fromRGBO(1, 26, 88, 1),
                                   ),
                                   onPressed: () async {
-                                    createZipWithExcel(ticketList,
-                                            storedDrive: true)
-                                        .then((result) async {
-                                      uploadFile();
+                                    setState(() {
+                                      createZipWithExcel(ticketList,
+                                              storedDrive: true)
+                                          .then((result) async {
+                                        uploadFile();
+                                      });
                                     });
                                   },
                                 ),
