@@ -56,7 +56,7 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
       child: Transform.scale(
         scale: 0.75,
         child: Image.asset(
-          'lib/assets/Slang/loadSlang.gif',
+          'lib/assets/Slang/loadSlang2.gif',
         ),
       ),
     ),
