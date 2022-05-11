@@ -160,7 +160,9 @@ class CustomCheckBoxState extends State<CustomCheckBox> {
             onChanged: (bool? newValue) {
               setState(() {
                 checked = newValue!;
-                widget.func!(checked);
+                if (widget.func != null) {
+                  widget.func!(checked);
+                }
               });
             }),
       ),
