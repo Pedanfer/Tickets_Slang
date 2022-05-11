@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/functions/communications.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     dimension = MediaQuery.of(context).size;
     var robotWelcome;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {
-      robotWelcome = Image.asset('lib/assets/Slang/Logo_slang_horiz.png',
+      robotWelcome = SvgPicture.asset('lib/assets/Slang/IconHorizontal.svg',
           width: dimension.width * 0.55);
       isTitleVisible = true;
       boxHeight = 0.54;

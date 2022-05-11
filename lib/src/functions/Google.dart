@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:slang_mobile/src/functions/utilidades.dart';
-import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:path_provider/path_provider.dart';
 
 var googleUserNameMail;
+var folderName;
 
 class GoogleAuthClient extends http.BaseClient {
   final Map<String, String> _headers;
@@ -50,13 +51,32 @@ Future<void> uploadFile() async {
   var authHeaders = await signInGoogle.signInSilently() as Map<String, String>;
   var authenticateClient = GoogleAuthClient(authHeaders);
   var driveApi = drive.DriveApi(authenticateClient);
-  var zipFile = File(ticketsZipPath);
-  final Stream<List<int>> mediaStream = await zipFile.openRead();
-  var media = new drive.Media(mediaStream, zipFile.lengthSync());
-  var driveFile = new drive.File();
-  driveFile.name = "Tickets.zip";
-  await driveApi.files.create(driveFile, uploadMedia: media);
+
+  await createFolder(driveApi);
+
+  var dir = await getExternalStorageDirectory();
+  var entities = await dir!.list().toList();
+  var dirFiles = List<File>.from(entities);
+
+  for (File file in dirFiles) {
+    final Stream<List<int>> mediaStream = await file.openRead();
+    var media = new drive.Media(mediaStream, file.lengthSync());
+    var driveFile = new drive.File();
+    driveFile.parents = [folderName];
+    await driveApi.files.create(driveFile, uploadMedia: media);
+  }
 }
+
+Future<void> createFolder(drive.DriveApi driveApi) async {
+  try {
+    var folder = new drive.File();
+    folderName = 'Tickets_Slang_' + DateTime.now().toString();
+    folder.name = folderName;
+    folder.mimeType = 'application/vnd.google-apps.folder';
+    await driveApi.files.create(folder);
+  } catch (e) {
+    print(e);
+  }
 
 /*
 // Create data here instead of loading a file
@@ -145,3 +165,4 @@ Future<void> _uploadToNormal() async {
     Navigator.pop(context);
   }
 }*/
+}
