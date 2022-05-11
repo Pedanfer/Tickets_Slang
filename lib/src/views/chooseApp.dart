@@ -61,7 +61,7 @@ class _ChooseAppState extends State<ChooseApp> {
                         ),
                       ),
                       onTap: () => {
-                            prefs!.getString('driveUserData') != null
+                            prefs!.getStringList('driveUserData') != null
                                 ? changePageFade(DashBoard(), context)
                                 : changePageFade(InitialConfig(), context)
                           }),

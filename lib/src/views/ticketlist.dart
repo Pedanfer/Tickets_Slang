@@ -569,7 +569,18 @@ class TicketlistState extends State<Ticketlist> {
                                       createZipWithExcel(ticketList,
                                               storedDrive: true)
                                           .then((result) async {
-                                        uploadFile();
+                                        uploadFiles();
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              Future.delayed(
+                                                  Duration(seconds: 4), () {
+                                                Navigator.pop(context, true);
+                                              });
+                                              return CustomAlertDialog(
+                                                  'Almancenando datos en Google Drive...',
+                                                  dimension);
+                                            });
                                       });
                                     });
                                   },
