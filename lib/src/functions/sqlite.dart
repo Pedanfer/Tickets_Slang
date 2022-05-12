@@ -29,6 +29,15 @@ class DB {
         where: 'id = ? AND synchronized = ?', whereArgs: [id]);
   }
 
+  static Future<int> deleteList(List<Ticket> tickets) async {
+    var ticketsId =
+        List<String>.generate(tickets.length, (i) => tickets[i].id.toString())
+            .reduce((value, element) => value + ',' + element);
+    var database = await _openDB();
+    return database
+        .rawUpdate('DELETE FROM tickets WHERE id IN(' + ticketsId + ');');
+  }
+
   static Future<int> updateSynchronized(List<Ticket> tickets) async {
     var ticketsId =
         List<String>.generate(tickets.length, (i) => tickets[i].id.toString())

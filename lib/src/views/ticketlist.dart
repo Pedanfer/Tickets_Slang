@@ -508,7 +508,9 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Eliminar.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
-                                    setState(() {});
+                                    setState(() {
+                                      DB.deleteList(ticketList);
+                                    });
                                   },
                                 ),
                               ),
