@@ -37,7 +37,7 @@ class TicketlistState extends State<Ticketlist> {
   var categName = '';
   var subCateg = '';
   bool loading = true;
-  bool checkedDrive = false;
+  List<bool> checksDrive = [false, false];
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
   var isSelected = false;
@@ -75,8 +75,8 @@ class TicketlistState extends State<Ticketlist> {
     return FutureBuilder(
         future: Future.wait([
           getPrefs(),
-          DB.filter(textoFechaInicio, textoFechaFin, categName, subCateg,
-              checkedDrive)
+          DB.filter(
+              textoFechaInicio, textoFechaFin, categName, subCateg, checksDrive)
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (loading) {
@@ -324,11 +324,29 @@ class TicketlistState extends State<Ticketlist> {
                                           color: blue100,
                                           dimension: dimension,
                                           offsetCheck: 0,
-                                          offsetText: 0,
-                                          text: [TextSpan(text: '')],
+                                          offsetText: -22,
+                                          text: [TextSpan(text: 'Sí')],
                                           func: (value) {
                                             setState(() {
-                                              checkedDrive = value;
+                                              checksDrive[0] = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Transform.translate(
+                                        offset: Offset(
+                                            0, -2 * (dimension.height * 0.008)),
+                                        child: CustomCheckBox(
+                                          color: blue100,
+                                          dimension: dimension,
+                                          offsetCheck: 0,
+                                          offsetText: -22,
+                                          text: [TextSpan(text: 'No')],
+                                          func: (value) {
+                                            setState(() {
+                                              checksDrive[1] = value;
                                             });
                                           },
                                         ),
