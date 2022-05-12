@@ -83,7 +83,9 @@ class _MenuState extends State<Menu> {
                     height: dimension.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {launchUrl(SlangWeb);},
+                    onPressed: () {
+                      launchUrl(SlangWeb);
+                    },
                     child: Text(
                       ' IR A SLANG DIGITAL',
                       style: TextStyle(color: Colors.white),
@@ -94,11 +96,13 @@ class _MenuState extends State<Menu> {
                   ),
                   TextButton(
                     onPressed: () async {
+                      /* Ahora mismo elimina los datos del usuario, 
+                      deberían estar en la API Rest
                       var prefs = await getPrefs();
                       await prefs!.remove('login');
                       await prefs.remove('driveUserData');
                       signOutDrive();
-                      changePageFade(LoginPage(), context);
+                      changePageFade(LoginPage(), context);*/
                     },
                     child: Text(
                       ' CAMBIAR DE USUARIO',

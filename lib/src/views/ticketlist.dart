@@ -382,13 +382,13 @@ class TicketlistState extends State<Ticketlist> {
                               if (fechor == '') {
                                 fechor = 'Sin Fecha';
                               }
-                              var houror = ticketList[index]
-                                  .toMap()['hour']
-                                  .toString()
-                                  .substring(0, 5);
-                              ;
+                              var houror =
+                                  ticketList[index].toMap()['hour'].toString();
                               if (houror == '') {
                                 houror = '-- : -- : --';
+                              } else {
+                                houror = houror.substring(0, 5);
+                                ;
                               }
                               var synchronizor =
                                   ticketList[index].toMap()['synchronized'];
