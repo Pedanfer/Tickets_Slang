@@ -360,11 +360,15 @@ class TicketlistState extends State<Ticketlist> {
 
                               var fechor =
                                   ticketList[index].toMap()['date'].toString();
+
                               if (fechor == '') {
                                 fechor = 'Sin Fecha';
                               }
-                              var houror =
-                                  ticketList[index].toMap()['hour'].toString();
+                              var houror = ticketList[index]
+                                  .toMap()['hour']
+                                  .toString()
+                                  .substring(0, 5);
+                              ;
                               if (houror == '') {
                                 houror = '-- : -- : --';
                               }
@@ -429,11 +433,10 @@ class TicketlistState extends State<Ticketlist> {
                                                     ],
                                                   )),
                                               Container(
-                                                  width: dimension.width * 0.20,
+                                                  width: dimension.width * 0.25,
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                        MainAxisAlignment.end,
                                                     children: [
                                                       Text(
                                                         fechor,

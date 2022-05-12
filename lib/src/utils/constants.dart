@@ -30,6 +30,6 @@ const ticketIconInitial = 'lib/assets/icons/TicketIcon.svg';
 const backgroundRect = 'lib/assets/icons/backTicket.png';
 
 const qAuthId =
-    '492857650905-v69oq844la3bsbse29eftvm4s5pp3oeb.apps.googleusercontent.com';
+    '492857650905-jclsv5vidmpa5d00v36vkdltf5ur07v7.apps.googleusercontent.com';
 const ticketsZipPath =
     '/storage/emulated/0/Android/data/com.slanginnovations.mobile/files/Tickets.zip';
