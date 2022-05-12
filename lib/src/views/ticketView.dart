@@ -5,6 +5,7 @@ import 'package:slang_mobile/src/views/addPhoto.dart';
 import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/src/views/menu.dart';
 import 'package:slang_mobile/src/views/ticketlist.dart';
+import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
 import '../utils/widgets.dart';
 
@@ -43,8 +44,7 @@ class TicketViewState extends State<TicketView> {
         ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
-            child: SvgPicture.asset(
-                'lib/assets/Slang/IconHorizontal.svg')),
+            child: SvgPicture.asset('lib/assets/Slang/IconHorizontal.svg')),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -258,14 +258,15 @@ class TicketViewState extends State<TicketView> {
                                   'lib/assets/icons/Eliminar.svg'),
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                createExcelFicha(widget.ticketData)
-                                    .then((result) async {
-                                  await FlutterShare.shareFile(
-                                      title: 'Factura detallada',
-                                      filePath:
-                                          '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
-                                      text:
-                                          'Comparto contigo este documento con la informacion del ticket');
+                                DB.delete(widget.ticketData['id']);
+                                //Debería ser con pop
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DashBoard(paginaActual: 1)),
+                                ).then((value) {
+                                  setState(() {});
                                 });
                               },
                             ),
@@ -277,17 +278,7 @@ class TicketViewState extends State<TicketView> {
                               icon: SvgPicture.asset(
                                   'lib/assets/icons/Guardar.svg'),
                               padding: EdgeInsets.zero,
-                              onPressed: () {
-                                createExcelFicha(widget.ticketData)
-                                    .then((result) async {
-                                  await FlutterShare.shareFile(
-                                      title: 'Factura detallada',
-                                      filePath:
-                                          '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
-                                      text:
-                                          'Comparto contigo este documento con la informacion del ticket');
-                                });
-                              },
+                              onPressed: () {},
                             ),
                           ),
                           Container(
@@ -322,7 +313,7 @@ class TicketViewState extends State<TicketView> {
             index == 0
                 ? {
                     Navigator.pop(context),
-                    changePageFadeRemoveUntil(DashBoard(),context)
+                    changePageFadeRemoveUntil(DashBoard(), context)
                   }
                 : Navigator.pop(context);
           });

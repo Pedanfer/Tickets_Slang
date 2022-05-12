@@ -6,17 +6,25 @@ import 'package:slang_mobile/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
+  final int? paginaActual;
+  DashBoard({this.paginaActual = 0});
   @override
   State<DashBoard> createState() => _DashBoardState();
 }
 
 class _DashBoardState extends State<DashBoard> {
-  int paginaActual = 0;
-
   List<Widget> paginas = [
     AddPhoto(),
     Ticketlist(),
   ];
+
+  var paginaActual;
+
+  @override
+  void initState() {
+    paginaActual = widget.paginaActual;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +36,7 @@ class _DashBoardState extends State<DashBoard> {
         ),
         title: Container(
             padding: EdgeInsets.fromLTRB(60, 30, 60, 30),
-            child: SvgPicture.asset(
-                'lib/assets/Slang/IconHorizontal.svg')),
+            child: SvgPicture.asset('lib/assets/Slang/IconHorizontal.svg')),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),

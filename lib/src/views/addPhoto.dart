@@ -367,7 +367,9 @@ class AddPhotoState extends State<AddPhoto> {
                                   isVisibleFotoGaleria = true;
                                   isVisibleCategorias = false;
                                   customSnackBar(
-                                      context, 'Enviando la imagen...', 4);
+                                      context,
+                                      'Enviando la imagen, no cambie de pantalla...',
+                                      4);
                                 });
                                 var jsonData;
                                 //Controlar campos vacíos con 'Vacío'
