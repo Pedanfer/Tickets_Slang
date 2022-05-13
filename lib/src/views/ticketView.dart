@@ -83,10 +83,7 @@ class TicketViewState extends State<TicketView> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: [
+              child: 
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -116,6 +113,10 @@ class TicketViewState extends State<TicketView> {
                           ),
                         ),
                       ),
+                      ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,6 +305,7 @@ class TicketViewState extends State<TicketView> {
                           ),
                         ]),
                       ),
+                ]),
                       Container(
                         color: Color(0xFFECEEF3),
                         height: dimension.height * 0.062,
@@ -370,8 +372,8 @@ class TicketViewState extends State<TicketView> {
                       ),
                     ],
                   ),
-                ],
-              )),
+                
+              ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF011A58),
         onTap: (index) {
