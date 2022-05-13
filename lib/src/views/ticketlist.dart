@@ -6,6 +6,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/functions/sqlite.dart';
+import 'package:slang_mobile/src/utils/ticket.dart';
 import 'package:slang_mobile/src/views/ticketView.dart';
 import '../functions/Google.dart';
 import '../functions/utilidades.dart';
@@ -17,9 +18,11 @@ var textoFechaFin = 'Fin';
 var newDateRange;
 var end;
 bool isVisibleFiltring = false;
-bool isVisibleSelectAll = false;
+bool isSelectedAll = false;
 bool isVisibleOffline = true;
 bool isVisibleOnline = true;
+bool isVisibleSelected = false;
+var isSelected = <bool>[];
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -40,7 +43,6 @@ class TicketlistState extends State<Ticketlist> {
   List<bool> checksDrive = [false, false];
   DateTimeRange dateRange =
       DateTimeRange(start: DateTime(2022, 03, 28), end: DateTime(2025, 03, 28));
-  var isSelected = false;
 
   @override
   void initState() {
@@ -72,6 +74,7 @@ class TicketlistState extends State<Ticketlist> {
     WidgetsFlutterBinding.ensureInitialized();
     categs1Key = GlobalKey();
     categs2Key = GlobalKey();
+
     return FutureBuilder(
         future: Future.wait([
           getPrefs(),
@@ -88,7 +91,27 @@ class TicketlistState extends State<Ticketlist> {
                     child: Image.asset('lib/assets/Slang/loadSlang2.gif',
                         scale: 1.1)));
           }
-          var ticketList = snapshot.data![1];
+          List<Ticket> ticketList = snapshot.data![1];
+          while (isSelected.length < ticketList.length){
+                isSelected.add(false);
+          }
+
+          var encontrado = false;
+          if (isSelectedAll == true){
+            encontrado = true;
+          }
+          for (int i = 0; i < isSelected.length; i++){
+            if (isSelected[i] != false){
+              encontrado = true;
+            }
+          }
+          if (encontrado == true){
+            isVisibleSelected = true;
+          }else{
+            isVisibleSelected = false;
+          }
+
+
           return Scaffold(
             body: Container(
                 width: double.infinity,
@@ -143,15 +166,20 @@ class TicketlistState extends State<Ticketlist> {
                                   child: IconButton(
                                     padding: EdgeInsets.zero,
                                     constraints: BoxConstraints(),
-                                    icon: isVisibleSelectAll
+                                    icon: isSelectedAll
                                         ? SvgPicture.asset(
                                             'lib/assets/icons/checked-selected.svg')
                                         : SvgPicture.asset(
                                             'lib/assets/icons/checked.svg'),
                                     onPressed: () {
                                       setState(() {
-                                        isVisibleSelectAll =
-                                            !isVisibleSelectAll;
+                                        isSelectedAll = !isSelectedAll;
+
+                                        for (var i = 0;
+                                            i < isSelected.length;
+                                            i++) {
+                                          isSelected[i] = isSelectedAll;
+                                        }
                                       });
                                     },
                                   ),
@@ -401,7 +429,6 @@ class TicketlistState extends State<Ticketlist> {
                                                 ticketList[index].toMap()),
                                             context);
                                       },
-                                      selected: isSelected,
                                       title: Container(
                                           height: 60,
                                           child: Row(
@@ -413,15 +440,23 @@ class TicketlistState extends State<Ticketlist> {
                                                 child: IconButton(
                                                   padding: EdgeInsets.zero,
                                                   constraints: BoxConstraints(),
-                                                  icon: isVisibleSelectAll
-                                                      ? SvgPicture.asset(
-                                                          'lib/assets/icons/checked-selected.svg')
-                                                      : SvgPicture.asset(
-                                                          'lib/assets/icons/checked.svg'),
+                                                  icon: isSelectedAll
+                                                      ? (SvgPicture.asset(
+                                                          'lib/assets/icons/checked-selected.svg'))
+                                                      : (isSelected[index] ==
+                                                              true
+                                                          ? SvgPicture.asset(
+                                                              'lib/assets/icons/checked-selected.svg')
+                                                          : SvgPicture.asset(
+                                                              'lib/assets/icons/checked.svg')),
                                                   onPressed: () {
                                                     setState(() {
-                                                      isVisibleSelectAll =
-                                                          !isVisibleSelectAll;
+                                                      isSelected[index] =
+                                                          !isSelected[index];
+                                                      
+                                                      if (isSelectedAll == true){
+                                                          isSelectedAll = false;
+                                                      }
                                                     });
                                                   },
                                                 ),
@@ -506,7 +541,7 @@ class TicketlistState extends State<Ticketlist> {
                       ),
                     ),
                     Visibility(
-                      visible: isVisibleSelectAll,
+                      visible: isVisibleSelected,
                       child: Container(
                           height: dimension.height * 0.062,
                           padding: EdgeInsets.fromLTRB(
