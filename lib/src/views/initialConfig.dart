@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
@@ -99,7 +100,7 @@ class _InitialConfigState extends State<InitialConfig> {
                           child: Column(
                             children: [
                               Text(
-                                'Para comenzar a usar la aplicación necesitarás seleccionar dónde almacenar los tickets:',
+                                'Para comenzar a usar la aplicación te recomendamos que vincules Slang a un lugar de almacenamiento:',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -141,7 +142,7 @@ class _InitialConfigState extends State<InitialConfig> {
                                   'Google Drive',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 13,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold),
                                 )
                               ],
@@ -268,21 +269,45 @@ class _InitialConfigState extends State<InitialConfig> {
                                         );
                                       }),
                                 ),
-                                TitleWithUnderline(
-                                    color: Colors.white,
-                                    text: '',
-                                    fontSize: 16,
-                                    spaceLength: 85,
-                                    dashed: true),
-                                TitleWithUnderline(
-                                    color: Colors.transparent,
-                                    text: '',
-                                    fontSize: 16,
-                                    spaceLength: 1,
-                                    dashed: false),
+                               
                               ],
                             ),
                           ),
+                        ),
+                        
+
+
+ TitleWithUnderline(
+                                    color: Colors.white,
+                                    text: '',
+                                    fontSize: 16,
+                                    spaceLength: (dimension.width*0.24).toInt(),
+                                    dashed: true),
+
+
+
+
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Color(0xFFFFFFFF),
+                                width: 0.7,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            backgroundColor: Color(0xFF011A58),
+                            elevation: 1.0,
+                            minimumSize: Size(dimension.width * 0.85,
+                                dimension.height * 0.06),
+                          ),
+                          onPressed: () =>
+                              changePageFade(DefineCategs(), context),
+                          child: Text('Continuar sin vincular',
+                              style: TextStyle(
+                                  fontFamily: 'IBM Plex Sans',
+                                  fontSize: 14,
+                                  color: Colors.white)),
                         ),
                       ],
                     ),

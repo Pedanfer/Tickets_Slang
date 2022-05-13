@@ -11,6 +11,7 @@ import 'package:slang_mobile/src/views/menu.dart';
 import '../utils/constants.dart';
 
 GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
+var isSelected = <bool>[];
 
 class editCategs extends StatefulWidget {
   @override
@@ -26,27 +27,26 @@ class editCategsState extends State<editCategs> {
     'A',
     'B',
     'C',
-    'A',
-    'B',
-    'C',
-    'A',
-    'B',
-    'C',
-    'A',
-    'B',
-    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
   ];
   final List<int> colorCodes = <int>[600, 500, 100];
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ScrollController scrollController = ScrollController();
   bool isVisibleAddCategory = false;
-  bool isVisibleSubcategory = false;
   bool isVisibleAddSubcategory = false;
 
   @override
   Widget build(BuildContext context) {
     var dimension = MediaQuery.of(context).size;
+    
+          while (isSelected.length < entries.length){
+                isSelected.add(false);
+          }
 
     return Scaffold(
       appBar: AppBar(
@@ -130,7 +130,7 @@ class editCategsState extends State<editCategs> {
                                     color: Colors.white,
                                   )
                                 : SvgPicture.asset(
-                                    'lib/assets/icons/PlusIcon.svg'),
+                                    'lib/assets/icons/PlusIconRounded.svg'),
                           ),
                         ),
                       ],
@@ -157,11 +157,11 @@ class editCategsState extends State<editCategs> {
                                       padding: EdgeInsets.zero,
                                       onPressed: () {
                                         setState(() {
-                                          isVisibleSubcategory =
-                                              !isVisibleSubcategory;
+                                          isSelected[index] =
+                                              !isSelected[index];
                                         });
                                       },
-                                      icon: isVisibleSubcategory ? SvgPicture.asset('lib/assets/icons/MenosIcon.svg')
+                                      icon: isSelected[index] == true ? SvgPicture.asset('lib/assets/icons/MenosIcon.svg')
                                       : SvgPicture.asset('lib/assets/icons/PlusIcon.svg')
                                     ),
                                   ),
@@ -200,7 +200,7 @@ class editCategsState extends State<editCategs> {
                                   )),
                                 ]),
                             Visibility(
-                              visible: isVisibleSubcategory,
+                              visible: isSelected[index],
                               child: Column(children: [
                                 Row(
                                   children: [
