@@ -46,7 +46,7 @@ android {
         multiDexEnabled true        
         applicationId "com.slanginnovations.mobile"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
