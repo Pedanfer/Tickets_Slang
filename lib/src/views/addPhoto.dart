@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:slang_mobile/main.dart';
+import 'package:slang_mobile/src/utils/constants.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
@@ -16,6 +17,7 @@ class AddPhoto extends StatefulWidget {
 }
 
 class AddPhotoState extends State<AddPhoto> {
+  final formKey = GlobalKey<FormState>();
   GlobalKey<DropDownCategsState> categs1Key = GlobalKey();
   GlobalKey<DropDownCategsState> categs2Key = GlobalKey();
   bool isVisibleBorrarAceptar = false;
@@ -155,23 +157,37 @@ class AddPhotoState extends State<AddPhoto> {
                                         ),
                                       ),
                                       Container(
-                                        height: dimension.height * 0.03456,
-                                        width: dimension.width * 0.75,
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.fromLTRB(
-                                                dimension.width * 0.028,
-                                                0,
-                                                0,
-                                                0),
-                                            alignLabelWithHint: true,
-                                            border: OutlineInputBorder(),
-                                            hintText: 'Introduce un nombre',
-                                          ),
-                                          onChanged: (value) =>
-                                              ticketName = value.toString(),
-                                        ),
-                                      )
+                                          height: dimension.height * 0.03456,
+                                          width: dimension.width * 0.75,
+                                          child: Form(
+                                            key: formKey,
+                                            child: TextFormField(
+                                              validator: (value) {
+                                                if (value!.isEmpty) return '';
+                                                return null;
+                                              },
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
+                                              keyboardType: TextInputType.name,
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide: BorderSide(
+                                                          color: blue100)),
+                                                  contentPadding:
+                                                      EdgeInsets.all(
+                                                          dimension.width *
+                                                              0.015),
+                                                  errorStyle: TextStyle(
+                                                      fontSize: 10, height: 0),
+                                                  hintText:
+                                                      'Introduzca un nombre'),
+                                              onChanged: (value) =>
+                                                  ticketName = value.toString(),
+                                            ),
+                                          ))
                                     ]),
                               ),
                               Divider(
@@ -361,63 +377,69 @@ class AddPhotoState extends State<AddPhoto> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                isVisibleImg = false;
-                                setState(() {
-                                  isVisibleBorrarAceptar = false;
-                                  isVisibleFotoGaleria = true;
-                                  isVisibleCategorias = false;
-                                  customSnackBar(
-                                      context,
-                                      'Enviando la imagen, no cambie de pantalla...',
-                                      4);
-                                });
-                                var jsonData;
-                                //Controlar campos vacíos con 'Vacío'
-                                uploadImageToSlang(imageFile!).then(
-                                  (value) => {
-                                    jsonData = value,
-                                    if (!jsonData
-                                        .toString()
-                                        .contains('error - textract'))
-                                      {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              Future.delayed(
-                                                  Duration(seconds: 4), () {
-                                                Navigator.pop(context, true);
-                                                customSnackBar(
-                                                    context,
-                                                    'Ticket introducido en la base de datos.',
-                                                    3);
-                                              });
-                                              return CustomAlertDialog(
-                                                  'Extrayendo datos...',
-                                                  dimension);
-                                            }),
-                                        ticket = Ticket(
-                                            issuer: jsonData['issuer'],
-                                            ticketName: ticketName,
-                                            date: jsonData['date']
-                                                .split('/')
-                                                .reversed
-                                                .join('-'),
-                                            hour: jsonData['hour'],
-                                            total: jsonData['total'] * 1.0,
-                                            photo: imageFile!.readAsBytesSync(),
-                                            categ1: categ1,
-                                            categ2: subCateg),
-                                        DB.insert(ticket),
-                                      }
-                                    else
-                                      {
-                                        customSnackBar(
-                                            context,
-                                            'No se han podido extraer datos, ¿seguro que es un ticket?',
-                                            4)
-                                      },
-                                  },
-                                );
+                                if (formKey.currentState!.validate()) {
+                                  isVisibleImg = false;
+                                  setState(() {
+                                    isVisibleBorrarAceptar = false;
+                                    isVisibleFotoGaleria = true;
+                                    isVisibleCategorias = false;
+                                    customSnackBar(
+                                        context,
+                                        'Enviando la imagen, no cambie de pantalla...',
+                                        4);
+                                  });
+                                  var jsonData;
+                                  //Controlar campos vacíos con 'Vacío'
+                                  uploadImageToSlang(imageFile!).then(
+                                    (value) => {
+                                      jsonData = value,
+                                      if (!jsonData
+                                          .toString()
+                                          .contains('error - textract'))
+                                        {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                Future.delayed(
+                                                    Duration(seconds: 4), () {
+                                                  Navigator.pop(context, true);
+                                                  customSnackBar(
+                                                      context,
+                                                      'Ticket introducido en la base de datos.',
+                                                      3);
+                                                });
+                                                return CustomAlertDialog(
+                                                    'Extrayendo datos...',
+                                                    dimension);
+                                              }),
+                                          ticket = Ticket(
+                                              issuer: jsonData['issuer'],
+                                              ticketName: ticketName,
+                                              date: jsonData['date']
+                                                  .split('/')
+                                                  .reversed
+                                                  .join('-'),
+                                              hour: jsonData['hour'],
+                                              total: jsonData['total'] * 1.0,
+                                              photo:
+                                                  imageFile!.readAsBytesSync(),
+                                              categ1: categ1,
+                                              categ2: subCateg),
+                                          DB.insert(ticket),
+                                        }
+                                      else
+                                        {
+                                          customSnackBar(
+                                              context,
+                                              'No se han podido extraer datos, ¿seguro que es un ticket?',
+                                              4)
+                                        },
+                                    },
+                                  );
+                                } else {
+                                  customSnackBar(context,
+                                      'El ticket ha de tener un nombre.', 2);
+                                }
                               },
                             ),
                           ),

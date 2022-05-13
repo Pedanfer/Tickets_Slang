@@ -185,13 +185,13 @@ class TicketlistState extends State<Ticketlist> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: dimension.width * 0.02336,
+                                  width: dimension.width * 0.024,
                                 ),
                                 Container(
                                   height: dimension.height * 0.026,
                                   width: dimension.width * 0.2827,
                                   child: Text(
-                                    'Seleccionar todos',
+                                    'Todos',
                                     style: TextStyle(
                                         fontFamily: 'IBM Plex Sans',
                                         color: Color(0xFF011A58)),
@@ -251,14 +251,12 @@ class TicketlistState extends State<Ticketlist> {
                                     ),
                                     TextButton(
                                         onPressed: () {
-
                                           // LIMPIA EL FILTRO
-
                                         },
                                         child: Text(
                                           'Limpiar filtro',
                                           style: TextStyle(
-                                            fontSize: 14,
+                                              fontSize: 14,
                                               decoration:
                                                   TextDecoration.underline,
                                               fontFamily: 'IBM Plex Sans'),

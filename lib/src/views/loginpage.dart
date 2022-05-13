@@ -136,25 +136,28 @@ class _LoginPageState extends State<LoginPage> {
                     onChanged: (value) => {password = value},
                   ),
                   Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                          child: CustomCheckBox(
-                        color: blue100,
-                        key: checkBoxKey,
-                        dimension: dimension,
-                        offsetCheck: -8,
-                        offsetText: -20,
-                        text: [TextSpan(text: 'Recuérdame')],
-                      )),
-                      Expanded(
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Olvidé mi contraseña',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(color: blue100, fontSize: 13),
-                              ))),
+                      Container(
+                        width: dimension.width * 0.43,
+                        child: CustomCheckBox(
+                          color: blue100,
+                          key: checkBoxKey,
+                          dimension: dimension,
+                          offsetCheck: -8,
+                          offsetText: -20,
+                          text: [TextSpan(text: 'Recuérdame')],
+                        ),
+                      ),
+                      Container(
+                        width: dimension.width * 0.4,
+                        child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Olvidé mi contraseña',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(color: blue100, fontSize: 13),
+                            )),
+                      ),
                     ],
                   ),
                   CustomButton(
