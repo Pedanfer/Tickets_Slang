@@ -233,7 +233,8 @@ class TicketlistState extends State<Ticketlist> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Filtros:',
@@ -248,6 +249,20 @@ class TicketlistState extends State<Ticketlist> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    TextButton(
+                                        onPressed: () {
+
+                                          // LIMPIA EL FILTRO
+
+                                        },
+                                        child: Text(
+                                          'Limpiar filtro',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontFamily: 'IBM Plex Sans'),
+                                        ))
                                   ]),
                               SizedBox(
                                 height: 10,
@@ -562,14 +577,17 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Eliminar.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
-
+                                    var aux = <bool>[];
                                     for (var i = 0;
                                         i < ticketList.length;
                                         i++) {
                                       if (isSelected[i] == true) {
                                         ticketsSelected.add(ticketList[i]);
+                                      } else {
+                                        aux.add(isSelected[i]);
                                       }
                                     }
+                                    isSelected = aux;
 
                                     setState(() {
                                       DB.deleteList(ticketsSelected);
@@ -580,7 +598,6 @@ class TicketlistState extends State<Ticketlist> {
                                         i++) {
                                       ticketsSelected.remove(i);
                                     }
-
                                   },
                                 ),
                               ),
@@ -637,8 +654,6 @@ class TicketlistState extends State<Ticketlist> {
                                   icon: SvgPicture.asset(
                                       'lib/assets/icons/GDrive.svg'),
                                   onPressed: () async {
-
-
                                     for (var i = 0;
                                         i < ticketList.length;
                                         i++) {
@@ -646,7 +661,6 @@ class TicketlistState extends State<Ticketlist> {
                                         ticketsSelected.add(ticketList[i]);
                                       }
                                     }
-
 
                                     setState(() {
                                       createZipWithExcel(ticketsSelected,
@@ -672,8 +686,6 @@ class TicketlistState extends State<Ticketlist> {
                                         i++) {
                                       ticketsSelected.remove(i);
                                     }
-
-                                    
                                   },
                                 ),
                               ),
