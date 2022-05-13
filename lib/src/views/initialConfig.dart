@@ -269,24 +269,17 @@ class _InitialConfigState extends State<InitialConfig> {
                                         );
                                       }),
                                 ),
-                               
                               ],
                             ),
                           ),
                         ),
-                        
-
-
- TitleWithUnderline(
-                                    color: Colors.white,
-                                    text: '',
-                                    fontSize: 16,
-                                    spaceLength: (dimension.width*0.24).toInt(),
-                                    dashed: true),
-
-
-
-
+                        TitleWithUnderline(
+                            color: Colors.white,
+                            text: '',
+                            fontSize: 16,
+                            spaceLength: (dimension.width * 0.24).toInt(),
+                            dashed: true),
+                        SizedBox(height: dimension.height * 0.03),
                         TextButton(
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
