@@ -23,6 +23,7 @@ bool isVisibleOffline = true;
 bool isVisibleOnline = true;
 bool isVisibleSelected = false;
 var isSelected = <bool>[];
+var ticketsSelected = <Ticket>[];
 
 class Ticketlist extends StatefulWidget {
   @override
@@ -92,25 +93,24 @@ class TicketlistState extends State<Ticketlist> {
                         scale: 1.1)));
           }
           List<Ticket> ticketList = snapshot.data![1];
-          while (isSelected.length < ticketList.length){
-                isSelected.add(false);
+          while (isSelected.length < ticketList.length) {
+            isSelected.add(false);
           }
 
           var encontrado = false;
-          if (isSelectedAll == true){
+          if (isSelectedAll == true) {
             encontrado = true;
           }
-          for (int i = 0; i < isSelected.length; i++){
-            if (isSelected[i] != false){
+          for (int i = 0; i < isSelected.length; i++) {
+            if (isSelected[i] != false) {
               encontrado = true;
             }
           }
-          if (encontrado == true){
+          if (encontrado == true) {
             isVisibleSelected = true;
-          }else{
+          } else {
             isVisibleSelected = false;
           }
-
 
           return Scaffold(
             body: Container(
@@ -453,9 +453,10 @@ class TicketlistState extends State<Ticketlist> {
                                                     setState(() {
                                                       isSelected[index] =
                                                           !isSelected[index];
-                                                      
-                                                      if (isSelectedAll == true){
-                                                          isSelectedAll = false;
+
+                                                      if (isSelectedAll ==
+                                                          true) {
+                                                        isSelectedAll = false;
                                                       }
                                                     });
                                                   },
@@ -561,9 +562,25 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Eliminar.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
+
+                                    for (var i = 0;
+                                        i < ticketList.length;
+                                        i++) {
+                                      if (isSelected[i] == true) {
+                                        ticketsSelected.add(ticketList[i]);
+                                      }
+                                    }
+
                                     setState(() {
-                                      DB.deleteList(ticketList);
+                                      DB.deleteList(ticketsSelected);
                                     });
+
+                                    for (var i = 0;
+                                        i < ticketsSelected.length;
+                                        i++) {
+                                      ticketsSelected.remove(i);
+                                    }
+
                                   },
                                 ),
                               ),
@@ -581,16 +598,33 @@ class TicketlistState extends State<Ticketlist> {
                                     if (!storageDir!.listSync().isEmpty) {
                                       emptyAppDir();
                                     }
-                                    createZipWithExcel(ticketList,
+
+                                    for (var i = 0;
+                                        i < ticketList.length;
+                                        i++) {
+                                      if (isSelected[i] == true) {
+                                        ticketsSelected.add(ticketList[i]);
+                                      }
+                                    }
+
+                                    createZipWithExcel(ticketsSelected,
                                             storedDrive: false)
-                                        .then((result) async {
-                                      await FlutterShare.shareFile(
-                                              title: 'Lista de facturas',
-                                              filePath: ticketsZipPath,
-                                              text:
-                                                  'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
-                                          .then((value) => null);
-                                    });
+                                        .then(
+                                      (result) async {
+                                        await FlutterShare.shareFile(
+                                                title: 'Lista de facturas',
+                                                filePath: ticketsZipPath,
+                                                text:
+                                                    'Comparto contigo este excel con la lista de tickets y la foto de cada ticket')
+                                            .then((value) => null);
+                                      },
+                                    );
+
+                                    for (var i = 0;
+                                        i < ticketsSelected.length;
+                                        i++) {
+                                      ticketsSelected.remove(i);
+                                    }
                                   },
                                 ),
                               ),
@@ -600,13 +634,22 @@ class TicketlistState extends State<Ticketlist> {
                                 child: IconButton(
                                   padding: EdgeInsets.zero,
                                   constraints: BoxConstraints(),
-                                  icon: Icon(
-                                    Icons.add_to_drive_outlined,
-                                    color: Color.fromRGBO(1, 26, 88, 1),
-                                  ),
+                                  icon: SvgPicture.asset(
+                                      'lib/assets/icons/GDrive.svg'),
                                   onPressed: () async {
+
+
+                                    for (var i = 0;
+                                        i < ticketList.length;
+                                        i++) {
+                                      if (isSelected[i] == true) {
+                                        ticketsSelected.add(ticketList[i]);
+                                      }
+                                    }
+
+
                                     setState(() {
-                                      createZipWithExcel(ticketList,
+                                      createZipWithExcel(ticketsSelected,
                                               storedDrive: true)
                                           .then((result) async {
                                         uploadFiles();
@@ -623,6 +666,14 @@ class TicketlistState extends State<Ticketlist> {
                                             });
                                       });
                                     });
+
+                                    for (var i = 0;
+                                        i < ticketsSelected.length;
+                                        i++) {
+                                      ticketsSelected.remove(i);
+                                    }
+
+                                    
                                   },
                                 ),
                               ),
