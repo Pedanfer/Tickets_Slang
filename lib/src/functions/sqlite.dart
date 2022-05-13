@@ -46,6 +46,14 @@ class DB {
         'UPDATE tickets SET synchronized = 1 WHERE id IN(' + ticketsId + ');');
   }
 
+  static Future<int> updateTicket(List<String> fields, int id) async {
+    var database = await _openDB();
+    return database.rawUpdate(
+      'UPDATE tickets SET ticketName = ?, categ1 = ?, categ2 = ? WHERE id = ?',
+      fields..add(id.toString()),
+    );
+  }
+
   static Future<List<Ticket>> filter(String dateStart, String dateEnd,
       String categ1, String categ2, List<bool> synchronizor) async {
     var database = await _openDB();
