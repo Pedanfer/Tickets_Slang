@@ -1,13 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:slang_mobile/src/functions/Google.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:slang_mobile/src/views/configStorage.dart';
 import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/src/views/editCategs.dart';
-import 'package:slang_mobile/src/views/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/constants.dart';

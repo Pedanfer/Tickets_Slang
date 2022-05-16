@@ -1,4 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';

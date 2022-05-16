@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:slang_mobile/src/functions/Google.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
