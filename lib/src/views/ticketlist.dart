@@ -592,11 +592,8 @@ class TicketlistState extends State<Ticketlist> {
                                       DB.deleteList(ticketsSelected);
                                     });
 
-                                    for (var i = 0;
-                                        i < ticketsSelected.length;
-                                        i++) {
-                                      ticketsSelected.remove(i);
-                                    }
+                                    ticketsSelected = [];
+
                                   },
                                 ),
                               ),
@@ -689,11 +686,8 @@ class TicketlistState extends State<Ticketlist> {
                                       });
                                     });
 
-                                    for (var i = 0;
-                                        i < ticketsSelected.length;
-                                        i++) {
-                                      ticketsSelected.remove(i);
-                                    }
+                                   ticketsSelected = [];
+
                                   },
                                 ),
                               ),
