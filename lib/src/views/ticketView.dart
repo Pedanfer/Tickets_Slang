@@ -152,7 +152,7 @@ class TicketViewState extends State<TicketView> {
                       Container(
                         width: dimension.width * 0.076,
                         child: IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => changePageFadeRemoveUntil(DashBoard(paginaActual: 1), context),
                           icon: Icon(Icons.cancel),
                           padding: EdgeInsets.zero,
                         ),
