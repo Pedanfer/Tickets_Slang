@@ -312,16 +312,20 @@ class TicketViewState extends State<TicketView> {
                     child: IconButton(
                       icon: SvgPicture.asset('lib/assets/icons/Eliminar.svg'),
                       padding: EdgeInsets.zero,
-                      onPressed: () {
-                        DB.delete(widget.ticketData['id']);
-                        //Debería ser con pop
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DashBoard(paginaActual: 1)),
-                        ).then((value) {
-                          setState(() {});
-                        });
+                      onPressed: () async {
+                        if (await dialogRemoveTicket(
+                            context, widget.ticketData['id'], null)) {
+                          DB.delete(widget.ticketData['id']);
+                          //Debería ser con pop
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DashBoard(paginaActual: 1)),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }
                       },
                     ),
                   ),
@@ -334,7 +338,6 @@ class TicketViewState extends State<TicketView> {
                         onPressed: () async => {
                               DB.updateTicket(
                                   updateFields, await widget.ticketData['id']),
-                              setState(() {})
                             }),
                   ),
                   Container(
@@ -352,7 +355,7 @@ class TicketViewState extends State<TicketView> {
                               filePath:
                                   '/storage/emulated/0/Android/data/com.slanginnovations.mobile/files/Output.xlsx',
                               text:
-                                  'Comparto contigo este documento con la informacion del ticket');
+                                  'Comparto contigo este documento con la información del ticket');
                         });
                       },
                     ),

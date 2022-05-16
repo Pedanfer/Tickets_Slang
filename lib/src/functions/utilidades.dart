@@ -214,28 +214,39 @@ Future<bool> emptyAppDir() async {
 }
 
 //Hay que volver a utilizarlo
-Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
+Future<bool> dialogRemoveTicket(
+    BuildContext context, int id, List<Ticket>? ticketList) async {
   var accept = false;
   await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('¿Seguro que quiere eliminar esta factura?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-                child: Text('Aceptar'),
+          title: Text(
+            '¿Seguro que quiere eliminar sus datos?',
+            textAlign: TextAlign.center,
+          ),
+          content: Row(
+            children: [
+              TextButton(
+                child: Text('Cancelar'),
                 onPressed: () {
-                  sqlite.DB
-                      .delete(id)
-                      .then((value) => {Navigator.pop(context), accept = true});
-                }),
-          ],
+                  Navigator.pop(context);
+                },
+              ),
+              Spacer(),
+              TextButton(
+                  child: Text('Aceptar'),
+                  onPressed: () {
+                    if (ticketList != null) {
+                      sqlite.DB.deleteList(ticketList).then(
+                          (value) => {Navigator.pop(context), accept = true});
+                    } else {
+                      sqlite.DB.delete(id).then(
+                          (value) => {Navigator.pop(context), accept = true});
+                    }
+                  }),
+            ],
+          ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         );

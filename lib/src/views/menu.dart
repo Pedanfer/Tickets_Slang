@@ -94,21 +94,23 @@ class _MenuState extends State<Menu> {
                   SizedBox(
                     height: dimension.height * 0.005,
                   ),
+                  /* 
                   TextButton(
                     onPressed: () async {
-                      /* Ahora mismo elimina los datos del usuario, 
+                      Ahora mismo elimina los datos del usuario, 
                       deberían estar en la API Rest
                       var prefs = await getPrefs();
                       await prefs!.remove('login');
                       await prefs.remove('driveUserData');
                       signOutDrive();
-                      changePageFade(LoginPage(), context);*/
+                      changePageFade(LoginPage(), context);
                     },
                     child: Text(
                       ' CAMBIAR DE USUARIO',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  */
                   SizedBox(
                     height: dimension.height * 0.005,
                   ),

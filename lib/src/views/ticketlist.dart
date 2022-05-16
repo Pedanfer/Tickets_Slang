@@ -406,153 +406,141 @@ class TicketlistState extends State<Ticketlist> {
                       child: Container(
                         color: Colors.grey,
                         child: ListView.builder(
-                            controller: scrollController,
-                            itemCount: snapshot.data![1].length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var vendor = ticketList[index]
-                                  .toMap()['issuer']
-                                  .split('\n')[0]
-                                  .toString();
-                              if (vendor == '') {
-                                vendor = '---';
-                              }
-                              var vendor2 = vendor.split(' ')[0];
+                          controller: scrollController,
+                          itemCount: snapshot.data![1].length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var vendor = ticketList[index]
+                                .toMap()['issuer']
+                                .split('\n')[0]
+                                .toString();
+                            if (vendor == '') {
+                              vendor = '---';
+                            }
+                            var vendor2 = vendor.split(' ')[0];
 
-                              var fechor =
-                                  ticketList[index].toMap()['date'].toString();
+                            var fechor =
+                                ticketList[index].toMap()['date'].toString();
 
-                              if (fechor == '') {
-                                fechor = 'Sin Fecha';
-                              }
-                              var houror =
-                                  ticketList[index].toMap()['hour'].toString();
-                              if (houror == '') {
-                                houror = '-- : -- : --';
-                              } else {
-                                houror = houror.substring(0, 5);
-                                ;
-                              }
-                              var synchronizor =
-                                  ticketList[index].toMap()['synchronized'];
-                              return Card(
-                                  margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
-                                  child: ListTile(
-                                      onTap: () {
-                                        changePageFade(
-                                            TicketView(
-                                                ticketList[index].toMap()),
-                                            context);
-                                      },
-                                      title: Container(
-                                          height: 60,
+                            if (fechor == '') {
+                              fechor = 'Sin Fecha';
+                            }
+                            var houror =
+                                ticketList[index].toMap()['hour'].toString();
+                            if (houror == '') {
+                              houror = '-- : -- : --';
+                            } else {
+                              houror = houror.substring(0, 5);
+                              ;
+                            }
+                            var synchronizor =
+                                ticketList[index].toMap()['synchronized'];
+                            return Card(
+                              margin: EdgeInsets.fromLTRB(0, 0.3, 0, 0.3),
+                              child: ListTile(
+                                onTap: () {
+                                  changePageFade(
+                                      TicketView(ticketList[index].toMap()),
+                                      context);
+                                },
+                                title: Container(
+                                  height: 60,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Container(
+                                        width: dimension.width * 0.03,
+                                        child: IconButton(
+                                          padding: EdgeInsets.zero,
+                                          constraints: BoxConstraints(),
+                                          icon: isSelectedAll
+                                              ? (SvgPicture.asset(
+                                                  'lib/assets/icons/checked-selected.svg'))
+                                              : (isSelected[index] == true
+                                                  ? SvgPicture.asset(
+                                                      'lib/assets/icons/checked-selected.svg')
+                                                  : SvgPicture.asset(
+                                                      'lib/assets/icons/checked.svg')),
+                                          onPressed: () {
+                                            setState(() {
+                                              isSelected[index] =
+                                                  !isSelected[index];
+
+                                              if (isSelectedAll == true) {
+                                                isSelectedAll = false;
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                          width: dimension.width * 0.30,
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.center,
                                             children: [
-                                              Container(
-                                                width: dimension.width * 0.03,
-                                                child: IconButton(
-                                                  padding: EdgeInsets.zero,
-                                                  constraints: BoxConstraints(),
-                                                  icon: isSelectedAll
-                                                      ? (SvgPicture.asset(
-                                                          'lib/assets/icons/checked-selected.svg'))
-                                                      : (isSelected[index] ==
-                                                              true
-                                                          ? SvgPicture.asset(
-                                                              'lib/assets/icons/checked-selected.svg')
-                                                          : SvgPicture.asset(
-                                                              'lib/assets/icons/checked.svg')),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      isSelected[index] =
-                                                          !isSelected[index];
-
-                                                      if (isSelectedAll ==
-                                                          true) {
-                                                        isSelectedAll = false;
-                                                      }
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                  width: dimension.width * 0.30,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        vendor2.length > 10
-                                                            ? vendor2
-                                                                .substring(
-                                                                    0, 10)
-                                                                .toUpperCase()
-                                                            : vendor2
-                                                                .toUpperCase(),
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'IBM Plex Sans',
-                                                            color: Color(
-                                                                0xFF011A58)),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Container(
-                                                  width: dimension.width * 0.25,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        fechor,
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'IBM Plex Sans',
-                                                            color: Color(
-                                                                0xFF011A58)),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Container(
-                                                  width: dimension.width * 0.20,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        houror,
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'IBM Plex Sans',
-                                                            color: Color(
-                                                                0xFF011A58)),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Container(
-                                                width: dimension.width * 0.05,
-                                                child: synchronizor == 1
-                                                    ? Icon(
-                                                        Icons.cloud_rounded,
-                                                        color:
-                                                            Color(0xFF011A58),
-                                                        size: 20,
-                                                      )
-                                                    : Icon(
-                                                        Icons.cloud_off_rounded,
-                                                        color:
-                                                            Color(0xFF011A58),
-                                                        size: 20),
+                                              Text(
+                                                vendor2.length > 10
+                                                    ? vendor2
+                                                        .substring(0, 10)
+                                                        .toUpperCase()
+                                                    : vendor2.toUpperCase(),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontFamily: 'IBM Plex Sans',
+                                                    color: Color(0xFF011A58)),
                                               ),
                                             ],
-                                          ))));
-                            }),
+                                          )),
+                                      Container(
+                                          width: dimension.width * 0.25,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                fechor,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontFamily: 'IBM Plex Sans',
+                                                    color: Color(0xFF011A58)),
+                                              ),
+                                            ],
+                                          )),
+                                      Container(
+                                          width: dimension.width * 0.20,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                houror,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontFamily: 'IBM Plex Sans',
+                                                    color: Color(0xFF011A58)),
+                                              ),
+                                            ],
+                                          )),
+                                      Container(
+                                        width: dimension.width * 0.05,
+                                        child: synchronizor == 1
+                                            ? Icon(
+                                                Icons.cloud_rounded,
+                                                color: Color(0xFF011A58),
+                                                size: 20,
+                                              )
+                                            : Icon(Icons.cloud_off_rounded,
+                                                color: Color(0xFF011A58),
+                                                size: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     Visibility(
@@ -575,7 +563,7 @@ class TicketlistState extends State<Ticketlist> {
                                   icon: SvgPicture.asset(
                                       'lib/assets/icons/Eliminar.svg'),
                                   padding: EdgeInsets.zero,
-                                  onPressed: () {
+                                  onPressed: () async {
                                     var aux = <bool>[];
                                     for (var i = 0;
                                         i < ticketList.length;
@@ -587,12 +575,11 @@ class TicketlistState extends State<Ticketlist> {
                                       }
                                     }
                                     isSelected = aux;
-
-                                    setState(() {
-                                      DB.deleteList(ticketsSelected);
-                                    });
-
-                                    ticketsSelected = [];
+                                    if (await dialogRemoveTicket(
+                                        context, 1, ticketsSelected)) {
+                                      setState(() {});
+                                      ticketsSelected = [];
+                                    }
                                   },
                                 ),
                               ),
