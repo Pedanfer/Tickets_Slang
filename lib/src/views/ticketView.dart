@@ -152,7 +152,8 @@ class TicketViewState extends State<TicketView> {
                       Container(
                         width: dimension.width * 0.076,
                         child: IconButton(
-                          onPressed: () => changePageFadeRemoveUntil(DashBoard(paginaActual: 1), context),
+                          onPressed: () => changePageFadeRemoveUntil(
+                              DashBoard(paginaActual: 1), context),
                           icon: Icon(Icons.cancel),
                           padding: EdgeInsets.zero,
                         ),
@@ -349,7 +350,7 @@ class TicketViewState extends State<TicketView> {
                           await FlutterShare.shareFile(
                               title: 'Factura detallada',
                               filePath:
-                                  '/storage/emulated/0/Android/data/com.example.slang_mobile/files/Output.xlsx',
+                                  '/storage/emulated/0/Android/data/com.slanginnovations.mobile/files/Output.xlsx',
                               text:
                                   'Comparto contigo este documento con la informacion del ticket');
                         });

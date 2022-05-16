@@ -593,7 +593,6 @@ class TicketlistState extends State<Ticketlist> {
                                     });
 
                                     ticketsSelected = [];
-
                                   },
                                 ),
                               ),
@@ -606,7 +605,6 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Compartir.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () async {
-
                                     Directory? storageDir =
                                         await getExternalStorageDirectory();
                                     var fileList =
@@ -614,7 +612,6 @@ class TicketlistState extends State<Ticketlist> {
                                     if (fileList.isNotEmpty) {
                                       await emptyAppDir();
                                     }
-                                    
 
                                     for (var i = 0;
                                         i < ticketList.length;
@@ -623,7 +620,7 @@ class TicketlistState extends State<Ticketlist> {
                                         ticketsSelected.add(ticketList[i]);
                                       }
                                     }
-                                    
+
                                     createZipWithExcel(ticketsSelected,
                                             storedDrive: false)
                                         .then(
@@ -637,9 +634,7 @@ class TicketlistState extends State<Ticketlist> {
                                       },
                                     );
 
-                                   ticketsSelected = [];
-
-
+                                    ticketsSelected = [];
                                   },
                                 ),
                               ),
@@ -652,6 +647,14 @@ class TicketlistState extends State<Ticketlist> {
                                   icon: SvgPicture.asset(
                                       'lib/assets/icons/GDrive.svg'),
                                   onPressed: () async {
+                                    Directory? storageDir =
+                                        await getExternalStorageDirectory();
+                                    var fileList =
+                                        await storageDir!.list().toList();
+                                    if (fileList.isNotEmpty) {
+                                      await emptyAppDir();
+                                    }
+
                                     for (var i = 0;
                                         i < ticketList.length;
                                         i++) {
@@ -661,13 +664,8 @@ class TicketlistState extends State<Ticketlist> {
                                     }
 
                                     setState(() async {
-                                      Directory? storageDir =
-                                          await getExternalStorageDirectory();
-                                      var fileList =
-                                          await storageDir!.list().toList();
-                                      if (fileList.isNotEmpty) {
-                                        await emptyAppDir();
-                                      }
+                                      print('Lista de tickets drive:' +
+                                          ticketsSelected.toString());
                                       createZipWithExcel(ticketsSelected,
                                               storedDrive: true)
                                           .then((result) async {
@@ -686,8 +684,7 @@ class TicketlistState extends State<Ticketlist> {
                                       });
                                     });
 
-                                   ticketsSelected = [];
-
+                                    ticketsSelected = [];
                                   },
                                 ),
                               ),
