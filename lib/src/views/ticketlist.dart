@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
@@ -608,10 +609,12 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Compartir.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () async {
-                                    var storageDir =
+                                    Directory? storageDir =
                                         await getExternalStorageDirectory();
-                                    if (!storageDir!.listSync().isEmpty) {
-                                      emptyAppDir();
+                                    var fileList =
+                                        await storageDir!.list().toList();
+                                    if (fileList.isNotEmpty) {
+                                      await emptyAppDir();
                                     }
 
                                     for (var i = 0;
@@ -636,7 +639,7 @@ class TicketlistState extends State<Ticketlist> {
                                     );
 
                                     for (var i = 0;
-                                        i < ticketsSelected.length;
+                                        i < ticketsSelected.length + 1;
                                         i++) {
                                       ticketsSelected.remove(i);
                                     }
@@ -660,7 +663,14 @@ class TicketlistState extends State<Ticketlist> {
                                       }
                                     }
 
-                                    setState(() {
+                                    setState(() async {
+                                      Directory? storageDir =
+                                          await getExternalStorageDirectory();
+                                      var fileList =
+                                          await storageDir!.list().toList();
+                                      if (fileList.isNotEmpty) {
+                                        await emptyAppDir();
+                                      }
                                       createZipWithExcel(ticketsSelected,
                                               storedDrive: true)
                                           .then((result) async {

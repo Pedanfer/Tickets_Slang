@@ -102,11 +102,11 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 
 Future<void> createZipWithExcel(List<Ticket> listaTickets,
     {required bool storedDrive}) async {
+  print('Lista de tickets: ' + listaTickets.toString());
+  if (storedDrive) {
+    sqlite.DB.updateSynchronized(listaTickets);
+  }
   if (await requestPermission(Permission.storage)) {
-    if (storedDrive) {
-      sqlite.DB.updateSynchronized(listaTickets);
-    }
-    await emptyAppDir();
     var dirToCompress;
     await getExternalStorageDirectory()
         .then((value) => dirToCompress = value!.path);
@@ -202,15 +202,15 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets,
   }
 }
 
-Future<void> emptyAppDir() async {
+Future<bool> emptyAppDir() async {
   if (Platform.isAndroid) {
     var dir = await getExternalStorageDirectory();
-    var entities = await dir!.list().toList();
-    var dirFiles = List<File>.from(entities);
-    for (File file in dirFiles) {
+    for (var file in await dir!.list().toList()) {
+      print('Elimina' + file.toString());
       await file.delete();
     }
   }
+  return true;
 }
 
 //Hay que volver a utilizarlo
