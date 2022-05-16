@@ -609,6 +609,7 @@ class TicketlistState extends State<Ticketlist> {
                                       'lib/assets/icons/Compartir.svg'),
                                   padding: EdgeInsets.zero,
                                   onPressed: () async {
+
                                     Directory? storageDir =
                                         await getExternalStorageDirectory();
                                     var fileList =
@@ -616,6 +617,7 @@ class TicketlistState extends State<Ticketlist> {
                                     if (fileList.isNotEmpty) {
                                       await emptyAppDir();
                                     }
+                                    
 
                                     for (var i = 0;
                                         i < ticketList.length;
@@ -624,7 +626,7 @@ class TicketlistState extends State<Ticketlist> {
                                         ticketsSelected.add(ticketList[i]);
                                       }
                                     }
-
+                                    
                                     createZipWithExcel(ticketsSelected,
                                             storedDrive: false)
                                         .then(
@@ -638,11 +640,9 @@ class TicketlistState extends State<Ticketlist> {
                                       },
                                     );
 
-                                    for (var i = 0;
-                                        i < ticketsSelected.length + 1;
-                                        i++) {
-                                      ticketsSelected.remove(i);
-                                    }
+                                   ticketsSelected = [];
+
+
                                   },
                                 ),
                               ),
