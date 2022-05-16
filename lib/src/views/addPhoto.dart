@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/textExtract.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
 import '../functions/utilidades.dart';
@@ -377,7 +378,8 @@ class AddPhotoState extends State<AddPhoto> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                if (formKey.currentState!.validate()) {
+
+                              if (formKey.currentState!.validate()) {
                                   isVisibleImg = false;
                                   setState(() {
                                     isVisibleBorrarAceptar = false;
@@ -389,6 +391,7 @@ class AddPhotoState extends State<AddPhoto> {
                                         4);
                                   });
                                   var jsonData;
+                                  changePageFade(TextExtract(), context);
                                   //Controlar campos vacíos con 'Vacío'
                                   uploadImageToSlang(imageFile!).then(
                                     (value) => {

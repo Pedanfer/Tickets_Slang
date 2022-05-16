@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/views/menu.dart';
 import '../utils/constants.dart';
