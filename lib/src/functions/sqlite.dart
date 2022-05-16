@@ -98,7 +98,6 @@ class DB {
               where: 'categ1 = ? AND categ2 = ? AND (synchronized = ?' +
                   optionSync,
               whereArgs: [categ1, categ2, synchronized]);
-          print(categ1 + ' ' + categ2 + ' ' + synchronized + ' ' + optionSync);
         }
       } else if (categ2None) {
         tickets = await database.query('tickets',
@@ -106,16 +105,6 @@ class DB {
       }
     }
     return tickets!.isNotEmpty
-        ? tickets.map((c) => Ticket.fromMap(c)).toList()
-        : [];
-  }
-
-  static Future<List<Ticket>> selectByDateRange(
-      String dateStart, String dateEnd) async {
-    var database = await _openDB();
-    var tickets = await database.query('tickets',
-        where: 'date BETWEEN ? AND ?', whereArgs: [dateStart, dateEnd]);
-    return tickets.isNotEmpty
         ? tickets.map((c) => Ticket.fromMap(c)).toList()
         : [];
   }

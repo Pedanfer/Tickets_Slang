@@ -2,10 +2,11 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:path_provider/path_provider.dart';
 
-var folderID;
+SharedPreferences? preferences;
 
 class GoogleAuthClient extends http.BaseClient {
   final Map<String, String> _headers;
@@ -36,6 +37,7 @@ Future<void> signOutDrive() async {
 
 Future<void> uploadFiles() async {
   var driveApi = await refreshAuthentication();
+  await createSlangFolder(driveApi);
   createFolder(driveApi).then((value) async {
     var dir = await getExternalStorageDirectory();
     var entities = await dir!.list().toList();
@@ -47,10 +49,11 @@ Future<void> uploadFiles() async {
         var media = new drive.Media(mediaStream, file.lengthSync());
         var driveFile = new drive.File();
         driveFile.name = 'Tickets.' + extension;
-        driveFile.parents = [folderID];
+        driveFile.parents = [value];
         await driveApi.files.create(driveFile, uploadMedia: media);
       }
     }
+    await emptyAppDir();
   });
 }
 
@@ -69,14 +72,36 @@ Future<drive.DriveApi> refreshAuthentication() async {
   return drive.DriveApi(authenticateClient);
 }
 
-Future<void> createFolder(drive.DriveApi driveApi) async {
+Future<String> createFolder(drive.DriveApi driveApi) async {
   try {
     var folder = new drive.File();
-    var folderName = 'Tickets_Slang_' + DateTime.now().toString();
-    folder.name = folderName;
+    var folderID;
+    folder.name = DateTime.now().toString().substring(0, 19);
+    folder.parents = [preferences!.getString('slangFolderID')!];
     folder.mimeType = 'application/vnd.google-apps.folder';
     await driveApi.files.create(folder).then((value) => folderID = value.id);
+    return folderID;
   } catch (e) {
-    print(e);
+    return e.toString();
   }
+}
+
+Future<void> createSlangFolder(drive.DriveApi driveApi) async {
+  SharedPreferences.getInstance().then(
+    (value) async {
+      preferences = value;
+      if (preferences!.getString('slangFolderID') == null) {
+        try {
+          var folder = new drive.File();
+          var folderName = 'Tickets_Slang';
+          folder.name = folderName;
+          folder.mimeType = 'application/vnd.google-apps.folder';
+          await driveApi.files.create(folder).then(
+              (value) => preferences!.setString('slangFolderID', value.id!));
+        } catch (e) {
+          print(e);
+        }
+      }
+    },
+  );
 }

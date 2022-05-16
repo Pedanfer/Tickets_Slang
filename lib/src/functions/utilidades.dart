@@ -102,10 +102,10 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
 
 Future<void> createZipWithExcel(List<Ticket> listaTickets,
     {required bool storedDrive}) async {
-  if (storedDrive) {
-    sqlite.DB.updateSynchronized(listaTickets);
-  }
   if (await requestPermission(Permission.storage)) {
+    if (storedDrive) {
+      sqlite.DB.updateSynchronized(listaTickets);
+    }
     await emptyAppDir();
     var dirToCompress;
     await getExternalStorageDirectory()
@@ -202,85 +202,18 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets,
   }
 }
 
-Future<bool> emptyAppDir() async {
+Future<void> emptyAppDir() async {
   if (Platform.isAndroid) {
     var dir = await getExternalStorageDirectory();
-    for (var file in dir!.listSync()) {
+    var entities = await dir!.list().toList();
+    var dirFiles = List<File>.from(entities);
+    for (File file in dirFiles) {
       await file.delete();
     }
   }
-  return true;
 }
 
-Future<bool> insertNewCateg(
-    BuildContext context, int lista, Size dimension) async {
-  var text = Text(
-    lista == 1
-        ? 'Por ejemplo: Gasolina, Carrefour, Restaurante...'
-        : 'Por ejemplo: con qué vas a pagar, quién va a pagar, si es un gasto justificado o extra...',
-    textAlign: TextAlign.center,
-  );
-  var nuevaCategoria = '';
-  await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(builder: (context, setState) {
-          return AlertDialog(
-            insetPadding: EdgeInsets.all(dimension.width * 0.07),
-            title: Text(
-              '¿Como se llamará la nueva categoría?',
-              style: TextStyle(fontSize: 16),
-            ),
-            content:
-                TextFormField(onChanged: (value) => nuevaCategoria = value),
-            actions: <Widget>[
-              Center(child: text),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    child: Text('Cancelar'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  TextButton(
-                    child: Text('Aceptar'),
-                    onPressed: () {
-                      nuevaCategoria = nuevaCategoria.trim();
-                      if (nuevaCategoria.length < 19) {
-                        if (nuevaCategoria != '') {
-                          if (nuevaCategoria.contains('.') == false) {
-                            nuevaCategoria =
-                                nuevaCategoria.replaceAll('.', '+');
-                            addRemoveCategToPrefs(
-                                categ: nuevaCategoria, num: lista, add: true);
-                            Navigator.pop(context);
-                          } else {
-                            text = Text('No puede contener puntos');
-                          }
-                        } else {
-                          text = Text(
-                              'No puede estar vacío o contener solo espacios');
-                        }
-                      } else {
-                        text = Text(
-                            'La longitud tiene que ser de 1 a 14 caracteres');
-                      }
-                      setState(() => {});
-                    },
-                  ),
-                ],
-              )
-            ],
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          );
-        });
-      });
-  return true;
-}
-
+//Hay que volver a utilizarlo
 Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
   var accept = false;
   await showDialog(
@@ -313,20 +246,6 @@ Future<bool> dialogRemoveTicket(BuildContext context, int id) async {
 Future<SharedPreferences?> getPrefs() async {
   prefs = await SharedPreferences.getInstance();
   return prefs;
-}
-
-void addRemoveCategToPrefs(
-    {required String categ, required int num, required bool add}) {
-  var nomLista = num == 1 ? 'categList1' : 'categList2';
-  var listaCategs = prefs!.getStringList(nomLista);
-  if (add) {
-    listaCategs!.add(categ);
-  } else if (categ != 'Todas') {
-    listaCategs!.remove(categ);
-  } else {
-    return;
-  }
-  prefs!.setStringList(nomLista, listaCategs);
 }
 
 void saveExcel(File? image) async {
@@ -380,13 +299,12 @@ void changePageFade(Widget destinyPage, BuildContext context) {
 
 void changePageFadeRemoveUntil(Widget destinyPage, BuildContext context) {
   Navigator.pushAndRemoveUntil(
-    context,
-    PageRouteBuilder(
-      pageBuilder: (c, a1, a2) => destinyPage,
-      transitionsBuilder: (c, anim, a2, child) =>
-          FadeTransition(opacity: anim, child: child),
-      transitionDuration: Duration(milliseconds: 400),
-    ),
-    (Route<dynamic> route) => false
-  );
+      context,
+      PageRouteBuilder(
+        pageBuilder: (c, a1, a2) => destinyPage,
+        transitionsBuilder: (c, anim, a2, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: Duration(milliseconds: 400),
+      ),
+      (Route<dynamic> route) => false);
 }
