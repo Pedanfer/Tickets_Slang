@@ -1,4 +1,4 @@
-package com.example.slang_mobile
+package com.slanginnovations.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 
