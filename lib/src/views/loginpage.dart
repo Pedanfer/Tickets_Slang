@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Container(
-                        width: dimension.width * 0.4,
+                        width: dimension.width * 0.35,
                         child: TextButton(
                             onPressed: () {},
                             child: Text(

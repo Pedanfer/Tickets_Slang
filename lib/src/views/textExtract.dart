@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/widgets.dart';
 import 'package:slang_mobile/src/views/addPhoto.dart';
+import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/src/views/menu.dart';
 import 'package:slang_mobile/src/views/ticketlist.dart';
 import 'package:flutter/material.dart';
@@ -59,24 +60,28 @@ class _TextExtractState extends State<TextExtract> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('lib/assets/Slang/SlangCelebrando.svg'),
+            Image.asset('lib/assets/Slang/SlangCelebrando.png'),
             SizedBox(height: dimension.height*0.05,),
             Container(
-              height: dimension.height * 0.18,
+              height: dimension.height * 0.2,
               width: dimension.width * 0.82,
               decoration: BoxDecoration(
                   color: Color(0xFF011A58),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: Column(
                 children: <Widget>[
-                  Text(
+                  Container(
+                    padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                    child: Text(
                     '¡El Ticket se ha almacenado correctamente!',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
                   ),
                   CustomButton(
                       text: 'Nuevo Ticket',
                       width: dimension.width * 0.44,
-                      height: dimension.height * 0.060),
+                      height: dimension.height * 0.060,
+                      onPressed: () => changePageFade(DashBoard(paginaActual: 0), context)),
                   TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -91,7 +96,9 @@ class _TextExtractState extends State<TextExtract> {
                       minimumSize: Size(
                           dimension.width * 0.44, dimension.height * 0.060),
                     ),
-                    onPressed: () => {},
+                    onPressed: () => {
+                      changePageFade(DashBoard(paginaActual: 1) , context)
+                    },
                     child: Text('Ver Archivador',
                         style: GoogleFonts.ibmPlexSans(
                             fontSize: 16,
