@@ -161,6 +161,9 @@ class TicketlistState extends State<Ticketlist> {
                           children: [
                             Container(
                               child: Row(children: [
+                                SizedBox(
+                                  width: dimension.width * 0.02,
+                                ),
                                 Container(
                                   width: dimension.width * 0.028,
                                   height: dimension.height * 0.01296,
@@ -168,10 +171,16 @@ class TicketlistState extends State<Ticketlist> {
                                     padding: EdgeInsets.zero,
                                     constraints: BoxConstraints(),
                                     icon: isSelectedAll
-                                        ? SvgPicture.asset(
-                                            'lib/assets/icons/checked-selected.svg')
-                                        : SvgPicture.asset(
-                                            'lib/assets/icons/checked.svg'),
+                                        ? Transform.scale(
+                                            scale: 1.75,
+                                            child: SvgPicture.asset(
+                                                'lib/assets/icons/checked-selected.svg'),
+                                          )
+                                        : Transform.scale(
+                                            scale: 1.75,
+                                            child: SvgPicture.asset(
+                                                'lib/assets/icons/checked.svg'),
+                                          ),
                                     onPressed: () {
                                       setState(() {
                                         isSelectedAll = !isSelectedAll;
@@ -189,7 +198,7 @@ class TicketlistState extends State<Ticketlist> {
                                   width: dimension.width * 0.024,
                                 ),
                                 Container(
-                                  height: dimension.height * 0.026,
+                                  height: dimension.height * 0.024,
                                   width: dimension.width * 0.2827,
                                   child: Text(
                                     'Todos',
@@ -454,13 +463,22 @@ class TicketlistState extends State<Ticketlist> {
                                           padding: EdgeInsets.zero,
                                           constraints: BoxConstraints(),
                                           icon: isSelectedAll
-                                              ? (SvgPicture.asset(
-                                                  'lib/assets/icons/checked-selected.svg'))
+                                              ? Transform.scale(
+                                                  scale: 1.5,
+                                                  child: SvgPicture.asset(
+                                                      'lib/assets/icons/checked-selected.svg'),
+                                                )
                                               : (isSelected[index] == true
-                                                  ? SvgPicture.asset(
-                                                      'lib/assets/icons/checked-selected.svg')
-                                                  : SvgPicture.asset(
-                                                      'lib/assets/icons/checked.svg')),
+                                                  ? Transform.scale(
+                                                      scale: 1.5,
+                                                      child: SvgPicture.asset(
+                                                          'lib/assets/icons/checked-selected.svg'),
+                                                    )
+                                                  : Transform.scale(
+                                                      scale: 1.5,
+                                                      child: SvgPicture.asset(
+                                                          'lib/assets/icons/checked.svg'),
+                                                    )),
                                           onPressed: () {
                                             setState(() {
                                               isSelected[index] =
@@ -574,11 +592,11 @@ class TicketlistState extends State<Ticketlist> {
                                         aux.add(isSelected[i]);
                                       }
                                     }
-                                    isSelected = aux;
                                     if (await dialogRemoveTicket(
                                         context, 1, ticketsSelected)) {
                                       setState(() {});
                                       ticketsSelected = [];
+                                      isSelected = aux;
                                     }
                                   },
                                 ),
@@ -649,14 +667,13 @@ class TicketlistState extends State<Ticketlist> {
                                         ticketsSelected.add(ticketList[i]);
                                       }
                                     }
-
                                     setState(() async {
                                       print('Lista de tickets drive:' +
                                           ticketsSelected.toString());
                                       createZipWithExcel(ticketsSelected,
                                               storedDrive: true)
                                           .then((result) async {
-                                        uploadFiles();
+                                        await uploadFiles();
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -665,7 +682,7 @@ class TicketlistState extends State<Ticketlist> {
                                                 Navigator.pop(context, true);
                                               });
                                               return CustomAlertDialog(
-                                                  'Almancenando datos en Google Drive...',
+                                                  'Almacenando los tickets seleccionados en Google Drive...',
                                                   dimension);
                                             });
                                       });

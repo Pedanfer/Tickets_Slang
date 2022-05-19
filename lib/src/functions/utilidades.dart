@@ -41,8 +41,8 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   // CABECERA
   sheet.getRangeByName('A1').setText('FECHA');
   sheet.getRangeByName('B1').setText('HORA');
-  sheet.getRangeByName('C1').setText('CATEGORIA 1');
-  sheet.getRangeByName('D1').setText('CATEGORIA 2');
+  sheet.getRangeByName('C1').setText('CATEGORIA');
+  sheet.getRangeByName('D1').setText('SUB-CATEGORIA');
 
   // CONTENIDO
   sheet.getRangeByName('A2').setText(ticketData['date']);
@@ -121,12 +121,13 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets,
 
 // Set value to cell.
     // CABECERA
-    sheet.getRangeByName('A1').setText('EMISOR');
-    sheet.getRangeByName('B1').setText('TOTAL');
-    sheet.getRangeByName('C1').setText('FECHA');
-    sheet.getRangeByName('D1').setText('HORA');
-    sheet.getRangeByName('E1').setText('CATEGORIA 1');
-    sheet.getRangeByName('F1').setText('CATEGORIA 2');
+    sheet.getRangeByName('A1').setText('CONCEPTO');
+    sheet.getRangeByName('B1').setText('EMISOR');
+    sheet.getRangeByName('C1').setText('TOTAL');
+    sheet.getRangeByName('D1').setText('FECHA');
+    sheet.getRangeByName('E1').setText('HORA');
+    sheet.getRangeByName('F1').setText('CATEGORIA');
+    sheet.getRangeByName('G1').setText('SUB-CATEGORIA');
 
     for (var i = 0; i < listaTickets.length; i++) {
       // Set value to cell.
@@ -135,21 +136,24 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets,
       // CONTENIDO
       sheet
           .getRangeByName('A' + (i + 2).toString())
-          .setText(ticketData['issuer']);
+          .setText(ticketData['ticketName']);
       sheet
           .getRangeByName('B' + (i + 2).toString())
-          .setText(ticketData['total'].toString() + '€');
+          .setText(ticketData['issuer']);
       sheet
           .getRangeByName('C' + (i + 2).toString())
-          .setText(ticketData['date']);
+          .setText(ticketData['total'].toString() + '€');
       sheet
           .getRangeByName('D' + (i + 2).toString())
-          .setText(ticketData['hour']);
+          .setText(ticketData['date']);
       sheet
           .getRangeByName('E' + (i + 2).toString())
-          .setText(ticketData['categ1']);
+          .setText(ticketData['hour']);
       sheet
           .getRangeByName('F' + (i + 2).toString())
+          .setText(ticketData['categ1']);
+      sheet
+          .getRangeByName('G' + (i + 2).toString())
           .setText(ticketData['categ2']);
 
       await encoder.addFile(
@@ -180,11 +184,11 @@ Future<void> createZipWithExcel(List<Ticket> listaTickets,
     globalStyle1.numberFormat = '0.00';
 
 //Apply GlobalStyle
-    sheet.getRangeByName('A1:F1').cellStyle = globalStyle;
+    sheet.getRangeByName('A1:G1').cellStyle = globalStyle;
 
 //Apply GlobalStyle1
     sheet
-        .getRangeByName('A2:F' + (listaTickets.length + 1).toString())
+        .getRangeByName('A2:G' + (listaTickets.length + 1).toString())
         .cellStyle = globalStyle1;
 
 // Auto-Fit

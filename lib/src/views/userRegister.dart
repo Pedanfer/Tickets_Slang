@@ -241,7 +241,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     ),
                                     onPressed: () {
                                       userData = ['', '', '', ''];
-                                      Navigator.pop(context);
+                                      changePageFade(LoginPage(), context);
                                     },
                                     child: Text('Volver',
                                         style: GoogleFonts.ibmPlexSans(

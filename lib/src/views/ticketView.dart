@@ -167,7 +167,7 @@ class TicketViewState extends State<TicketView> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('Nombre:',
+                              Text('Concepto:',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xff011A58))),

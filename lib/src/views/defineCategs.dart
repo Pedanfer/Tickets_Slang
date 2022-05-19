@@ -7,6 +7,8 @@ import 'package:slang_mobile/src/views/dashboard.dart';
 import 'package:slang_mobile/main.dart';
 import '../utils/constants.dart';
 
+var categNum = 1;
+
 class DefineCategs extends StatefulWidget {
   @override
   State<DefineCategs> createState() => DefineCategsState();
@@ -80,7 +82,7 @@ class DefineCategsState extends State<DefineCategs> {
                               Row(
                                 children: [
                                   Text(
-                                    'Categoría:',
+                                    'Categoría $categNum:',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
@@ -91,8 +93,12 @@ class DefineCategsState extends State<DefineCategs> {
                               ),
                               TextFormField(
                                 validator: (value) {
-                                  categsNames.add(value!);
-                                  return;
+                                  if (value!.isEmpty) {
+                                    return 'Campo vacío';
+                                  } else {
+                                    categsNames.add(value);
+                                  }
+                                  return null;
                                 },
                                 initialValue: '',
                                 keyboardType: TextInputType.name,
@@ -136,8 +142,12 @@ class DefineCategsState extends State<DefineCategs> {
                                   Flexible(
                                     child: TextFormField(
                                       validator: (value) {
-                                        categsNames.add(value!);
-                                        return;
+                                        if (value!.isEmpty) {
+                                          return 'Campo vacío';
+                                        } else {
+                                          categsNames.add(value);
+                                        }
+                                        return null;
                                       },
                                       initialValue: '',
                                       keyboardType: TextInputType.name,
@@ -187,8 +197,12 @@ class DefineCategsState extends State<DefineCategs> {
                                               Flexible(
                                                 child: TextFormField(
                                                   validator: (value) {
-                                                    categsNames.add(value!);
-                                                    return;
+                                                    if (value!.isEmpty) {
+                                                      return 'Campo vacío';
+                                                    } else {
+                                                      categsNames.add(value);
+                                                    }
+                                                    return null;
                                                   },
                                                   initialValue: '',
                                                   keyboardType:
@@ -245,20 +259,26 @@ class DefineCategsState extends State<DefineCategs> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      '+ Guardar y añadir categoría',
+                                      '+ Guardar categoría',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 16),
                                     ),
                                   ],
                                 ),
                                 onTap: () {
-                                  formKey.currentState!.validate();
-                                  auxSaveCategs();
-                                  setState(() {
-                                    categsForms = [];
+                                  if (formKey.currentState!.validate()) {
+                                    auxSaveCategs();
+                                    setState(() {
+                                      categNum++;
+                                      categsForms = [];
+                                      categsNames = [];
+                                      formKey.currentState!.reset();
+                                    });
+                                  } else {
                                     categsNames = [];
-                                    formKey.currentState!.reset();
-                                  });
+                                    customSnackBar(context,
+                                        'Has olvidado rellenar algún campo', 3);
+                                  }
                                 },
                               ),
                               TitleWithUnderline(
@@ -270,15 +290,30 @@ class DefineCategsState extends State<DefineCategs> {
                                   dashed: true),
                               SizedBox(height: dimension.height * 0.02),
                               CustomButton(
-                                  text: 'Guardar todo y continuar',
+                                  text: 'Continuar',
                                   width: double.infinity,
                                   height: dimension.height * 0.06,
                                   onPressed: () {
                                     formKey.currentState!.validate();
-                                    auxSaveCategs();
-                                    prefs.setString('categs',
-                                        json.encode(categsSubCategsDict));
-                                    changePageFadeRemoveUntil(DashBoard(), context);
+                                    if (categsNames.isEmpty) {
+                                      if (!categsSubCategsDict.values.isEmpty) {
+                                        prefs.setString('categs',
+                                            json.encode(categsSubCategsDict));
+                                        changePageFadeRemoveUntil(
+                                            DashBoard(), context);
+                                      } else {
+                                        customSnackBar(
+                                            context,
+                                            'Has de especificar al menos una categoría',
+                                            3);
+                                      }
+                                    } else {
+                                      categsNames = [];
+                                      customSnackBar(
+                                          context,
+                                          'Guarde la última categoría antes de continuar',
+                                          3);
+                                    }
                                   }),
                               SizedBox(height: dimension.height * 0.02),
                             ],

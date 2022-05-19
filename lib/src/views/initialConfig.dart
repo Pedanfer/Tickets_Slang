@@ -293,8 +293,12 @@ class _InitialConfigState extends State<InitialConfig> {
                             minimumSize: Size(dimension.width * 0.85,
                                 dimension.height * 0.06),
                           ),
-                          onPressed: () =>
-                              changePageFade(DefineCategs(), context),
+                          onPressed: () {
+                            var screen = prefs.getString('categs') != null
+                                ? DashBoard()
+                                : DefineCategs();
+                            changePageFade(screen, context);
+                          },
                           child: Text('Continuar sin vincular',
                               style: TextStyle(
                                   fontFamily: 'IBM Plex Sans',

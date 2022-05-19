@@ -33,7 +33,10 @@ Future<void> signInDrive() async {
 }
 
 Future<void> signOutDrive() async {
-  await signIn.GoogleSignIn.standard().disconnect();
+  if (await signIn.GoogleSignIn.standard().isSignedIn()) {
+    getPrefs().then((value) => {value!.remove('driveUserData')});
+    await signIn.GoogleSignIn.standard().disconnect();
+  }
 }
 
 Future<void> uploadFiles() async {
@@ -98,8 +101,7 @@ Future<void> createSlangFolder(drive.DriveApi driveApi) async {
   if (!slangFolder) {
     try {
       var folder = new drive.File();
-      var folderName = 'Tickets_Slang';
-      folder.name = folderName;
+      folder.name = 'Tickets_Slang';
       folder.mimeType = 'application/vnd.google-apps.folder';
       folder = await driveApi.files.create(folder);
       folderID = folder.id;

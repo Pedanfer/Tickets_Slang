@@ -150,7 +150,7 @@ class AddPhotoState extends State<AddPhoto> {
                                         height: dimension.height * 0.0227,
                                         width: dimension.width * 0.15,
                                         child: Text(
-                                          'Nombre:',
+                                          'Concepto:',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Color(0xff011A58),
@@ -184,7 +184,7 @@ class AddPhotoState extends State<AddPhoto> {
                                                   errorStyle: TextStyle(
                                                       fontSize: 10, height: 0),
                                                   hintText:
-                                                      'Introduzca un nombre'),
+                                                      'Introduzca un concepto'),
                                               onChanged: (value) =>
                                                   ticketName = value.toString(),
                                             ),
@@ -378,20 +378,25 @@ class AddPhotoState extends State<AddPhoto> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-
-                              if (formKey.currentState!.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   isVisibleImg = false;
                                   setState(() {
                                     isVisibleBorrarAceptar = false;
                                     isVisibleFotoGaleria = true;
                                     isVisibleCategorias = false;
-                                    customSnackBar(
-                                        context,
-                                        'Enviando la imagen, no cambie de pantalla...',
-                                        4);
                                   });
                                   var jsonData;
                                   changePageFade(TextExtract(), context);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        Future.delayed(Duration(seconds: 4),
+                                            () {
+                                          Navigator.pop(context, true);
+                                        });
+                                        return CustomAlertDialog(
+                                            'Extrayendo datos...', dimension);
+                                      });
                                   //Controlar campos vacíos con 'Vacío'
                                   uploadImageToSlang(imageFile!).then(
                                     (value) => {
@@ -400,21 +405,6 @@ class AddPhotoState extends State<AddPhoto> {
                                           .toString()
                                           .contains('error - textract'))
                                         {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                Future.delayed(
-                                                    Duration(seconds: 4), () {
-                                                  Navigator.pop(context, true);
-                                                  customSnackBar(
-                                                      context,
-                                                      'Ticket introducido en la base de datos.',
-                                                      3);
-                                                });
-                                                return CustomAlertDialog(
-                                                    'Extrayendo datos...',
-                                                    dimension);
-                                              }),
                                           ticket = Ticket(
                                               issuer: jsonData['issuer'],
                                               ticketName: ticketName,
@@ -441,7 +431,7 @@ class AddPhotoState extends State<AddPhoto> {
                                   );
                                 } else {
                                   customSnackBar(context,
-                                      'El ticket ha de tener un nombre.', 2);
+                                      'El ticket ha de tener un concepto.', 2);
                                 }
                               },
                             ),

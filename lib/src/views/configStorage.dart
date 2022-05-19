@@ -8,9 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/main.dart';
 import '../utils/constants.dart';
 
-var option = '';
-var driveNameMail;
-
 class ConfigStorage extends StatefulWidget {
   @override
   State<ConfigStorage> createState() => _ConfigStorageState();
@@ -19,7 +16,10 @@ class ConfigStorage extends StatefulWidget {
 class _ConfigStorageState extends State<ConfigStorage> {
   @override
   Widget build(BuildContext context) {
-    driveNameMail = prefs!.getStringList('driveUserData');
+    var driveNameMail = prefs!.getStringList('driveUserData') ??
+        ['No hay cuenta vinculada actualmente', ''];
+    var option =
+        driveNameMail[1] == '' ? 'Vincular una cuenta' : 'Utilizar otra cuenta';
     var dimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -37,12 +37,9 @@ class _ConfigStorageState extends State<ConfigStorage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                      'Actualmente, Slang Tickets está ' +
-                          option +
-                          ' vinculada a la cuenta:',
+                  Text('Actualmente, Slang Tickets está vinculada a la cuenta:',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         color: Colors.white,
                       )),
                   TitleWithUnderline(
@@ -89,7 +86,7 @@ class _ConfigStorageState extends State<ConfigStorage> {
                       dashed: true),
                   SizedBox(height: dimension.height * 0.01),
                   CustomButton(
-                    text: 'Desvincular',
+                    text: option,
                     width: dimension.width * 0.95,
                     height: dimension.height * 0.05,
                     onPressed: () {

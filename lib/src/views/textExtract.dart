@@ -22,10 +22,16 @@ class _TextExtractState extends State<TextExtract> {
   ];
 
   var paginaActual;
+  bool contentVisible = false;
 
   @override
   void initState() {
     paginaActual = widget.paginaActual;
+    Future.delayed(
+        const Duration(milliseconds: 4500),
+        () => setState(() {
+              contentVisible = true;
+            }));
     super.initState();
   }
 
@@ -49,68 +55,73 @@ class _TextExtractState extends State<TextExtract> {
         backgroundColor: Color(0xFF011A58),
       ),
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage("lib/assets/backgrounds/fondo3.png"),
-            fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("lib/assets/backgrounds/fondo3.png"),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('lib/assets/Slang/SlangCelebrando.png'),
-            SizedBox(height: dimension.height*0.05,),
-            Container(
-              height: dimension.height * 0.2,
-              width: dimension.width * 0.82,
-              decoration: BoxDecoration(
-                  color: Color(0xFF011A58),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
-                    child: Text(
-                    '¡El Ticket se ha almacenado correctamente!',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                  ),
-                  CustomButton(
-                      text: 'Nuevo Ticket',
-                      width: dimension.width * 0.44,
-                      height: dimension.height * 0.060,
-                      onPressed: () => changePageFade(DashBoard(paginaActual: 0), context)),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            color: Color(0xFFDC47A9),
-                            width: 1,
-                            style: BorderStyle.solid),
-                        borderRadius: BorderRadius.circular(50),
+          child: Visibility(
+            visible: contentVisible,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('lib/assets/Slang/SlangCelebrando.png'),
+                SizedBox(
+                  height: dimension.height * 0.05,
+                ),
+                Container(
+                  height: dimension.height * 0.2,
+                  width: dimension.width * 0.82,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF011A58),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                        child: Text(
+                          '¡El Ticket se ha almacenado correctamente!',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
                       ),
-                      backgroundColor: Colors.white,
-                      elevation: 1.0,
-                      minimumSize: Size(
-                          dimension.width * 0.44, dimension.height * 0.060),
-                    ),
-                    onPressed: () => {
-                      changePageFade(DashBoard(paginaActual: 1) , context)
-                    },
-                    child: Text('Ver Archivador',
-                        style: GoogleFonts.ibmPlexSans(
-                            fontSize: 16,
-                            color: Color(0xFFDC47A9),
-                            fontWeight: FontWeight.bold)),
+                      CustomButton(
+                          text: 'Nuevo Ticket',
+                          width: dimension.width * 0.44,
+                          height: dimension.height * 0.060,
+                          onPressed: () => changePageFade(
+                              DashBoard(paginaActual: 0), context)),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Color(0xFFDC47A9),
+                                width: 1,
+                                style: BorderStyle.solid),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          backgroundColor: Colors.white,
+                          elevation: 1.0,
+                          minimumSize: Size(
+                              dimension.width * 0.44, dimension.height * 0.060),
+                        ),
+                        onPressed: () => {
+                          changePageFade(DashBoard(paginaActual: 1), context)
+                        },
+                        child: Text('Ver Archivador',
+                            style: GoogleFonts.ibmPlexSans(
+                                fontSize: 16,
+                                color: Color(0xFFDC47A9),
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                )
+              ],
+            ),
+          )),
     );
   }
 }
