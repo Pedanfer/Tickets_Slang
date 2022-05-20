@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 var dimension;
 bool isVisibleRegister = false;
-GlobalKey<CustomCheckBoxState> checkBoxKey = GlobalKey();
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,11 +21,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool isTitleVisible = true;
   bool loginOK = false;
+  bool isSelectedRememberMe = false;
+    bool _showPassword = false;
   var boxHeight;
   var email;
   var password;
   final _formKey = GlobalKey<FormState>();
-  bool _showPassword = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,30 +136,59 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Contraseña'),
                     onChanged: (value) => {password = value},
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        width: dimension.width * 0.43,
-                        child: CustomCheckBox(
-                          color: blue100,
-                          key: checkBoxKey,
-                          dimension: dimension,
-                          offsetCheck: -8,
-                          offsetText: -20,
-                          text: [TextSpan(text: 'Recuérdame')],
+                  Container(
+                    height: dimension.height * 0.05,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: dimension.width * 0.07,
+                              child: IconButton(
+                                padding: new EdgeInsets.all(0.0),
+                                onPressed: () {
+                                  setState(() {
+                                    isSelectedRememberMe =
+                                        !isSelectedRememberMe;
+                                  });
+                                },
+                                icon: isSelectedRememberMe
+                                    ? SvgPicture.asset(
+                                        'lib/assets/icons/checked-selected.svg')
+                                    : SvgPicture.asset(
+                                        'lib/assets/icons/checked.svg'),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                'Recuerdame',
+                                
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: blue100),
+                              ),
+                            ),
+                          ],
+                        ) 
+                            ),
+                        Container(
+                          width: dimension.width * 0.35,
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Olvidé mi contraseña',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(color: blue100, fontSize: 13),
+                              )),
                         ),
-                      ),
-                      Container(
-                        width: dimension.width * 0.35,
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Olvidé mi contraseña',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(color: blue100, fontSize: 13),
-                            )),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   CustomButton(
                       text: 'Login',
@@ -172,8 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                                       if (connection)
                                         {
                                           getPrefs().then((value) => {
-                                                if (checkBoxKey
-                                                    .currentState!.checked)
+                                                if (isSelectedRememberMe == true)
                                                   {
                                                     getPrefs().then((value) =>
                                                         value!.setStringList(
