@@ -90,8 +90,7 @@ class TicketlistState extends State<Ticketlist> {
                 height: double.infinity,
                 color: Color(0xffFAFBF8),
                 child: Center(
-                    child: Image.asset('lib/assets/Slang/loadSlang2.gif',
-                        scale: 1.1)));
+                    child: Image.asset('lib/assets/Slang/loadSlang2.gif')));
           }
           List<Ticket> ticketList = snapshot.data![1];
           while (isSelected.length < ticketList.length) {
@@ -668,8 +667,6 @@ class TicketlistState extends State<Ticketlist> {
                                       }
                                     }
                                     setState(() async {
-                                      print('Lista de tickets drive:' +
-                                          ticketsSelected.toString());
                                       createZipWithExcel(ticketsSelected,
                                               storedDrive: true)
                                           .then((result) async {

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:slang_mobile/main.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
+import 'package:slang_mobile/src/views/loader.dart';
 import 'package:slang_mobile/src/views/textExtract.dart';
 import '../functions/communications.dart';
 import '../functions/sqlite.dart';
@@ -11,6 +12,8 @@ import '../functions/utilidades.dart';
 
 import '../utils/ticket.dart';
 import '../utils/widgets.dart';
+
+var textracted;
 
 class AddPhoto extends StatefulWidget {
   @override
@@ -41,6 +44,7 @@ class AddPhotoState extends State<AddPhoto> {
     subCategs = DropDownCategs(
         (value) => subCateg = value.toString(), vista2, [],
         key: categs2Key);
+    textracted = true;
     super.initState();
   }
 
@@ -148,7 +152,7 @@ class AddPhotoState extends State<AddPhoto> {
                                     children: [
                                       Container(
                                         height: dimension.height * 0.0227,
-                                        width: dimension.width * 0.15,
+                                        width: dimension.width * 0.18,
                                         child: Text(
                                           'Concepto:',
                                           style: TextStyle(
@@ -386,18 +390,6 @@ class AddPhotoState extends State<AddPhoto> {
                                     isVisibleCategorias = false;
                                   });
                                   var jsonData;
-                                  changePageFade(TextExtract(), context);
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        Future.delayed(Duration(seconds: 4),
-                                            () {
-                                          Navigator.pop(context, true);
-                                        });
-                                        return CustomAlertDialog(
-                                            'Extrayendo datos...', dimension);
-                                      });
-                                  //Controlar campos vacíos con 'Vacío'
                                   uploadImageToSlang(imageFile!).then(
                                     (value) => {
                                       jsonData = value,
@@ -422,13 +414,21 @@ class AddPhotoState extends State<AddPhoto> {
                                         }
                                       else
                                         {
-                                          customSnackBar(
-                                              context,
-                                              'No se han podido extraer datos, ¿seguro que es un ticket?',
-                                              4)
+                                          setState(() {
+                                            textracted = false;
+                                          })
                                         },
                                     },
                                   );
+                                  changePageFade(
+                                      Loader(
+                                        backgroundColor: loader3Background,
+                                        loadingGif: 'slang_process.gif',
+                                        loadingTime: 8500,
+                                        whatLoads: TextExtract(),
+                                        message: 'Extrayendo datos',
+                                      ),
+                                      context);
                                 } else {
                                   customSnackBar(context,
                                       'El ticket ha de tener un concepto.', 2);

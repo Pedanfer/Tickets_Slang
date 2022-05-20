@@ -95,14 +95,12 @@ Future<File> createExcelFicha(Map<String, dynamic> ticketData) async {
   final fileName = '$path/Output.xlsx';
   final file = File(fileName);
   await file.writeAsBytes(bytes, flush: true);
-  print(file);
   saveExcel(file);
   return file;
 }
 
 Future<void> createZipWithExcel(List<Ticket> listaTickets,
     {required bool storedDrive}) async {
-  print('Lista de tickets: ' + listaTickets.toString());
   if (storedDrive) {
     sqlite.DB.updateSynchronized(listaTickets);
   }
@@ -210,7 +208,6 @@ Future<bool> emptyAppDir() async {
   if (Platform.isAndroid) {
     var dir = await getExternalStorageDirectory();
     for (var file in await dir!.list().toList()) {
-      print('Elimina' + file.toString());
       await file.delete();
     }
   }

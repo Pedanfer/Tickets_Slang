@@ -21,7 +21,8 @@ const pink50 = Color(0xffE784C6);
 const pink10 = Color(0xffFAE6F4);
 const pink5 = Color(0xffFDF3F9);
 const formBackground = Color(0xffF2F4F7);
-const gifBackground = Color(0xffFAFBF8);
+const loader2Background = Color(0xffFAFBF8);
+const loader3Background = Color(0xffFFC521);
 
 const dropBoxIcon = 'lib/assets/icons/dropbox_icon.svg';
 const getBackButtonIcon = 'lib/assets/icons/getBackButton.svg';

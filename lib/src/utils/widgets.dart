@@ -44,19 +44,19 @@ AlertDialog CustomAlertDialog(String message, Size dimension) {
   return AlertDialog(
     title: Text(
       message,
-      style: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      style:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: blue100),
       textAlign: TextAlign.center,
     ),
-    backgroundColor: blue75,
+    backgroundColor: blue10,
     titlePadding: EdgeInsets.all(dimension.width * 0.03),
     contentPadding: EdgeInsets.all(0),
     content: Container(
-      color: gifBackground,
+      color: blue10,
       child: Transform.scale(
-        scale: 0.75,
+        scale: 1.3,
         child: Image.asset(
-          'lib/assets/Slang/loadSlang2.gif',
+          'lib/assets/Slang/slang_process.gif',
         ),
       ),
     ),

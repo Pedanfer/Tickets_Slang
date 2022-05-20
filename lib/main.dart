@@ -12,7 +12,6 @@ var prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  //await Firebase.initializeApp();
   await loadImage(AssetImage('lib/assets/backgrounds/fondo.png'));
   runApp(MyApp());
 }

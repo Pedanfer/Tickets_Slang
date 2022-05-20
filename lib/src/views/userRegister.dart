@@ -30,7 +30,6 @@ class _UserRegisterState extends State<UserRegister> {
 
   @override
   Widget build(BuildContext context) {
-    print(userData[0]);
     var separator = 0.01;
     dimension = MediaQuery.of(context).size;
     if (MediaQuery.of(context).viewInsets.bottom == 0) {

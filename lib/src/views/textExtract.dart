@@ -28,7 +28,7 @@ class _TextExtractState extends State<TextExtract> {
   void initState() {
     paginaActual = widget.paginaActual;
     Future.delayed(
-        const Duration(milliseconds: 4500),
+        const Duration(milliseconds: 400),
         () => setState(() {
               contentVisible = true;
             }));
@@ -38,6 +38,12 @@ class _TextExtractState extends State<TextExtract> {
   @override
   Widget build(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
+    var optionMessage = textracted
+        ? '¡El Ticket se ha almacenado correctamente!'
+        : 'No se han podido extraer datos, intenta tomar una fotografía más clara';
+    var optionRobot = textracted
+        ? 'lib/assets/Slang/slang_celebrate.gif'
+        : 'lib/assets/Slang/slang_failure.gif';
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -68,12 +74,19 @@ class _TextExtractState extends State<TextExtract> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('lib/assets/Slang/SlangCelebrando.png'),
+                ClipOval(
+                  child: Image.asset(
+                    optionRobot,
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 SizedBox(
-                  height: dimension.height * 0.05,
+                  height: dimension.height * 0.03,
                 ),
                 Container(
-                  height: dimension.height * 0.2,
+                  height: dimension.height * 0.22,
                   width: dimension.width * 0.82,
                   decoration: BoxDecoration(
                       color: Color(0xFF011A58),
@@ -83,8 +96,9 @@ class _TextExtractState extends State<TextExtract> {
                       Container(
                         padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
                         child: Text(
-                          '¡El Ticket se ha almacenado correctamente!',
+                          optionMessage,
                           style: TextStyle(color: Colors.white, fontSize: 14),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       CustomButton(
@@ -93,6 +107,9 @@ class _TextExtractState extends State<TextExtract> {
                           height: dimension.height * 0.060,
                           onPressed: () => changePageFade(
                               DashBoard(paginaActual: 0), context)),
+                      SizedBox(
+                        height: dimension.height * 0.01,
+                      ),
                       TextButton(
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
