@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slang_mobile/src/functions/utilidades.dart';
 import 'package:slang_mobile/src/utils/constants.dart';
@@ -21,10 +23,16 @@ class Loader extends StatefulWidget {
 }
 
 class _LoaderState extends State<Loader> {
+  var message = '';
+  var timer;
+
   @override
   void initState() {
     super.initState();
+    message = widget.message;
+    WidgetsBinding.instance!.addPostFrameCallback((_) => loopChars());
     Future.delayed(Duration(milliseconds: widget.loadingTime), () {
+      timer.cancel();
       changePageFadeRemoveUntil(widget.whatLoads, context);
     });
   }
@@ -59,7 +67,7 @@ class _LoaderState extends State<Loader> {
               height: 10,
             ),
             Text(
-              widget.message,
+              message,
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: blue75),
               textAlign: TextAlign.center,
@@ -69,5 +77,18 @@ class _LoaderState extends State<Loader> {
         ),
       ),
     );
+  }
+
+  var numChars = 0;
+
+  void loopChars() {
+    timer = Timer.periodic(Duration(milliseconds: 800), (timer) {
+      if (numChars == 4) {
+        numChars = 0;
+      }
+      message = widget.message + ('. ' * numChars);
+      numChars++;
+      setState(() {});
+    });
   }
 }

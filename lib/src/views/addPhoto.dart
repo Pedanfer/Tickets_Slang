@@ -394,8 +394,9 @@ class AddPhotoState extends State<AddPhoto> {
                                     (value) => {
                                       jsonData = value,
                                       if (!jsonData
-                                          .toString()
-                                          .contains('error - textract'))
+                                              .toString()
+                                              .contains('error') &&
+                                          jsonData != null)
                                         {
                                           ticket = Ticket(
                                               issuer: jsonData['issuer'],

@@ -22,12 +22,11 @@ class _LoginPageState extends State<LoginPage> {
   bool isTitleVisible = true;
   bool loginOK = false;
   bool isSelectedRememberMe = false;
-    bool _showPassword = false;
+  bool _showPassword = false;
   var boxHeight;
   var email;
   var password;
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -167,26 +166,23 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                               child: Text(
                                 'Recuerdame',
-                                
                                 textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: blue100),
+                                style: TextStyle(fontSize: 13, color: blue100),
                               ),
                             ),
-                          ],
-                        ) 
+                            SizedBox(
+                              width: dimension.width * 0.15,
                             ),
-                        Container(
-                          width: dimension.width * 0.35,
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Olvidé mi contraseña',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(color: blue100, fontSize: 13),
-                              )),
-                        ),
+                            TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'Olvidé mi contraseña',
+                                  textAlign: TextAlign.start,
+                                  style:
+                                      TextStyle(color: blue100, fontSize: 13),
+                                )),
+                          ],
+                        )),
                       ],
                     ),
                   ),
@@ -202,7 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                                       if (connection)
                                         {
                                           getPrefs().then((value) => {
-                                                if (isSelectedRememberMe == true)
+                                                if (isSelectedRememberMe ==
+                                                    true)
                                                   {
                                                     getPrefs().then((value) =>
                                                         value!.setStringList(
